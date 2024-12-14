@@ -28,14 +28,6 @@
             pkgs = import nixpkgs { inherit system; }; # Equivalent to "{ system = system }"
         in {
 
-            nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-                inherit system;
-                specialArgs = { inherit inputs; };
-                modules = [
-                    ./configuration.nix
-                ];
-            };
-
             homeConfigurations = {
                 # Function, inside home-manager Lib, that creates the output used by home-manager
                 dieal = home-manager.lib.homeManagerConfiguration {
