@@ -1,12 +1,19 @@
-{ lib, pkgs, ... }:
-{
+let
+    username = "dieal";
+in
+{ lib, pkgs, ... }: {
     home = {
         packages = with pkgs; [
-            hello
+                fish
+                eza # Prettier alternative to ls
+                gnumake
         ];
 
-        username = "dieal";
-        homeDirectory = "/home/dieal";
+
+        inherit username;
+        homeDirectory = "/home/${username}";
+
+        keyboard.layout = "it";
 
         stateVersion = "23.11";
     };

@@ -1,8 +1,14 @@
-{
-    description = "My first Home Manager Flake";
+# Every nix flake evaluates to an expression. In this case it evaluates to an ATTRIBUTE SET
+{ 
+    description = "Home Manager"; # Optional
 
-    inputs = {
+    inputs = { 
+        # I could name these as I liked.
         nixpkgs.url = "nixpkgs/23.11";
+
+        # The dot notation is a shortcut. I could write:
+        # home-manager.url = "";
+        # home-manager.inputs.nixpkgs.follows = "";
 
         home-manager = {
             url = "github:nix-community/home-manager/release-23.11";
@@ -10,18 +16,32 @@
         };
     };
 
-    outputs = { nixpkgs, home-manager, ... }:
+    # Function (THEY HAVE A SINGLE ARGUMENT) that takes an attribute set as arg
+    # The inputs of the function are the ones we've declared above
+    # This function can generate different outputs (packages, configurations, shells, ecc.)
+    outputs = { nixpkgs, home-manager, ... } @ inputs: 
         let
-            lib = nixpkgs.lib;
-            system = "x86_64-linux";
-            pkgs = import nixpkgs { inherit system; };
+            lib = nixpkgs.lib; # Nix Standard Libraries
+            system = "x86_64-linux"; # System Architecture that needs to be specified when calling nixpkgs
+
+            # We import the expression stored in "github.../nixpkgs/default.nix" and pass an attribute set with the "system" option
+            pkgs = import nixpkgs { inherit system; }; # Equivalent to "{ system = system }"
         in {
+
+            nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+                inherit system;
+                specialArgs = { inherit inputs; };
+                modules = [
+                    ./configuration.nix
+                ];
+            };
+
             homeConfigurations = {
-                dieal = {
-                    home-manager.lib.homeManagerConfiguration = {
-                        inherit pkgs;
-                        modules = [ "./home.nix" ];
-                    };
+                # Function, inside home-manager Lib, that creates the output used by home-manager
+                dieal = home-manager.lib.homeManagerConfiguration {
+                    # Inputs of the function
+                    inherit pkgs; 
+                    modules = [ ./home.nix ]; # Not a string, but a "PATH" type
                 };
             };
         };
