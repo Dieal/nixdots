@@ -1,7 +1,7 @@
 { pkgs, lib, ... }: {
 
-    home.xdg.configFile = {
+    xdg.configFile = {
         "nvim".source = ./nvim;
     };
 
-};
+}

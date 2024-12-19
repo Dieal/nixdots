@@ -5,6 +5,7 @@
     inputs = { 
         # I could name these as I liked.
         nixpkgs.url = "nixpkgs/23.11";
+        unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
         # The dot notation is a shortcut. I could write:
         # home-manager.url = "";
@@ -19,13 +20,14 @@
     # Function (THEY HAVE A SINGLE ARGUMENT) that takes an attribute set as arg
     # The inputs of the function are the ones we've declared above
     # This function can generate different outputs (packages, configurations, shells, ecc.)
-    outputs = { nixpkgs, home-manager, ... } @ inputs: 
+    outputs = { nixpkgs, home-manager, unstable, ... } @ inputs: 
         let
             lib = nixpkgs.lib; # Nix Standard Libraries
             system = "x86_64-linux"; # System Architecture that needs to be specified when calling nixpkgs
 
             # We import the expression stored in "github.../nixpkgs/default.nix" and pass an attribute set with the "system" option
             pkgs = import nixpkgs { inherit system; }; # Equivalent to "{ system = system }"
+            unstable = import unstable { inherit system; }; # Equivalent to "{ system = system }"
         in {
 
             homeConfigurations = {
@@ -33,7 +35,11 @@
                 dieal = home-manager.lib.homeManagerConfiguration {
                     # Inputs of the function
                     inherit pkgs; 
-                    modules = [ ./home.nix ]; # Not a string, but a "PATH" type
+                    modules = [ 
+                        ./home.nix 
+                        ./modules/config/shell.nix
+                        ./modules/config/nvim.nix
+                    ];
                 };
             };
         };

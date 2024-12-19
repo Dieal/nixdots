@@ -1,18 +1,17 @@
-{ pkgs, lib, ... }: {
+{ pkgs, ... }: {
 
-    home.programs.fish = {
+    programs.fish = {
         enable = true;
-        generateCompletions = true;
 
-        plugins = with pkgs.fishPlugins; [
-            fishPlugins.fzf # Fuzzy Find Files, ecc.
-            fishPlugins.z # Z: easily navigate to previous directories, simply by name (it keeps history)
-            fishPlugins.pure # Prompt
-            fishPlugins.sponge # Keeps Command History Clear from Typos
-            fishPlugins.puffer # Text Expansions for: !! (last command), .. (../) , !$ (last argument)
-            fishPlugins.pisces # Pair Parenthesis
-            fishPlugins.forgit # Easily Interact with Git and fzf
-        ]
+        plugins = [
+            { name = "fzf"; src = pkgs.fishPlugins.fzf; } # Fuzzy Find Files, ecc.
+            { name = "z"; src = pkgs.fishPlugins.z; } # Z: easily navigate to previous directories, simply by name (it keeps history)
+            { name = "pure"; src = pkgs.fishPlugins.pure; } # Prompt
+            { name = "sponge"; src = pkgs.fishPlugins.sponge; } # Keeps Command History Clear from Typos                                
+            { name = "puffer"; src = pkgs.fishPlugins.puffer; } # Text Expansions for: !! (last command), .. (../) , !$ (last argument) 
+            { name = "pisces"; src = pkgs.fishPlugins.pisces; } # Pair Parenthesis                                                      
+            { name = "forgit"; src = pkgs.fishPlugins.forgit; } # Easily Interact with Git and fzf                                      
+        ];
 
         shellAbbrs = {
                 oo = "nvim $OBSIDIAN/obsidian.md";
@@ -58,6 +57,5 @@
             
         '';
     };
-
 
 }

@@ -12,6 +12,7 @@ return {
       "MunifTanjim/nui.nvim",
       "kevinhwang91/promise-async",
     },
+    ft = { "php" }
     cmd = { "Laravel" },
     keys = {
       { "<leader>la", ":Laravel artisan<cr>" },

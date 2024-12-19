@@ -1,11 +1,11 @@
 let
     username = "dieal";
 in
-{ lib, pkgs, ... }: {
+{ pkgs, ... }: {
 
     imports = [
-        ./modules/config/fish
-        ./modules/config/nvim
+        ./modules/config/nvim.nix
+        ./modules/config/shell.nix
     ];
 
     home = {
@@ -13,6 +13,16 @@ in
             fish
             eza # Prettier alternative to ls
             gnumake
+            neovim
+            luajitPackages.luarocks
+            python312Packages.jedi-language-server
+            flutterPackages-source.v3_26
+            ripgrep
+            wl-clipboard
+            nixd # Nix Language Server
+            alejandra
+            fd
+            fzf
         ];
 
         inherit username;
@@ -22,4 +32,5 @@ in
 
         stateVersion = "23.11";
     };
+
 }
