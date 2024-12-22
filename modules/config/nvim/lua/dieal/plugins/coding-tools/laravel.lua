@@ -1,9 +1,9 @@
 return {
   {
     'jwalton512/vim-blade',
-    lazy = true,
-    ft = { 'blade' }
+    ft = { 'blade' },
   },
+
   {
     "adalessa/laravel.nvim",
     dependencies = {
@@ -12,14 +12,14 @@ return {
       "MunifTanjim/nui.nvim",
       "kevinhwang91/promise-async",
     },
-    ft = { "php" }
+    lazy = true,
+    ft = { "php" },
     cmd = { "Laravel" },
     keys = {
       { "<leader>la", ":Laravel artisan<cr>" },
       { "<leader>lr", ":Laravel routes<cr>" },
       { "<leader>lm", ":Laravel related<cr>" },
     },
-    event = { "VeryLazy" },
     opts = {},
     config = true,
   }

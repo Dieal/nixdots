@@ -37,8 +37,8 @@
                     inherit pkgs; 
                     modules = [ 
                         ./home.nix 
-                        ./modules/config/shell.nix
-                        ./modules/config/nvim.nix
+                        # ./modules/config/shell.nix
+                        # ./modules/config/nvim.nix
                     ];
                 };
             };

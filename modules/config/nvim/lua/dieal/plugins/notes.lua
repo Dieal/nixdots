@@ -34,6 +34,7 @@ return {
   {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    lazy = true,
     ft = { "markdown" },
     build = function() vim.fn["mkdp#util#install"]() end,
     config = function ()
@@ -49,7 +50,8 @@ return {
   -- Markdown Utils
   {
     "tadmccorkle/markdown.nvim",
-    ft = "markdown", -- or 'event = "VeryLazy"'
+    lazy = true,
+    ft = "markdown",
     opts = {
       -- configuration here or empty for defaults
     },
@@ -61,7 +63,8 @@ return {
   -- Awesome Markdown Preview Plugin
   {
     "OXY2DEV/markview.nvim",
-
+    lazy = true,
+    ft = "markdown", -- or 'event = "VeryLazy"'
     dependencies = {
       -- You may not need this if you don't lazy load
       -- Or if the parsers are in your $RUNTIMEPATH

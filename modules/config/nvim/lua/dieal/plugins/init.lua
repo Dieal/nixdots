@@ -99,6 +99,9 @@ return {
     },
   },
 
+  -- Pretty Notifications
+  { 'rcarriga/nvim-notify' },
+
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 

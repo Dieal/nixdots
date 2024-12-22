@@ -1,28 +1,20 @@
 let
     username = "dieal";
 in
-{ pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
 
     imports = [
+        ./modules/gaming.nix
         ./modules/config/nvim.nix
         ./modules/config/shell.nix
     ];
 
+    fonts.fontconfig.enable = true;
     home = {
         packages = with pkgs; [
-            fish
-            eza # Prettier alternative to ls
             gnumake
-            neovim
-            luajitPackages.luarocks
-            python312Packages.jedi-language-server
-            flutterPackages-source.v3_26
-            ripgrep
-            wl-clipboard
-            nixd # Nix Language Server
-            alejandra
-            fd
-            fzf
+            flutter
+            (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
         ];
 
         inherit username;

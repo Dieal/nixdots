@@ -48,7 +48,7 @@
                 set -gx $item[1] $item[2]
               end
             end
-            envsource ~/.config/fish/.env # Read and save variables in .env file (such as Obsidian Path)
+            # envsource ~/.config/fish/.env # Read and save variables in .env file (such as Obsidian Path)
 
             # ====================== #
             # ------ Bindings ------ #
@@ -58,4 +58,12 @@
         '';
     };
 
+    home.packages = with pkgs; [
+        fish
+        fd
+        fzf
+        ripgrep
+        eza # Prettier alternative to ls
+        bat
+    ];
 }
