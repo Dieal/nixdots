@@ -4,7 +4,7 @@
 
     inputs = { 
         # I could name these as I liked.
-        nixpkgs.url = "nixpkgs";
+        nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
         unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
         # The dot notation is a shortcut. I could write:
@@ -12,7 +12,7 @@
         # home-manager.inputs.nixpkgs.follows = "";
 
         home-manager = {
-            url = "github:nix-community/home-manager/";
+            url = "github:nix-community/home-manager/release-24.11";
             inputs.nixpkgs.follows = "nixpkgs";
         };
     };

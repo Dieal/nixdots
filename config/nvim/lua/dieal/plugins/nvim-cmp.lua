@@ -103,7 +103,8 @@ return {
   -- Inline Parameters
   {
     "ray-x/lsp_signature.nvim",
-    event = "VeryLazy",
+    lazy = true,
+    event = "LspAttach",
     config = function ()
       local plugin = require('lsp_signature')
       plugin.on_attach({

@@ -66,15 +66,18 @@ return {
       require('neodev').setup()
 
       local servers = {
-        eslint = {},
-        dockerls = {},
+        ts_ls = {
+          filetypes = {
+            "javascript",
+            "typescript",
+            "vue",
+          },
+        },
         cssls = {},
         marksman = {},
         jedi_language_server = {},
-        ansiblels = {},
         yamlls = {},
         vuels = {},
-        clangd = {},
         emmet_ls = {
           filetypes = { "html", "javascript", "blade", "php", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "astro" },
         },

@@ -5,8 +5,7 @@ in
 
     imports = [
         ./modules/gaming.nix
-        ./config/nvim.nix
-        ./config/shell.nix
+        ./config/common.nix
     ];
 
     fonts.fontconfig.enable = true;
@@ -17,14 +16,15 @@ in
             element-desktop # Matrix Client
             keepassxc
             syncthing
-            discord
+            discord-canary
             mupdf
             telegram-desktop
             kitty
             tmux
             localsend
             libreoffice-qt6-fresh
-            nerd-fonts.fira-code
+            (nerdfonts.override { fonts = [ "FiraCode" ]; })
+            fira-code
         ];
 
         inherit username;
