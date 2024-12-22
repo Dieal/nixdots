@@ -4,7 +4,7 @@
 
     inputs = { 
         # I could name these as I liked.
-        nixpkgs.url = "nixpkgs/23.11";
+        nixpkgs.url = "nixpkgs";
         unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
         # The dot notation is a shortcut. I could write:
@@ -12,7 +12,7 @@
         # home-manager.inputs.nixpkgs.follows = "";
 
         home-manager = {
-            url = "github:nix-community/home-manager/release-23.11";
+            url = "github:nix-community/home-manager/";
             inputs.nixpkgs.follows = "nixpkgs";
         };
     };
@@ -26,7 +26,7 @@
             system = "x86_64-linux"; # System Architecture that needs to be specified when calling nixpkgs
 
             # We import the expression stored in "github.../nixpkgs/default.nix" and pass an attribute set with the "system" option
-            pkgs = import nixpkgs { inherit system; }; # Equivalent to "{ system = system }"
+            pkgs = import nixpkgs { inherit system; config.allowUnfree = true; }; # Equivalent to "{ system = system }"
             unstable = import unstable { inherit system; }; # Equivalent to "{ system = system }"
         in {
 
@@ -35,10 +35,9 @@
                 dieal = home-manager.lib.homeManagerConfiguration {
                     # Inputs of the function
                     inherit pkgs; 
+                    extraSpecialArgs = { inherit unstable; };
                     modules = [ 
                         ./home.nix 
-                        # ./modules/config/shell.nix
-                        # ./modules/config/nvim.nix
                     ];
                 };
             };

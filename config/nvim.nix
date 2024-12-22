@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, unstable, ... }: {
     home.packages = with pkgs; [
         neovim
         luajitPackages.luarocks
@@ -14,5 +14,5 @@
         python311Packages.jedi-language-server
     ];
 
-    home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/coding/flakes/home-manager/modules/config/nvim/";
+    home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/coding/flakes/home-manager/config/nvim/";
 }
