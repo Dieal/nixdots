@@ -1,9 +1,26 @@
 { pkgs, ... }: {
 
+    home.packages = with pkgs.fishPlugins; [
+        fzf
+        z
+        # pure
+        sponge
+        puffer
+        pisces
+        forgit
+    ] ++ [
+        pkgs.fish
+        pkgs.fd
+        pkgs.fzf
+        pkgs.ripgrep
+        pkgs.eza # Prettier alternative to ls
+        pkgs.bat
+    ];
+
     programs.fish = {
         enable = true;
 
-        plugins = [
+        /* plugins = [
             { name = "fzf"; src = pkgs.fishPlugins.fzf; } # Fuzzy Find Files, ecc.
             { name = "z"; src = pkgs.fishPlugins.z; } # Z: easily navigate to previous directories, simply by name (it keeps history)
             { name = "pure"; src = pkgs.fishPlugins.pure; } # Prompt
@@ -11,7 +28,7 @@
             { name = "puffer"; src = pkgs.fishPlugins.puffer; } # Text Expansions for: !! (last command), .. (../) , !$ (last argument) 
             { name = "pisces"; src = pkgs.fishPlugins.pisces; } # Pair Parenthesis                                                      
             { name = "forgit"; src = pkgs.fishPlugins.forgit; } # Easily Interact with Git and fzf                                      
-        ];
+        ]; */
 
         shellAbbrs = {
                 oo = "nvim $OBSIDIAN/obsidian.md";
@@ -33,8 +50,9 @@
 
             # Paths
             fish_add_path $HOME/.local/bin
+            fish_add_path $HOME/.npm-global/bin
+            fish_add_path $HOME/.config/composer/vendor/bin
             # fish_add_path $HOME/.local/bin/flutter/bin
-            # fish_add_path $HOME/.config/composer/vendor/bin
 
 
             # --- Abbreviations ---
@@ -57,13 +75,4 @@
             
         '';
     };
-
-    home.packages = with pkgs; [
-        fish
-        fd
-        fzf
-        ripgrep
-        eza # Prettier alternative to ls
-        bat
-    ];
 }

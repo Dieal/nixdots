@@ -1,5 +1,5 @@
 local on_attach = function(ev)
-    local builtin = require('telescope.builtin')
+    -- local builtin = require('telescope.builtin')
     local bufnr = ev.buf
     local nmap = function(keys, func, desc)
         if desc then
@@ -13,18 +13,20 @@ local on_attach = function(ev)
     nmap('<leader>rs', "<cmd>LspRestart<CR>", '[R]estart [S]erver')
     nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-    nmap('<leader>bd', builtin.diagnostics, '[B]uffer [D]iagnostics')
+    -- LSP
+    -- nmap('<leader>bd', builtin.diagnostics, '[B]uffer [D]iagnostics')
+    -- nmap('gd', builtin.lsp_definitions, '[G]oto [D]efinitions')
+    -- nmap('<leader>ds', builtin.lsp_document_symbols, '[D]ocument [S]ymbols')
+    -- nmap('<leader>ws', builtin.lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+    -- nmap('gr', builtin.lsp_references, '[G]oto [R]eferences')
+
     nmap('<leader>ld', vim.diagnostic.open_float, '[L]ine [D]iagnostics')
     nmap(']d', vim.diagnostic.open_float, 'Next [D]iagnostics')
     nmap('[d', vim.diagnostic.open_float, 'Previous [D]iagnostics')
 
-    nmap('gd', builtin.lsp_definitions, '[G]oto [D]efinitions')
     nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
 
-    nmap('gr', builtin.lsp_references, '[G]oto [R]eferences')
     nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-    nmap('<leader>ds', builtin.lsp_document_symbols, '[D]ocument [S]ymbols')
-    nmap('<leader>ws', builtin.lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
     -- See `:help K` for why this keymap
     nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -46,6 +48,28 @@ end
 
 return {
   {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+    config = function()
+      require("typescript-tools").setup {
+        on_attach = on_attach,
+        filetypes = {
+          "javascript",
+          "typescript",
+          "vue",
+        },
+        settings = {
+          single_file_support = false,
+          tsserver_plugins = {
+            "@vue/typescript-plugin",
+          },
+        },
+      }
+    end,
+  },
+
+  {
     'neovim/nvim-lspconfig',
     event = { "BufReadPre", "BufNewFile" }, -- Lazy loading
     dependencies = {
@@ -66,22 +90,17 @@ return {
       require('neodev').setup()
 
       local servers = {
-        ts_ls = {
-          filetypes = {
-            "javascript",
-            "typescript",
-            "vue",
-          },
+        volar = {
+          filetypes = { "vue", "javascript" },
         },
         cssls = {},
         marksman = {},
         jedi_language_server = {},
         yamlls = {},
-        vuels = {},
         emmet_ls = {
           filetypes = { "html", "javascript", "blade", "php", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "astro" },
         },
-        tailwindcss = {},
+        tailwindcss = {}, -- Make sure to have tailwindcss.config.ts in your project
         phpactor = {
           filetypes = { "php", "blade" },
         },
@@ -169,24 +188,24 @@ return {
 ]]
 
       local lspconfig = require('lspconfig')
-      checkInstalled = function(server_name, callback)
+      local checkInstalled = function(server_name)
           local default_config = lspconfig[server_name]
           if default_config and default_config.document_config and default_config.document_config.default_config then
             local cmd = default_config.document_config.default_config.cmd
             if cmd and vim.fn.executable(cmd[1]) == 1 then
-              callback()
+              return true
             end
           end
       end
 
       for server_name, config in pairs(servers) do
-        checkInstalled(server_name, function()
-              lspconfig[server_name].setup {
-                capabilities = capabilities,
-                settings = config,
-                filetypes = (servers[server_name] or {}).filetypes,
-              }
-        end)
+        if checkInstalled(server_name) == true then
+            lspconfig[server_name].setup {
+              capabilities = capabilities,
+              settings = config,
+              filetypes = (servers[server_name] or {}).filetypes,
+            }
+        end
       end
     end
   }

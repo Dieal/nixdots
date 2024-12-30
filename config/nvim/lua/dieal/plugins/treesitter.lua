@@ -9,21 +9,27 @@ return {
     opts = {
       -- Add languages to be installed here that you want installed for treesitter
       ensure_installed = {
-        'c',
-        'cpp',
-        'php',
         'html',
-        'lua',
+        'css',
         'typescript',
+        'javascript',
+        'vue',
+
+        'php',
+        'blade',
+
+        'python',
+        'java',
+
+        'lua',
         'vimdoc',
         'vim',
-        'css',
-        'javascript',
+        'yaml',
+
         'markdown',
-        'blade',
       },
 
-      auto_install = false,
+      auto_install = true,
 
       ignore_install = {'dart'},
 
@@ -89,6 +95,7 @@ return {
     },
     config = function(_, opts)
 
+      --[[ 
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 
       -- Laravel Blade Parser
@@ -108,7 +115,7 @@ return {
           ['.*%.blade%.php'] = 'blade',
         },
       })
-
+]]
       -- [[ Configure Treesitter ]]
       -- See `:help nvim-treesitter`
       require('nvim-treesitter.configs').setup(opts)

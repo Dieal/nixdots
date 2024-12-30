@@ -34,7 +34,6 @@ return {
   {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    lazy = true,
     ft = { "markdown" },
     build = function() vim.fn["mkdp#util#install"]() end,
     config = function ()
@@ -84,7 +83,7 @@ return {
       -- Required.
       "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",
-      "nvim-telescope/telescope.nvim",
+      "ibhagwan/fzf-lua",
     },
     config = function ()
 
@@ -113,6 +112,10 @@ return {
           -- Open the URL in the default web browser.
           vim.fn.jobstart({"xdg-open", url})  -- linux
         end,
+
+        picker = {
+          name = "fzf-lua",
+        },
 
         mappings = {
 

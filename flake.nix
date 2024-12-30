@@ -27,7 +27,7 @@
 
             # We import the expression stored in "github.../nixpkgs/default.nix" and pass an attribute set with the "system" option
             pkgs = import nixpkgs { inherit system; config.allowUnfree = true; }; # Equivalent to "{ system = system }"
-            unstable = import unstable { inherit system; }; # Equivalent to "{ system = system }"
+            unstablePkgs = import unstable { inherit system; };
         in {
 
             homeConfigurations = {
@@ -35,7 +35,7 @@
                 dieal = home-manager.lib.homeManagerConfiguration {
                     # Inputs of the function
                     inherit pkgs; 
-                    extraSpecialArgs = { inherit unstable; };
+                    extraSpecialArgs = { unstable = unstablePkgs; };
                     modules = [ 
                         ./home.nix 
                     ];

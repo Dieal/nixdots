@@ -10,6 +10,21 @@ return {
   -- Notifications
   'rcarriga/nvim-notify',
 
+  -- Copilot
+  {
+    "github/copilot.vim",
+    config = function()
+      vim.cmd ("Copilot enable")
+
+      -- Change mapping to Ctrl Tab
+      vim.keymap.set('i', '<C-l>', 'copilot#Accept("\\<CR>")', {
+        expr = true,
+        replace_keycodes = false
+      })
+      vim.g.copilot_no_tab_map = true
+    end
+  },
+
   -- -- Saves / Restores Sessions
   -- 'tpope/vim-obsession',
 
@@ -110,10 +125,7 @@ return {
     config = function()
       require("project_nvim").setup {
         patterns = { ".git" },
-        mappings = {
-          n = {
-          }
-        }
+        exclude_dirs = { "package.json" },
       }
     end
   },

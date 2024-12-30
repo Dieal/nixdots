@@ -12,19 +12,24 @@ in
     home = {
         packages = with pkgs; [
             gnumake
-            flutter
+            # flutter
             element-desktop # Matrix Client
             keepassxc
             syncthing
             discord-canary
             mupdf
             telegram-desktop
-            kitty
             tmux
+            kitty
             localsend
             libreoffice-qt6-fresh
             (nerdfonts.override { fonts = [ "FiraCode" ]; })
             fira-code
+
+            php84
+            php84Packages.composer
+        ] ++ [
+            # Unstable PKGS
         ];
 
         inherit username;

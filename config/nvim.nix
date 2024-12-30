@@ -6,6 +6,8 @@
         wl-clipboard
         alejandra
         fd
+        bat
+        chafa
         fzf
 
         # ============================
@@ -18,7 +20,7 @@
         tailwindcss-language-server
         vscode-langservers-extracted # HTML and CSS
         emmet-language-server
-        vue-language-server
+        typescript
         typescript-language-server
         marksman # Markdown
 
