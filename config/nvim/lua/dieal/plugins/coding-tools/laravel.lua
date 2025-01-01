@@ -12,15 +12,21 @@ return {
       "MunifTanjim/nui.nvim",
       "kevinhwang91/promise-async",
     },
+    config = true,
     lazy = true,
     ft = { "php" },
     cmd = { "Laravel" },
+    opts = {
+      features = {
+        pickers = {
+          provider = 'fzf-lua'
+        }
+      }
+    },
     keys = {
       { "<leader>la", ":Laravel artisan<cr>" },
       { "<leader>lr", ":Laravel routes<cr>" },
       { "<leader>lm", ":Laravel related<cr>" },
     },
-    opts = {},
-    config = true,
   }
 }

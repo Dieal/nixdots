@@ -1,42 +1,37 @@
 { pkgs, ... }: {
 
     home.packages = with pkgs.fishPlugins; [
-        fzf
-        z
-        # pure
-        sponge
-        puffer
-        pisces
-        forgit
+        fzf # Keybindings for fzf
+        z # Z: easily navigate to previous directories, simply by name (it keeps history)
+        sponge # Keeps Command History Clear from Typos
+        puffer # Text Expansions for: !! (last command), .. (../) , !$ (last argument)
+        pisces  # Pair Parenthesis
+        forgit # Easily interact with Git and fzf
+        # pure # Prompt
     ] ++ [
         pkgs.fish
-        pkgs.fd
-        pkgs.fzf
+        pkgs.fd # Alternative to find
+        pkgs.fzf # Fuzzy Finder
         pkgs.ripgrep
         pkgs.eza # Prettier alternative to ls
-        pkgs.bat
+        pkgs.bat # Alternative to cat (syntax highlighting and git integration)
     ];
 
     programs.fish = {
         enable = true;
 
-        /* plugins = [
-            { name = "fzf"; src = pkgs.fishPlugins.fzf; } # Fuzzy Find Files, ecc.
-            { name = "z"; src = pkgs.fishPlugins.z; } # Z: easily navigate to previous directories, simply by name (it keeps history)
-            { name = "pure"; src = pkgs.fishPlugins.pure; } # Prompt
-            { name = "sponge"; src = pkgs.fishPlugins.sponge; } # Keeps Command History Clear from Typos                                
-            { name = "puffer"; src = pkgs.fishPlugins.puffer; } # Text Expansions for: !! (last command), .. (../) , !$ (last argument) 
-            { name = "pisces"; src = pkgs.fishPlugins.pisces; } # Pair Parenthesis                                                      
-            { name = "forgit"; src = pkgs.fishPlugins.forgit; } # Easily Interact with Git and fzf                                      
-        ]; */
-
         shellAbbrs = {
-                oo = "nvim $OBSIDIAN/obsidian.md";
-                t = "tmux";                                   # [T]mux
-                ta = "tmux a";                                # [T]mux [A]ttach
-                tat = "tmux a -t";                            # [T]mux [A]ttach [T]o
-                tk = "tmux kill-session -t";                  # [T]mux [K]ill Session
-                tl = "tmux ls";                               # [T]mux [L]s
+            oo = "nvim $OBSIDIAN/obsidian.md";
+            t = "tmux";                                   # [T]mux
+            ta = "tmux a";                                # [T]mux [A]ttach
+            tat = "tmux a -t";                            # [T]mux [A]ttach [T]o
+            tk = "tmux kill-session -t";                  # [T]mux [K]ill Session
+            tl = "tmux ls";                               # [T]mux [L]s
+        };
+
+       shellAliases = {
+            ls = "eza -l -g --icons --sort extension";
+            cat = "bat";
         };
 
         interactiveShellInit = ''
@@ -53,11 +48,6 @@
             fish_add_path $HOME/.npm-global/bin
             fish_add_path $HOME/.config/composer/vendor/bin
             # fish_add_path $HOME/.local/bin/flutter/bin
-
-
-            # --- Abbreviations ---
-            alias eza='eza -l -g --icons --sort extension'
-            alias ls='eza'
 
             # Usage: envsource <path/to/env>
             function envsource

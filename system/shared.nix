@@ -126,7 +126,7 @@
       gcc
       go
       uv # Python Package Manager
-      nodejs_22
+      nodejs_23
       verilog
       gtkwave
       python3

@@ -12,7 +12,6 @@ in
     home = {
         packages = with pkgs; [
             gnumake
-            # flutter
             element-desktop # Matrix Client
             keepassxc
             syncthing
@@ -21,10 +20,11 @@ in
             telegram-desktop
             tmux
             kitty
-            localsend
+            localsend # Local File Sharing app
             libreoffice-qt6-fresh
             (nerdfonts.override { fonts = [ "FiraCode" ]; })
             fira-code
+            smile # Emoji Picker
 
             php84
             php84Packages.composer
