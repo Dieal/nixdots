@@ -35,7 +35,7 @@ return {
 
       highlight = { enable = true },
       indent = {
-        enable = true,
+        enable = false,
         disable = {'dart, php, yaml, yml'},
       },
       incremental_selection = {
@@ -125,6 +125,7 @@ return {
 
   {
     'NMAC427/guess-indent.nvim',
+    enabled = false,
     config = function() require('guess-indent').setup {} end,
   }
 }
