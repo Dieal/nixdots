@@ -25,13 +25,17 @@ in
             fira-code
 
             # ==== [[ MISC ]] ====
+            speedcrunch # Binary Calculator
             localsend # Local File Sharing app
             okular
+            mupdf
+            feh
             element-desktop # Matrix Client
             keepassxc
             syncthing
-            discord-canary
-            mupdf
+            # discord-canary
+            # webcord
+            vesktop
             telegram-desktop
             libreoffice-qt6-fresh
 

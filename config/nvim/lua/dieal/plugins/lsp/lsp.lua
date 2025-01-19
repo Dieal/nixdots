@@ -121,6 +121,7 @@ return {
             telemetry = { enable = false },
           },
         },
+        hyprls = {},
         nixd = {
           cmd = { "nixd" },
           settings = {

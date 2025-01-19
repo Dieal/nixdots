@@ -2,6 +2,7 @@
     imports = [
         ./nvim.nix
         ./shell.nix
+        ./hyprland.nix
     ];
 
     home.file = 

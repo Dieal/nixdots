@@ -7,9 +7,10 @@
         puffer # Text Expansions for: !! (last command), .. (../) , !$ (last argument)
         pisces  # Pair Parenthesis
         forgit # Easily interact with Git and fzf
-        # pure # Prompt
+        pure # Prompt
     ] ++ [
         pkgs.fish
+        pkgs.bash
         pkgs.fd # Alternative to find
         pkgs.fzf # Fuzzy Finder
         pkgs.ripgrep
@@ -35,6 +36,7 @@
         };
 
         interactiveShellInit = ''
+
             # [[ Environment Variables ]]
             set -gx PAGER less
             set -gx EDITOR nvim	
@@ -49,13 +51,13 @@
             fish_add_path $HOME/.config/composer/vendor/bin
             # fish_add_path $HOME/.local/bin/flutter/bin
 
-            # Usage: envsource <path/to/env>
-            function envsource
-              for line in (cat $argv | grep -v '^#' | grep -v '^\s*$') # Ignore blank lines
-                set item (string split -m 1 '=' $line)
-                set -gx $item[1] $item[2]
-              end
-            end
+            # # Usage: envsource <path/to/env>
+            # function envsource
+            #   for line in (cat $argv | grep -v '^#' | grep -v '^\s*$') # Ignore blank lines
+            #     set item (string split -m 1 '=' $line)
+            #     set -gx $item[1] $item[2]
+            #   end
+            # end
             # envsource ~/.config/fish/.env # Read and save variables in .env file (such as Obsidian Path)
 
             # ====================== #

@@ -6,7 +6,7 @@ return {
     'stevearc/dressing.nvim', -- optional for vim.ui.select
   },
   config = function ()
-    local on_attach = require('dieal.util.lsp').on_attach
+    local on_attach = require('dieal.plugins.lsp.lsp').on_attach
     require('flutter-tools').setup({
       dev_log = {
         enabled = false,

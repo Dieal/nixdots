@@ -9,6 +9,9 @@
         bat
         chafa
         fzf
+        zathura # PDF Viewer for Latex
+        texliveMedium # LaTeX Compiler
+        tree-sitter
 
         # ============================
         # == [[ LANGUAGE SERVERS ]] ==
@@ -23,6 +26,7 @@
         typescript
         typescript-language-server
         marksman # Markdown
+        hyprls # Hyprland Language Server
 
         /* eslint = {},
         dockerls = {},
