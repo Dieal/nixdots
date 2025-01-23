@@ -1,0 +1,13 @@
+configuration {
+    kb-element-next: "Control+j";
+    kb-element-prev: "Control+k";
+    kb-page-prev: "Page_Up,Control+h";
+    kb-page-next: "Page_Down,Control+l";
+
+    // Free some keys for other uses
+    kb-remove-to-eol: "";
+    kb-mode-complete: "";
+    kb-remove-char-back: "BackSpace";
+    kb-accept-entry: "Return";
+}
+@theme "rounded-nord-dark"

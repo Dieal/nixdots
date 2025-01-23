@@ -1,3 +1,11 @@
+--[[ return {
+  "SirVer/ultisnips",
+  dependencies = {
+    "honza/vim-snippets"
+  }
+}
+]]
+
 return {
   'L3MON4D3/LuaSnip',
   dependencies = {

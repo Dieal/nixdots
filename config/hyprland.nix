@@ -4,15 +4,17 @@
         # == [ UTILS ] ==
         dunst # Notification daemon
         cliphist # Clipboard Manager
-        hyprshade # Shader manager
         overskride # Bluetooth Manager
         networkmanagerapplet # Network Manager Applet
-        udiskie # Automount USB
         bemoji # Emoji Picker, support for Rofi
         wtype # Typing Indicator, required for bemoji
         playerctl # Media Player Controller
         brightnessctl # Brightness Controller
+        flameshot # Screenshot Tool
         wl-clipboard
+        wev # Wayland Event Viewer (for reading keycodes)
+        xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
 
         # == [ STYLING ] ==
         waybar # Status Bar
@@ -26,8 +28,8 @@
         hyprpolkitagent # Authentication Daemon
         hyprpaper # Wallpaper Setter
         hyprpicker # Color picker
-        hyprlandPlugins.hyprgrass
-        hyprlandPlugins.hyprspace
+        hyprshade # Shader manager
+        hyprshot # Screenshot Tool
     ];
 
     home.file = {

@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, ... } @inputs :
 
 {
   imports =
@@ -68,6 +68,15 @@
     xwayland.enable = false;
   };
 
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    v4l2loopback
+  ];
+
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+    '';
+  security.polkit.enable = true;
+
   # Uncomment to disable Wayland
   # services.xserver.displayManager.gdm.wayland = false;
 
@@ -127,6 +136,12 @@
     NIXOS_OZONE_WL = "1";
   };
 
+  # Virtualizazion
+  programs.virt-manager.enable = true;
+  users.groups.libvirtd.members = ["dieal"];
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+
   environment.systemPackages = with pkgs; [
 
       # DEV
@@ -145,16 +160,13 @@
 
       nix-search-cli
       home-manager
-
-      # GNOME
-      gnomeExtensions.pop-shell
+      v4l-utils
 
       # Compression
       gnutar
       unzip
       gzip
       p7zip
-
     ];
 
   # Some programs need SUID wrappers, can be configured further or are

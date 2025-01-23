@@ -38,6 +38,7 @@ in
             vesktop
             telegram-desktop
             libreoffice-qt6-fresh
+            sutils
 
             # Download and build manga cbz for Kobo
             kcc # Kobo Resolution: 1262x1680

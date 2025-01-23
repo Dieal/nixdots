@@ -49,3 +49,5 @@ vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Go to lower split window' })
 -- TABS
 vim.keymap.set('n', '<leader>tn', '<CMD>tabnew<CR>', { desc = '[T]ab [N]ew' })
 vim.keymap.set('n', '<leader>tc', '<CMD>tabclose<CR>', { desc = '[T]ab [C]lose' })
+vim.keymap.set('n', 'L', '<CMD>tabnext<CR>', { desc = 'Tab Next' })
+vim.keymap.set('n', 'H', '<CMD>tabprev<CR>', { desc = 'Tab Previous' })

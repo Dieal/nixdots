@@ -18,6 +18,12 @@ return {
       -- VimTeX configuration goes here, e.g.
       vim.g.vimtex_view_method = "zathura"
       vim.g.vimtex_compiler_method = "latexmk"
+      vim.g.vimtex_quickfix_mode = 0 -- Disable Errors Window
+
+      vim.keymap.set('n', '<leader>lq', function()
+        vim.cmd('tabnew')  -- Open a new tab
+        vim.cmd('copen')   -- Open the quickfix list
+      end, {})
     end
   },
 

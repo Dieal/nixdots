@@ -19,6 +19,7 @@
             url = "github:nix-community/home-manager/release-24.11";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+
     };
 
     # Function (THEY HAVE A SINGLE ARGUMENT) that takes an attribute set as arg
