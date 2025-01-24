@@ -17,6 +17,10 @@
         # == [[ LANGUAGE SERVERS ]] ==
         # ============================
         python311Packages.jedi-language-server
+        python311Packages.python-lsp-server
+        python311Packages.flake8
+        python311Packages.pyflakes
+        python311Packages.rope
         lua-language-server
         nixd # Nix Language Server
         phpactor

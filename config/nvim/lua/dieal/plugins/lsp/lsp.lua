@@ -48,34 +48,9 @@ end
 
 return {
   {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {},
-    config = function()
-      require("typescript-tools").setup {
-        on_attach = on_attach,
-        filetypes = {
-          "javascript",
-          "typescript",
-          "vue",
-        },
-        settings = {
-          single_file_support = false,
-          tsserver_plugins = {
-            "@vue/typescript-plugin",
-          },
-        },
-      }
-    end,
-  },
-
-  {
     'neovim/nvim-lspconfig',
     event = { "BufReadPre", "BufNewFile" }, -- Lazy loading
     dependencies = {
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} }, -- Useful status updates for LSP
       'folke/neodev.nvim', -- Additional lua configuration, makes nvim stuff amazing!
     },
     config = function()
@@ -95,7 +70,20 @@ return {
         },
         cssls = {},
         marksman = {},
-        jedi_language_server = {},
+        -- jedi_language_server = {},
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                rope_autoimport = {
+                  enabled = true,
+                },
+                pyflakes = { enabled = true },
+                flake8 = { enabled = true },
+              },
+            },
+          },
+        },
         yamlls = {},
         emmet_ls = {
           filetypes = { "html", "javascript", "blade", "php", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "astro" },
@@ -159,39 +147,6 @@ return {
         callback = on_attach,
       })
 
---[[
-      DISABLED  MASON DUE TO NIXOS
-      -- enable mason and configure icons
-      local mason = require('mason')
-
-      mason.setup({
-        ui = {
-          icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗",
-          },
-        },
-      })
-
-      -- Ensure the servers above are installed
-      local mason_lspconfig = require 'mason-lspconfig'
-
-      mason_lspconfig.setup {
-        ensure_installed = vim.tbl_keys(servers),
-      }
-
-      mason_lspconfig.setup_handlers {
-        function(server_name)
-          require('lspconfig')[server_name].setup {
-            capabilities = capabilities,
-            settings = servers[server_name],
-            filetypes = (servers[server_name] or {}).filetypes,
-          }
-        end
-      }
-]]
-
       local lspconfig = require('lspconfig')
       local checkInstalled = function(server_name)
           local default_config = lspconfig[server_name]
@@ -213,5 +168,28 @@ return {
         end
       end
     end
-  }
+  },
+
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+    config = function()
+      require("typescript-tools").setup {
+        on_attach = on_attach,
+        filetypes = {
+          "javascript",
+          "typescript",
+          "vue",
+        },
+        settings = {
+          single_file_support = false,
+          tsserver_plugins = {
+            "@vue/typescript-plugin",
+          },
+        },
+      }
+    end,
+  },
+
 }

@@ -151,12 +151,8 @@
       git
       gcc
       go
-      uv # Python Package Manager
       nodejs_22
-      verilog
-      gtkwave
       python3
-      python311Packages.ddt
 
       nix-search-cli
       home-manager

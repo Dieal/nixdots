@@ -31,7 +31,7 @@
         };
 
        shellAliases = {
-            ls = "eza -l -g --icons --sort extension";
+            ls = "eza -l -g --icons --sort type";
             cat = "bat";
         };
 
