@@ -20,6 +20,7 @@ in
             php84
             php84Packages.composer
             uv # Python Package Manager
+            dbeaver-bin # SQL Client
 
             # ==== [[ FONTS ]] ====
             (nerdfonts.override { fonts = [ "FiraCode" ]; })
