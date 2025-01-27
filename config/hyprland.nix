@@ -30,6 +30,7 @@
         hyprpicker # Color picker
         hyprshade # Shader manager
         hyprshot # Screenshot Tool
+        waypaper # Wallpaper Setter
     ];
 
     home.file = {
