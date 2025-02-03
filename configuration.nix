@@ -65,7 +65,14 @@
 
   programs.hyprland = {
     enable = true;
-    xwayland.enable = false;
+    xwayland.enable = true;
+  };
+
+  environment.sessionVariables = {
+    # GDK_BACKEND="x11";
+    SDL_VIDEODRIVER="x11";
+    CLUTTER_BACKEND="x11";
+    MOZ_ENABLE_WAYLAND = "1";
   };
 
   boot.extraModulePackages = with config.boot.kernelPackages; [
@@ -92,8 +99,14 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  hardware = {
+    pulseaudio.enable = false;
+    opengl = {
+      enable = true;
+      driSupport32Bit = true;  # Critical for Steam
+    };
+  };
+
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -126,15 +139,13 @@
   programs.firefox.enable = true;
   programs.steam.enable = true;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    android_sdk.accept_license = true;
+    allowUnfree = true;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-  };
 
   # Virtualizazion
   programs.virt-manager.enable = true;
@@ -163,6 +174,13 @@
       unzip
       gzip
       p7zip
+
+      (pkgs.androidenv.emulateApp {
+        name = "emulate-MyAndroidApp";
+        platformVersion = "33";
+        abiVersion = "x86_64"; # armeabi-v7a, mips, x86_64
+        systemImageType = "google_apis_playstore";
+      })
     ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -188,7 +206,6 @@
     configDir = "/home/dieal/Documents/.config/syncthing";
   };
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
-
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

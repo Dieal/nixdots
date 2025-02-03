@@ -16,6 +16,10 @@
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
 
+        # Update .desktop entries
+        # update-desktop-database ~/.local/share/applications/ 
+        desktop-file-utils
+
         # == [ STYLING ] ==
         waybar # Status Bar
         rofi-wayland # App Menu
@@ -35,5 +39,7 @@
 
     home.file = {
         ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/";
+        ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/waybar/";
+        ".local/share/applications/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/desktop_entries/";
     };
 }

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Okular (X11)
+GenericName=Document Viewer
+Comment=View and annotate documents
+Exec=env QT_QPA_PLATFORM=xcb okular %U
+Icon=okular
+Terminal=false
+Type=Application
+Categories=Qt;KDE;Viewer;Office;
+StartupNotify=true

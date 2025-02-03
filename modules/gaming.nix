@@ -5,6 +5,6 @@
         protonup-qt
         corefonts
         dxvk
-        wineWowPackages.wayland
+        wineWowPackages.staging
     ];
 }

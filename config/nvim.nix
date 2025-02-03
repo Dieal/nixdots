@@ -21,6 +21,8 @@
         python311Packages.flake8
         python311Packages.pyflakes
         python311Packages.rope
+        jdt-language-server # Java
+        jdk # JDK 21, required by jdt
         lua-language-server
         nixd # Nix Language Server
         phpactor
@@ -31,6 +33,10 @@
         typescript-language-server
         marksman # Markdown
         hyprls # Hyprland Language Server
+
+        # ===============================
+        # == [[ DEBUGGING PROTOCOLS ]] ==
+        # ===============================
 
         /* eslint = {},
         dockerls = {},

@@ -21,10 +21,13 @@ in
             php84Packages.composer
             uv # Python Package Manager
             dbeaver-bin # SQL Client
+            tealdeer # TLDR Command
+            android-studio
 
             # ==== [[ FONTS ]] ====
-            (nerdfonts.override { fonts = [ "FiraCode" ]; })
+            (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })
             fira-code
+            
 
             # ==== [[ MISC ]] ====
             speedcrunch # Binary Calculator
@@ -32,6 +35,7 @@ in
             okular
             mupdf
             feh
+            thunderbird
             element-desktop # Matrix Client
             keepassxc
             syncthing

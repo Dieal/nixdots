@@ -46,6 +46,7 @@ local on_attach = function(ev)
     end, { desc = 'Format current buffer with LSP' })
 end
 
+
 return {
   {
     'neovim/nvim-lspconfig',
@@ -70,7 +71,6 @@ return {
         },
         cssls = {},
         marksman = {},
-        -- jedi_language_server = {},
         pylsp = {
           settings = {
             pylsp = {
@@ -78,8 +78,13 @@ return {
                 rope_autoimport = {
                   enabled = true,
                 },
-                pyflakes = { enabled = true },
-                flake8 = { enabled = true },
+                pyflakes = { enabled = false },
+                pycodestyle = { enabled = false },
+                autopep8 = { enabled = false },
+                pylsp_mypy = {
+                  enabled = false,
+                  overrides = { "--check-untyped-defs" },
+                },
               },
             },
           },
@@ -168,6 +173,17 @@ return {
         end
       end
     end
+  },
+
+  {
+    "mfussenegger/nvim-jdtls",
+    ft = "java",
+    config = function ()
+      require('jdtls').start_or_attach({
+        cmd = { 'jdtls' },
+        root_dir = vim.fs.dirname(vim.fs.find({'gradlew', '.git', 'mvnw'}, { upward = true })[1]),
+      })
+    end,
   },
 
   {

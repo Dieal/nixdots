@@ -14,7 +14,7 @@ return {
   {
     "github/copilot.vim",
     config = function()
-      vim.cmd ("Copilot enable")
+      vim.cmd ("Copilot disable")
 
       -- Change mapping to Ctrl Tab
       vim.keymap.set('i', '<C-l>', 'copilot#Accept("\\<CR>")', {

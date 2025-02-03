@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=Network;InstantMessaging;Chat
+Exec=env ELECTRON_OZONE_PLATFORM_HINT=wayland vesktop
+GenericName=Internet Messenger
+Icon=vesktop
+Keywords=discord;vencord;electron;chat
+Name=Vesktop (X11)
+StartupWMClass=Vesktop
+Type=Application
+Version=1.4

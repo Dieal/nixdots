@@ -37,6 +37,10 @@
 
         interactiveShellInit = ''
 
+            # [[ Keybindings ]]
+            bind \cd accept-autosuggestion
+            bind \cf fzf
+
             # [[ Environment Variables ]]
             set -gx PAGER less
             set -gx EDITOR nvim	
