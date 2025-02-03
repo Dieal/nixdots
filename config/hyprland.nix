@@ -42,4 +42,23 @@
         ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/waybar/";
         ".local/share/applications/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/desktop_entries/";
     };
+
+    systemd.user.services.random_wallpaper = {
+        Unit = {
+            Description = "Sets a random wallpaper with waypaper (hyprpaper backend)";
+        };
+
+        Service = {
+            ExecStart = "/home/dieal/.nix-profile/bin/waypaper --folder ~/dotfiles/config/hypr/wallpapers --backend hyprpaper --random";
+            Type = "oneshot";
+        };
+    };
+    systemd.user.timers.random_wallpaper = {
+        Timer = {
+            OnBootSec = "30m";
+            OnUnitActiveSec = "30m";
+            Unit = "random_wallpaper.service";
+        };
+        Install.WantedBy = [ "timers.target" ]; # Ensures timer starts at boot
+    };
 }
