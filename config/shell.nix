@@ -53,6 +53,9 @@
             fish_add_path $HOME/.local/bin
             fish_add_path $HOME/.npm-global/bin
             fish_add_path $HOME/.config/composer/vendor/bin
+            fish_add_path $HOME/.local/share/flatpak/exports/share
+            fish_add_path /usr/share
+            fish_add_path /var/lib/flatpak/exports/share
             # fish_add_path $HOME/.local/bin/flutter/bin
 
             # # Usage: envsource <path/to/env>

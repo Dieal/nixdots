@@ -30,6 +30,7 @@ in
             
 
             # ==== [[ MISC ]] ====
+            qbittorrent
             speedcrunch # Binary Calculator
             localsend # Local File Sharing app
             okular

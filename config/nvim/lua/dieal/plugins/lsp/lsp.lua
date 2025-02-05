@@ -75,15 +75,22 @@ return {
           settings = {
             pylsp = {
               plugins = {
+                autopep8 = { enabled = false },
+                flake8 = {
+                  enabled = false
+                },
+                pylint = { enabled = false },
+                pyflakes = { enabled = false },
+                pycodestyle = {
+                  enabled = false
+                },
+                pylsp_mypy = {
+                  enabled = true,
+                  overrides = { "--check-untyped-defs" },
+                  live_mode =false
+                },
                 rope_autoimport = {
                   enabled = true,
-                },
-                pyflakes = { enabled = false },
-                pycodestyle = { enabled = false },
-                autopep8 = { enabled = false },
-                pylsp_mypy = {
-                  enabled = false,
-                  overrides = { "--check-untyped-defs" },
                 },
               },
             },

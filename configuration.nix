@@ -101,10 +101,6 @@
 
   hardware = {
     pulseaudio.enable = false;
-    opengl = {
-      enable = true;
-      driSupport32Bit = true;  # Critical for Steam
-    };
   };
 
   security.rtkit.enable = true;
@@ -130,6 +126,12 @@
     shell = pkgs.fish;
   };
 
+  users.users.dieal = {
+    packages = with pkgs; [
+      flatpak
+    ];
+  };
+
   # Fingerprints Support
   services.fprintd.enable = true;
   services.fprintd.tod.enable = true;
@@ -140,8 +142,8 @@
   programs.steam.enable = true;
 
   nixpkgs.config = {
-    android_sdk.accept_license = true;
     allowUnfree = true;
+    android_sdk.accept_license = true;
   };
 
   # List packages installed in system profile. To search, run:
@@ -175,12 +177,12 @@
       gzip
       p7zip
 
-      (pkgs.androidenv.emulateApp {
-        name = "emulate-MyAndroidApp";
-        platformVersion = "33";
-        abiVersion = "x86_64"; # armeabi-v7a, mips, x86_64
-        systemImageType = "google_apis_playstore";
-      })
+      # (pkgs.androidenv.emulateApp {
+      #   name = "emulate-MyAndroidApp";
+      #   platformVersion = "33";
+      #   abiVersion = "x86_64"; # armeabi-v7a, mips, x86_64
+      #   systemImageType = "google_apis_playstore";
+      # })
     ];
 
   # Some programs need SUID wrappers, can be configured further or are
