@@ -35,9 +35,17 @@
             unstablePkgs = import unstable { inherit system; };
         in {
 
+            # Laptop
             nixosConfigurations.nixos = lib.nixosSystem {
                 inherit system;
-                modules = [ ./configuration.nix ];
+                modules = [ ./system/laptop.nix ];
+                specialArgs = { inherit pkgs; };
+            };
+
+            # Desktop Configuration
+            nixosConfigurations.desktop = lib.nixosSystem {
+                inherit system;
+                modules = [ ./system/desktop.nix ];
                 specialArgs = { inherit pkgs; };
             };
 

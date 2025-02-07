@@ -2,22 +2,17 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, ... } @inputs :
 
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
     ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   # ===================
   # [[ Network Setup ]]
   # ===================
-  networking.hostName = "elitebook"; # Define your hostname.
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "none"; # Disable Internal DNS
 
@@ -56,9 +51,21 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
+  # Enable touchpad support (enabled default in most desktopManager).
+  services.libinput.enable = true;
+
+  # Enable Hyprland
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+
+  environment.sessionVariables = {
+    # GDK_BACKEND="x11";
+    SDL_VIDEODRIVER="x11";
+    CLUTTER_BACKEND="x11";
+    MOZ_ENABLE_WAYLAND = "1";
+  };
+
+  # Uncomment to disable Wayland
   # services.xserver.displayManager.gdm.wayland = false;
 
   # Configure keymap in X11
@@ -73,8 +80,10 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  hardware = {
+    pulseaudio.enable = false;
+  };
+
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -82,15 +91,12 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.fish.enable = true;
@@ -99,9 +105,12 @@
     description = "Dieal";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.fish;
-    # packages = with pkgs; [
-    # #  thunderbird
-    # ];
+  };
+
+  users.users.dieal = {
+    packages = with pkgs; [
+      flatpak
+    ];
   };
 
   # Fingerprints Support
@@ -109,50 +118,40 @@
   services.fprintd.tod.enable = true;
   services.fprintd.tod.driver = pkgs.libfprint-2-tod1-vfs0090;
 
-  # Install firefox.
   programs.firefox.enable = true;
   programs.steam.enable = true;
+  programs.steam.gamescopeSession.enable = true;
+  programs.gamemode.enable = true;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-    environment.systemPackages = with pkgs; [
+
+  # Virtualizazion
+  programs.virt-manager.enable = true;
+  users.groups.libvirtd.members = ["dieal"];
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+
+  environment.systemPackages = with pkgs; [
+
       # DEV
+      fish
       wget
       curlMinimal
       git
       gcc
       go
-      uv # Python Package Manager
-      nodejs_23
-      verilog
-      gtkwave
+      nodejs_22
       python3
-      python311Packages.ddt
-      kitty
-      tmux
-      speedcrunch
+
       nix-search-cli
-      telegram-desktop
-      localsend
-
       home-manager
-
-      # GNOME
-      gnomeExtensions.pop-shell
-
-      # NVIM
-      neovim
-      luajitPackages.luarocks
-      python312Packages.jedi-language-server
-      ripgrep
-      wl-clipboard
-      nixd # Nix Language Server
-      alejandra
-      fd
-      fzf
+      v4l-utils
 
       # Compression
       gnutar
@@ -160,29 +159,13 @@
       gzip
       p7zip
 
-      # [[ Misc ]]
-      element-desktop # Matrix Client
-      keepassxc
-      syncthing
-      discord
-      mupdf
-      libreoffice-qt6-fresh
-
-      # [[ GAMING ]]
-      lutris
-      lutris-unwrapped
-      protonup-qt
-      corefonts
-      dxvk
-      wineWowPackages.wayland
+      # (pkgs.androidenv.emulateApp {
+      #   name = "emulate-MyAndroidApp";
+      #   platformVersion = "33";
+      #   abiVersion = "x86_64"; # armeabi-v7a, mips, x86_64
+      #   systemImageType = "google_apis_playstore";
+      # })
     ];
-
-  fonts.packages = with pkgs; [
-    fira-code
-    fira-code-symbols
-    fira-code-nerdfont
-    (nerdfonts.override { fonts = [ "FiraCode" ]; })
-  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -207,7 +190,6 @@
     configDir = "/home/dieal/Documents/.config/syncthing";
   };
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
-
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

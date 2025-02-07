@@ -14,6 +14,7 @@ in
 
             # ==== [[ DEV ]] ====
             gnumake
+            unrar-free
             tmux
             kitty
             busybox # Bundle of Unix Utilities

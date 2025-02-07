@@ -28,6 +28,7 @@
             tat = "tmux a -t";                            # [T]mux [A]ttach [T]o
             tk = "tmux kill-session -t";                  # [T]mux [K]ill Session
             tl = "tmux ls";                               # [T]mux [L]s
+            waypaper = "waypaper --folder ~/dotfiles/config/hypr/wallpapers --backend hyprpaper";
         };
 
        shellAliases = {

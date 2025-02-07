@@ -6,5 +6,6 @@
         corefonts
         dxvk
         wineWowPackages.staging
+        gamescope
     ];
 }
