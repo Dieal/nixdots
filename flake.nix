@@ -6,6 +6,7 @@
         # I could name these as I liked.
         nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
         unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+        minegrub-theme.url = "github:Lxtharia/minegrub-theme";
         android-nixpkgs = {
             url = "github:tadfisher/android-nixpkgs";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -25,7 +26,7 @@
     # Function (THEY HAVE A SINGLE ARGUMENT) that takes an attribute set as arg
     # The inputs of the function are the ones we've declared above
     # This function can generate different outputs (packages, configurations, shells, ecc.)
-    outputs = { nixpkgs, home-manager, unstable, android-nixpkgs, ... }: 
+    outputs = { nixpkgs, home-manager, unstable, android-nixpkgs, ... } @ inputs: 
         let
             lib = nixpkgs.lib; # Nix Standard Libraries
             system = "x86_64-linux"; # System Architecture that needs to be specified when calling nixpkgs
@@ -38,7 +39,10 @@
             # Laptop
             nixosConfigurations.nixos = lib.nixosSystem {
                 inherit system;
-                modules = [ ./system/laptop.nix ];
+                modules = [ 
+                    ./system/laptop.nix 
+                    inputs.minegrub-theme.nixosModules.default
+                ];
                 specialArgs = { inherit pkgs; };
             };
 

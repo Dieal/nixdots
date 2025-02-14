@@ -1,14 +1,25 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... } @inputs :
+{ config, pkgs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       /etc/nixos/hardware-configuration.nix
     ];
+
+  # Bootloader
+  boot.loader = {
+    systemd-boot.enable = false;
+    grub = {
+      enable = true;
+      minegrub-theme = {
+        enable = true;
+        splash = "100% Flakes!";
+        background = "background_options/1.8  - [Classic Minecraft].png";
+        boot-options-count = 4;
+      };
+    };
+  };
+
 
   # ===================
   # [[ Network Setup ]]
@@ -187,7 +198,7 @@
     group = "users";
     user = "dieal";
     dataDir = "/home/dieal/Documents";
-    configDir = "/home/dieal/Documents/.config/syncthing";
+    configDir = "/home/dieal/.config/syncthing";
   };
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 

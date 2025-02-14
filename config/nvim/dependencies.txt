@@ -1,6 +1,0 @@
-git
-make
-npm
-fzf
-gcc
-ripgrep

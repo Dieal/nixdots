@@ -1,3 +1,13 @@
+vim.diagnostic.config({
+    virtual_text = {
+        prefix = '●', -- You can change this to any character you prefer
+        spacing = 4,
+    },
+    signs = true,
+    underline = true,
+    update_in_insert = true,
+})
+
 local on_attach = function(ev)
     -- local builtin = require('telescope.builtin')
     local bufnr = ev.buf
@@ -71,30 +81,19 @@ return {
         },
         cssls = {},
         marksman = {},
-        pylsp = {
+        basedpyright = {
           settings = {
-            pylsp = {
-              plugins = {
-                autopep8 = { enabled = false },
-                flake8 = {
-                  enabled = false
+            basedpyright = {
+              analysis = {
+                inlayHints = {
+                  variableTypes = false,
+                  functionReturnTypes = false,
+                  callArgumentNames = false,
                 },
-                pylint = { enabled = false },
-                pyflakes = { enabled = false },
-                pycodestyle = {
-                  enabled = false
-                },
-                pylsp_mypy = {
-                  enabled = true,
-                  overrides = { "--check-untyped-defs" },
-                  live_mode =false
-                },
-                rope_autoimport = {
-                  enabled = true,
-                },
-              },
-            },
-          },
+                typeCheckingMode = "off",
+              }
+            }
+          }
         },
         yamlls = {},
         emmet_ls = {
@@ -121,7 +120,6 @@ return {
             telemetry = { enable = false },
           },
         },
-        hyprls = {},
         nixd = {
           cmd = { "nixd" },
           settings = {
@@ -174,11 +172,30 @@ return {
         if checkInstalled(server_name) == true then
             lspconfig[server_name].setup {
               capabilities = capabilities,
-              settings = config,
+              settings = config.settings,
               filetypes = (servers[server_name] or {}).filetypes,
+              init_options = config.init_options,
             }
         end
       end
+    end
+  },
+
+  { "Vimjas/vim-python-pep8-indent" },
+
+  {
+    "nvimtools/none-ls.nvim",
+    config = function()
+      local null_ls = require("null-ls")
+
+      null_ls.setup({
+        debug = true,
+        sources = {
+          -- null_ls.builtins.diagnostics.mypy.with({
+          --   extra_args = { "--strict", "--ignore-missing-imports"}
+          -- })
+        },
+      })
     end
   },
 
@@ -186,9 +203,25 @@ return {
     "mfussenegger/nvim-jdtls",
     ft = "java",
     config = function ()
-      require('jdtls').start_or_attach({
-        cmd = { 'jdtls' },
-        root_dir = vim.fs.dirname(vim.fs.find({'gradlew', '.git', 'mvnw'}, { upward = true })[1]),
+      local root_dir = vim.fs.dirname(vim.fs.find({'gradlew', '.git', 'mvnw', '.mvn'}, { upward = true })[1])
+      print ("jdtls root directory: " .. (root_dir or "Not Found"))
+
+      -- In this way JDTLS gets attached to each .java buffer
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "*.java",
+        callback = function()
+          require('jdtls').start_or_attach({
+            cmd = { 'jdtls' },
+            root_dir = root_dir,
+            settings = {
+              java = {
+                maven = { downloadSources = true },
+                signatureHelp = { enabled = true },
+                inlayHints = { parametersNames = { enabled = 'all' } },
+              }
+            }
+          })
+        end
       })
     end,
   },

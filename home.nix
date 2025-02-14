@@ -13,17 +13,12 @@ in
         packages = with pkgs; [
 
             # ==== [[ DEV ]] ====
-            gnumake
             unrar-free
             tmux
             kitty
             busybox # Bundle of Unix Utilities
-            php84
-            php84Packages.composer
-            uv # Python Package Manager
             dbeaver-bin # SQL Client
             tealdeer # TLDR Command
-            android-studio
 
             # ==== [[ FONTS ]] ====
             (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })

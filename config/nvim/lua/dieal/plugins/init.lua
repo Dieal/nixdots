@@ -5,25 +5,10 @@ return {
   'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',
+  -- 'tpope/vim-sleuth',
 
   -- Notifications
   'rcarriga/nvim-notify',
-
-  -- Copilot
-  {
-    "github/copilot.vim",
-    config = function()
-      vim.cmd ("Copilot disable")
-
-      -- Change mapping to Ctrl Tab
-      vim.keymap.set('i', '<C-l>', 'copilot#Accept("\\<CR>")', {
-        expr = true,
-        replace_keycodes = false
-      })
-      vim.g.copilot_no_tab_map = true
-    end
-  },
 
   -- -- Saves / Restores Sessions
   -- 'tpope/vim-obsession',
@@ -99,9 +84,7 @@ return {
     end
   },
 
-  {
-    'mg979/vim-visual-multi',
-  },
+  { 'mg979/vim-visual-multi', },
 
 
   {
@@ -113,9 +96,6 @@ return {
     opts = {
     },
   },
-
-  -- Pretty Notifications
-  { 'rcarriga/nvim-notify' },
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },

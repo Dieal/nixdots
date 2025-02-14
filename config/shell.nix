@@ -5,7 +5,7 @@
         z # Z: easily navigate to previous directories, simply by name (it keeps history)
         sponge # Keeps Command History Clear from Typos
         puffer # Text Expansions for: !! (last command), .. (../) , !$ (last argument)
-        pisces  # Pair Parenthesis
+        # pisces  # Pair Parenthesis
         forgit # Easily interact with Git and fzf
         pure # Prompt
     ] ++ [
@@ -39,7 +39,7 @@
         interactiveShellInit = ''
 
             # [[ Keybindings ]]
-            bind \cd accept-autosuggestion
+            bind \cx accept-autosuggestion
             bind \cf fzf
 
             # [[ Environment Variables ]]

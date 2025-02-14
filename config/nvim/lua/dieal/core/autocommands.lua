@@ -14,14 +14,6 @@ autocmd("BufEnter", {
   group = general,
   desc = "Disable New Line Comment",
 })
---[[
-autocmd({"BufEnter", "BufWinEnter"}, {
-  pattern = { "*.blade.*" },
-  callback = function()
-    vim.cmd("setlocal filetype=php")
-  end,
-  desc = "Blade Autotag",
-}) ]]
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`

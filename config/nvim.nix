@@ -16,11 +16,9 @@
         # ============================
         # == [[ LANGUAGE SERVERS ]] ==
         # ============================
-        python311Packages.jedi-language-server
-        python311Packages.python-lsp-server
-        python311Packages.flake8
-        python311Packages.pyflakes
-        python311Packages.rope
+        basedpyright
+        ruff
+        mypy
         jdt-language-server # Java
         jdk # JDK 21, required by jdt
         lua-language-server
@@ -32,18 +30,11 @@
         typescript
         typescript-language-server
         marksman # Markdown
-        hyprls # Hyprland Language Server
 
         # ===============================
         # == [[ DEBUGGING PROTOCOLS ]] ==
         # ===============================
-
-        /* eslint = {},
-        dockerls = {},
-        ansiblels = {},
-        clangd = {},
-        },
-          }, */
+        # //////
     ];
 
     home.file = {

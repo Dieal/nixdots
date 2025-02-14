@@ -1,6 +1,0 @@
-return {
-  -- Switch between buffers
-  {
-  }
-}
-
