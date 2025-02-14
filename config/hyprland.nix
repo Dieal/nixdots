@@ -15,6 +15,7 @@
         wev # Wayland Event Viewer (for reading keycodes)
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
+        swaylock-effects # Lock screen
 
         # Update .desktop entries
         # update-desktop-database ~/.local/share/applications/ 
@@ -40,7 +41,9 @@
     home.file = {
         ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/";
         ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/waybar/";
+        ".config/swaylock".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/swaylock/";
         ".local/share/applications/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/desktop_entries/";
+        ".local/share/icons/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/cursors/";
     };
 
     systemd.user.services.random_wallpaper = {
