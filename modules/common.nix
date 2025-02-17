@@ -3,6 +3,8 @@
         ./nvim.nix
         ./shell.nix
         ./hyprland.nix
+        ./gaming.nix
+        ./coding.nix
     ];
 
     home.file = 
