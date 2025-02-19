@@ -4,8 +4,7 @@ in
 { config, lib, pkgs, unstable, ... }: {
 
     imports = [
-        ./modules/gaming.nix
-        ./config/common.nix
+        ./modules/common.nix
     ];
 
     fonts.fontconfig.enable = true;

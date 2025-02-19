@@ -159,6 +159,7 @@
       go
       nodejs_22
       python3
+      gnumake
 
       nix-search-cli
       home-manager
