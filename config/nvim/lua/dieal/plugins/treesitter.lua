@@ -16,7 +16,6 @@ return {
         'vue',
 
         'php',
-        'blade',
 
         'python',
         'java',

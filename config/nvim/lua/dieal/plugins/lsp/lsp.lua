@@ -130,14 +130,14 @@ return {
               formatting = {
                 command = { "alejandra" }, -- or nixfmt or nixpkgs-fmt
               },
-              -- options = {
-              --   nixos = {
-              --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").nixosConfigurations.CONFIGNAME.options',
-              --   },
-              --   home_manager = {
-              --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").homeConfigurations.CONFIGNAME.options',
-              --   },
-              -- },
+              options = {
+                nixos = {
+                    expr = '(builtins.getFlake ("git+file://" + toString ./.)).nixosConfigurations.desktop.options',
+                },
+                home_manager = {
+                    expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."dieal".options',
+                },
+              },
             },
           },
         }

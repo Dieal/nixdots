@@ -42,23 +42,34 @@
         ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/";
         ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/waybar/";
         ".config/swaylock".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/swaylock/";
-        ".local/share/applications/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/desktop_entries/";
         ".local/share/icons/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/cursors/";
     };
 
-    # xdg.desktopEntries = {
-    #     okular = {
-    #         name = "Okular X11 Home manager";
-    #         genericName = "Document Viewer";
-    #         comment = "View and annotate documents";
-    #         exec = "env QT_QPA_PLATFORM=xcb okular %U";
-    #         icon="okular";
-    #         terminal=false;
-    #         categories= ["Qt" "KDE" "Viewer" "Office"];
-    #         startupNotify=true;
-    #
-    #     };
-    # };
+
+    xdg.desktopEntries = {
+        okular = {
+            name = "Okular (X11)";
+            genericName = "Document Viewer";
+            comment = "View and annotate documents";
+            exec = "env QT_QPA_PLATFORM=xcb okular %U";
+            icon="okular";
+            terminal=false;
+            categories= ["Qt" "KDE" "Viewer" "Office"];
+            startupNotify=true;
+        };
+
+        vesktop = {
+            name = "Vesktop (X11)";
+            genericName = "Internet Messanger";
+            comment = "View and annotate documents";
+            exec = "env ELECTRON_OZONE_PLATFORM_HINT=wayland vesktop";
+            icon="vesktop";
+            # keywords= [ "discord" "vencord" "electron" "chat" ];
+            terminal=false;
+            categories= [ "Network" "InstantMessaging" "Chat" ];
+            startupNotify=true;
+        };
+    };
 
     systemd.user.services.random_wallpaper = {
         Unit = {

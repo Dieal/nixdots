@@ -25,6 +25,7 @@ in
             
 
             # ==== [[ MISC ]] ====
+            stremio
             qbittorrent
             speedcrunch # Binary Calculator
             localsend # Local File Sharing app
