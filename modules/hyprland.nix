@@ -46,6 +46,20 @@
         ".local/share/icons/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/cursors/";
     };
 
+    # xdg.desktopEntries = {
+    #     okular = {
+    #         name = "Okular X11 Home manager";
+    #         genericName = "Document Viewer";
+    #         comment = "View and annotate documents";
+    #         exec = "env QT_QPA_PLATFORM=xcb okular %U";
+    #         icon="okular";
+    #         terminal=false;
+    #         categories= ["Qt" "KDE" "Viewer" "Office"];
+    #         startupNotify=true;
+    #
+    #     };
+    # };
+
     systemd.user.services.random_wallpaper = {
         Unit = {
             Description = "Sets a random wallpaper with waypaper (hyprpaper backend)";

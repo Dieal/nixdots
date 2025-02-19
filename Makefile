@@ -1,5 +1,5 @@
-.PHONY: update
-update:
+.PHONY: home
+home:
 	home-manager switch --flake .#dieal
 
 # export NIXOS_INSTALL_BOOTLOADER=1 when installing bootloader

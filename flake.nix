@@ -49,7 +49,10 @@
             # Desktop Configuration
             nixosConfigurations.desktop = lib.nixosSystem {
                 inherit system;
-                modules = [ ./system/desktop.nix ];
+                modules = [ 
+                    ./system/desktop.nix 
+                    inputs.minegrub-theme.nixosModules.default
+                ];
                 specialArgs = { inherit pkgs; };
             };
 

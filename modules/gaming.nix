@@ -7,5 +7,6 @@
         dxvk
         wineWowPackages.staging
         gamescope
+        prismlauncher  # MultiMC Fork (Minecraft)
     ];
 }

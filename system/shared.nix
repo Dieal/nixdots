@@ -114,7 +114,7 @@
   users.users.dieal = {
     isNormalUser = true;
     description = "Dieal";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "adbusers" ];
     shell = pkgs.fish;
   };
 
@@ -133,7 +133,7 @@
   programs.steam.enable = true;
   programs.steam.gamescopeSession.enable = true;
   programs.gamemode.enable = true;
-
+  programs.adb.enable = true;
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -160,6 +160,8 @@
       nodejs_22
       python3
       gnumake
+      pulsemixer
+      pavucontrol
 
       nix-search-cli
       home-manager
