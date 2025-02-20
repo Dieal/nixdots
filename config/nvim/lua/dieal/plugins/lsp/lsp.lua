@@ -86,9 +86,9 @@ return {
             basedpyright = {
               analysis = {
                 inlayHints = {
-                  variableTypes = false,
-                  functionReturnTypes = false,
-                  callArgumentNames = false,
+                  variableTypes = true,
+                  functionReturnTypes = true,
+                  callArgumentNames = true,
                 },
                 typeCheckingMode = "off",
               }
