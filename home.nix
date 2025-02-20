@@ -1,7 +1,7 @@
 let
     username = "dieal";
 in
-{ config, lib, pkgs, unstable, ... }: {
+{ pkgs, ... } @inputs: {
 
     imports = [
         ./modules/common.nix
@@ -47,6 +47,7 @@ in
             hakuneko
         ] ++ [
             # Unstable PKGS go here
+            inputs.zen-browser.packages."x86_64-linux".default
         ];
 
         inherit username;

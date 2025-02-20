@@ -7,14 +7,16 @@
         nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
         unstable.url = "github:nixos/nixpkgs/nixos-unstable";
         minegrub-theme.url = "github:Lxtharia/minegrub-theme";
+        zen-browser = {
+            url = "github:0xc000022070/zen-browser-flake";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+
+
         android-nixpkgs = {
             url = "github:tadfisher/android-nixpkgs";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-
-        # The dot notation is a shortcut. I could write:
-        # home-manager.url = "";
-        # home-manager.inputs.nixpkgs.follows = "";
 
         home-manager = {
             url = "github:nix-community/home-manager/release-24.11";
@@ -61,7 +63,7 @@
                 dieal = home-manager.lib.homeManagerConfiguration {
                     # Inputs of the function
                     inherit pkgs; 
-                    extraSpecialArgs = { unstable = unstablePkgs; };
+                    extraSpecialArgs = { unstable = unstablePkgs; zen-browser = inputs.zen-browser; };
                     modules = [ 
                         ./home.nix 
                     ];
