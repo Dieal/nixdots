@@ -41,6 +41,7 @@ in
             telegram-desktop
             libreoffice-qt6-fresh
             sutils # Battery and CPU Monitor
+            htop
 
             # Download and build manga cbz for Kobo
             kcc # Kobo Resolution: 1262x1680

@@ -71,12 +71,8 @@
 
             };
 
-            packages.x86_64-linux.android-sdk = android-nixpkgs.sdk (sdkPkgs: with sdkPkgs; [
-                    cmdline-tools-latest
-                    build-tools-34-0-0
-                    platform-tools
-                    platforms-android-34
-                    emulator
-            ]);
+            devShells."x86_64-linux" = {
+                rust = import ./shells/rust.nix { inherit pkgs; };
+            };
         };
 }

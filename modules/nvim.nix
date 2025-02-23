@@ -19,6 +19,7 @@
         basedpyright
         ruff
         mypy
+        rust-analyzer
         jdt-language-server # Java
         jdk # JDK 21, required by jdt
         lua-language-server

@@ -12,5 +12,9 @@
         
         # Java
         maven
+
+        # Rust
+        rustc
+        cargo
     ];
 }
