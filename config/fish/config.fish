@@ -37,4 +37,17 @@ status is-interactive; and begin
     fish_add_path /usr/share
     fish_add_path /var/lib/flatpak/exports/share
 
+    # cd wrapper
+    function cd --wraps cd
+        builtin cd $argv[1]
+
+        
+        if echo $PWD | grep -E 'dotfiles$' >/dev/null  # Folder is dotfiles
+            if git status | grep -e "Changes not staged for commit" -e "Your branch is ahead" >/dev/null
+                echo "There are changes in the config. Build the system again"
+            end
+        end
+    end
+
+
 end
