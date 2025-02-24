@@ -38,10 +38,13 @@ in
             syncthing
             yazi # Terminal File Manager with Vim Keybindings :)
             vesktop # Discord Client to screenshare on wayland
+            discord-canary
             telegram-desktop
             libreoffice-qt6-fresh
             sutils # Battery and CPU Monitor
             htop
+            dust # du Alternative
+            gdu  # Faster alternative to ncdu
 
             # Download and build manga cbz for Kobo
             kcc # Kobo Resolution: 1262x1680

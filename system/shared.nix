@@ -17,6 +17,7 @@
         background = "background_options/1.8  - [Classic Minecraft].png";
         boot-options-count = 4;
       };
+      useOSProber = true;
     };
   };
 
@@ -206,8 +207,9 @@
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  # 53317: LocalSend
+  networking.firewall.allowedTCPPorts = [ 53317 ];
+  networking.firewall.allowedUDPPorts = [ 53317 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 

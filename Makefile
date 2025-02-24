@@ -7,6 +7,14 @@ home:
 laptop:
 	sudo nixos-rebuild switch --flake .#nixos --impure
 
+.PHONY: laptop-boot
+laptop-boot:
+	sudo nixos-rebuild boot --flake .#nixos --impure
+
+.PHONY: desktop-boot
+desktop-boot:
+	sudo nixos-rebuild boot --flake .#desktop --impure
+
 .PHONY: desktop
 desktop:
 	sudo nixos-rebuild switch --flake .#desktop --impure
