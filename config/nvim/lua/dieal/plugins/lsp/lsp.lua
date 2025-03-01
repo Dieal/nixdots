@@ -79,6 +79,7 @@ return {
         volar = {
           filetypes = { "vue", "javascript" },
         },
+        ccls = {}, -- C / C++ LSP
         cssls = {},
         marksman = {},
         basedpyright = {

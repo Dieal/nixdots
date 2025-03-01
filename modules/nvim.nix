@@ -20,6 +20,7 @@
         ruff
         mypy
         rust-analyzer
+        ccls
         jdt-language-server # Java
         jdk # JDK 21, required by jdt
         lua-language-server
