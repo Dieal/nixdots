@@ -17,6 +17,16 @@
     xwayland.enable = true;
   };
 
+  users.groups.dotfiles = {};
+  users.groups.gamer = {};
+  users.users.brother = {
+    group = "users";
+    isNormalUser = true;
+    description = "Dieal's brother";
+    extraGroups = [ "networkmanager" "dotfiles" "gamer" ];
+    shell = pkgs.fish;
+  };
+
   services.xserver.videoDrivers = ["nvidia"];
   hardware = {
     graphics.enable = true; # Enable OpenGL

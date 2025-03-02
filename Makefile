@@ -2,6 +2,10 @@
 home:
 	home-manager switch --flake .#dieal
 
+.PHONY: brother
+brother:
+	home-manager switch --flake .#brother
+
 # export NIXOS_INSTALL_BOOTLOADER=1 when installing bootloader
 .PHONY: laptop
 laptop:

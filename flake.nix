@@ -65,7 +65,18 @@
                     inherit pkgs; 
                     extraSpecialArgs = { unstable = unstablePkgs; zen-browser = inputs.zen-browser; };
                     modules = [ 
-                        ./home.nix 
+                        ./users/home.nix 
+                    ];
+                };
+            };
+
+            homeConfigurations = {
+                brother = home-manager.lib.homeManagerConfiguration {
+                    # Inputs of the function
+                    inherit pkgs; 
+                    extraSpecialArgs = { unstable = unstablePkgs; zen-browser = inputs.zen-browser; };
+                    modules = [ 
+                        ./users/brother.nix 
                     ];
                 };
 

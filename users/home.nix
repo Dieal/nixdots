@@ -4,7 +4,7 @@ in
 { pkgs, ... } @inputs: {
 
     imports = [
-        ./modules/common.nix
+        ../modules/common.nix
     ];
 
     fonts.fontconfig.enable = true;
