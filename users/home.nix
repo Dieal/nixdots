@@ -1,7 +1,7 @@
 let
     username = "dieal";
 in
-{ pkgs, ... } @inputs: {
+{ pkgs, unstable, ... } @inputs: {
 
     imports = [
         ../modules/common.nix
@@ -50,8 +50,9 @@ in
             kcc # Kobo Resolution: 1262x1680
             hakuneko
         ] ++ [
-            # Unstable PKGS go here
+            # Unstable PKGS and other inputs go here
             inputs.zen-browser.packages."x86_64-linux".default
+            cmus
         ];
 
         inherit username;

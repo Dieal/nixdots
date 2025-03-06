@@ -12,7 +12,6 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-
         android-nixpkgs = {
             url = "github:tadfisher/android-nixpkgs";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -22,7 +21,6 @@
             url = "github:nix-community/home-manager/release-24.11";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-
     };
 
     # Function (THEY HAVE A SINGLE ARGUMENT) that takes an attribute set as arg

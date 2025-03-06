@@ -37,10 +37,9 @@ status is-interactive; and begin
     fish_add_path /usr/share
     fish_add_path /var/lib/flatpak/exports/share
 
-    # cd wrapper
+    # cd wrapper for folder notifications
     function cd --wraps cd
         builtin cd $argv[1]
-
         
         if echo $PWD | grep -E 'dotfiles$' >/dev/null  # Folder is dotfiles
             if git status | grep -e "Changes not staged for commit" -e "Your branch is ahead" >/dev/null

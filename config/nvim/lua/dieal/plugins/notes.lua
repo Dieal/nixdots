@@ -3,12 +3,15 @@ local nmap = util.nmap
 local imap = util.imap
 local vmap = util.vmap
 
-local personalVaultPath = "~/docs/vaults/personal"
-
-nmap("<leader>oo", "<cmd>e " .. personalVaultPath .. "/obsidian.md<CR>", "[O]bsidian [O]pen Index")
+local personalVaultPath = os.getenv("HOME") .. "/shared/vaults/personal/" -- Remember to add trailing slash at the end of the path
+if vim.fn.isdirectory(personalVaultPath) == 0 then
+  print("Vault " .. personalVaultPath .. " doesn't exist. Creating it...")
+  os.execute('mkdir ' .. personalVaultPath)
+  print("Created " .. personalVaultPath)
+end
+nmap("<leader>oo", "<cmd>e " .. personalVaultPath .. "obsidian.md<CR>", "[O]bsidian [O]pen Index")
 
 return {
-
   {
     "lervag/vimtex",
     lazy = true,     -- we don't want to lazy load VimTeX

@@ -91,6 +91,12 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.avahi = { # Automatic printer discovery
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
 
   hardware = {
     pulseaudio.enable = false;

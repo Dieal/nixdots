@@ -3,6 +3,8 @@
     home.packages = with pkgs; [
         gnumake
 
+        live-server
+
         # PHP
         php84
         php84Packages.composer
@@ -12,9 +14,13 @@
         
         # Java
         maven
+        android-studio
 
         # Rust
         rustc
         cargo
+
+        # RISC-V
+        rars
     ];
 }

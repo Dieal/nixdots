@@ -31,6 +31,7 @@ return {
       vim.keymap.set('n', '<leader>sls', builtin.lsp_document_symbols, { desc = '[S]earch [L]sp [S]ymbols' })
 
       builtin.setup({})
+      builtin.register_ui_select()
 
     end
   },
