@@ -46,13 +46,17 @@ in
             dust # du Alternative
             gdu  # Faster alternative to ncdu
 
+            # Music
+            cmus # Terminal Player
+            picard # MusicBrainz Picard: tool to edit and add public music metadata
+            nicotine-plus # Soulseek Client
+
             # Download and build manga cbz for Kobo
             kcc # Kobo Resolution: 1262x1680
             hakuneko
         ] ++ [
             # Unstable PKGS and other inputs go here
             inputs.zen-browser.packages."x86_64-linux".default
-            cmus
         ];
 
         inherit username;
