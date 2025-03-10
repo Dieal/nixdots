@@ -63,6 +63,7 @@ return {
     event = { "BufReadPre", "BufNewFile" }, -- Lazy loading
     dependencies = {
       'folke/neodev.nvim', -- Additional lua configuration, makes nvim stuff amazing!
+      'saghen/blink.cmp',
     },
     config = function()
       -- Change the Diagnostic symbols in the sign column (gutter)
@@ -146,7 +147,7 @@ return {
 
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+      capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true
