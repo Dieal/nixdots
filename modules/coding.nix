@@ -18,6 +18,7 @@
 
         # Rust
         rustc
+        clippy
         cargo
 
         # RISC-V
