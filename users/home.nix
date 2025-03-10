@@ -16,6 +16,7 @@ in
             tmux
             kitty
             busybox # Bundle of Unix Utilities
+            less
             dbeaver-bin # SQL Client
             tealdeer # TLDR Command
 
@@ -25,6 +26,7 @@ in
             
 
             # ==== [[ MISC ]] ====
+            feather
             stremio
             qbittorrent
             speedcrunch # Binary Calculator
