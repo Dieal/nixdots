@@ -19,6 +19,9 @@ return {
     opts = {
       -- See Configuration section for options
     },
+    config = function()
+      vim.cmd("Copilot disable") -- Disables copilot by default
+    end,
     -- See Commands section for default commands if you want to lazy load on them
   },
 

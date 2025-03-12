@@ -1,7 +1,7 @@
 { pkgs, config, ... }: {
 
     home.packages = with pkgs.fishPlugins; [
-        fzf # Keybindings for fzf
+        fzf-fish # Keybindings for fzf
         z # Z: easily navigate to previous directories, simply by name (it keeps history)
         sponge # Keeps Command History Clear from Typos
         puffer # Text Expansions for: !! (last command), .. (../) , !$ (last argument)

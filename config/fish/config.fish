@@ -19,7 +19,7 @@ status is-interactive; and begin
 
     # [[ Keybindings ]]
     bind \cx accept-autosuggestion
-    bind \cf fzf
+    # bind \cf fzf
 
     # [[ Environment Variables ]]
     set -gx PAGER less
@@ -37,6 +37,10 @@ status is-interactive; and begin
     fish_add_path $HOME/.local/share/flatpak/exports/share
     fish_add_path /usr/share
     fish_add_path /var/lib/flatpak/exports/share
+
+    # fzf-fish
+    set fzf_directory_opts --bind "ctrl-o:execute($EDITOR {} &> /dev/tty)"
+    fzf_configure_bindings --directory=\cf --history=\ch
 
     # cd wrapper for folder notifications
     function cd --wraps cd
