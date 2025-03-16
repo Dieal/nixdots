@@ -7,6 +7,13 @@ in
         ../modules/common.nix
     ];
 
+    # Fixes "Sqlite DB: command-not-found"
+    programs.nix-index =
+    {
+        enable = true;
+        enableFishIntegration = true;
+    };
+
     fonts.fontconfig.enable = true;
     home = {
         packages = with pkgs; [

@@ -3,19 +3,25 @@
 
   imports = [ ./shared.nix ];
 
+  networking.hostName = "desktop"; # Define your hostname.
+
   boot.loader = {
     grub = {
-      device = "/dev/sdc";
+      gfxmodeEfi = "1920x1080";
     };
   };
-
-  networking.hostName = "desktop"; # Define your hostname.
 
   # Graphical Environment
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
   };
+
+  swapDevices = [ {
+	  device = "/var/lib/swapfile";
+	  size = 32*1024;
+  } ];
+
 
   users.groups.dotfiles = {};
   users.groups.gamer = {};

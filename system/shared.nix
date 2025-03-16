@@ -6,7 +6,11 @@
       /etc/nixos/hardware-configuration.nix
     ];
 
+
   # Bootloader
+  # If you happen to have systemd-boot installed, remove it (/boot/EFI/BOOT/BOOTX64.EFI)
+  # To Install: sudo nixos-rebuild --install-bootloader boot --flake .#nixos --impure
+  # https://discourse.nixos.org/t/change-bootloader-to-grub/49947
   boot.loader = {
     systemd-boot.enable = false;
     grub = {
@@ -17,7 +21,12 @@
         background = "background_options/1.8  - [Classic Minecraft].png";
         boot-options-count = 4;
       };
+      efiSupport = true;
+      device = "nodev";
       useOSProber = true;
+    };
+    efi = {
+      canTouchEfiVariables = true;
     };
   };
 
@@ -134,6 +143,17 @@
     packages = with pkgs; [
       flatpak
     ];
+  };
+
+  security.sudo = {
+    extraRules = [{
+      commands = [
+        { command = "${pkgs.systemd}/bin/systemctl suspend"; options = [ "NOPASSWD" ]; }
+        { command = "${pkgs.systemd}/bin/reboot"; options = [ "NOPASSWD" ]; }
+        { command = "${pkgs.systemd}/bin/poweroff"; options = [ "NOPASSWD" ];
+        }
+      ];
+    }];
   };
 
   # Fingerprints Support
