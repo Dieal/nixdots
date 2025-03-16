@@ -1,4 +1,12 @@
-{pkgs, config, ...}: {
+{pkgs, config, ...}: 
+
+let
+jdkWithFX = pkgs.jdk.override {
+    enableJavaFX = true; # for JavaFX
+    openjfx_jdk = pkgs.openjfx.override { withWebKit = true; };
+};
+in
+{
 
     home.packages = with pkgs; [
         gnumake
@@ -14,7 +22,7 @@
         
         # Java
         maven
-        android-studio
+        jdkWithFX
 
         # Rust
         rustc

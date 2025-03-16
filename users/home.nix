@@ -12,13 +12,13 @@ in
         packages = with pkgs; [
 
             # ==== [[ DEV ]] ====
-            unrar-free
             tmux
             kitty
             busybox # Bundle of Unix Utilities
             less
             dbeaver-bin # SQL Client
             tealdeer # TLDR Command
+            nix-tree
 
             # ==== [[ FONTS ]] ====
             (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })
@@ -26,7 +26,9 @@ in
             
 
             # ==== [[ MISC ]] ====
+            rnote # Notes / Drawing app
             feather
+            signal-desktop
             stremio
             qbittorrent
             speedcrunch # Binary Calculator
@@ -35,11 +37,9 @@ in
             mupdf
             feh
             thunderbird
-            element-desktop # Matrix Client
             keepassxc
             syncthing
             yazi # Terminal File Manager with Vim Keybindings :)
-            vesktop # Discord Client to screenshare on wayland
             discord-canary
             telegram-desktop
             libreoffice-qt6-fresh

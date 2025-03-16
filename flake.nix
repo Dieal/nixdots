@@ -12,11 +12,6 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-        android-nixpkgs = {
-            url = "github:tadfisher/android-nixpkgs";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-
         home-manager = {
             url = "github:nix-community/home-manager/release-24.11";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -26,7 +21,7 @@
     # Function (THEY HAVE A SINGLE ARGUMENT) that takes an attribute set as arg
     # The inputs of the function are the ones we've declared above
     # This function can generate different outputs (packages, configurations, shells, ecc.)
-    outputs = { nixpkgs, home-manager, unstable, android-nixpkgs, ... } @ inputs: 
+    outputs = { nixpkgs, home-manager, unstable, ... } @ inputs: 
         let
             lib = nixpkgs.lib; # Nix Standard Libraries
             system = "x86_64-linux"; # System Architecture that needs to be specified when calling nixpkgs

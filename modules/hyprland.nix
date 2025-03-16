@@ -58,15 +58,12 @@
             startupNotify=true;
         };
 
-        vesktop = {
-            name = "Vesktop (X11)";
-            genericName = "Internet Messanger";
-            comment = "View and annotate documents";
-            exec = "env ELECTRON_OZONE_PLATFORM_HINT=wayland vesktop";
-            icon="vesktop";
-            # keywords= [ "discord" "vencord" "electron" "chat" ];
+        rnote = {
+            name = "rnote";
+            genericName = "Notetaking App";
+            exec = "env -u WAYLAND_DISPLAY rnote";
+            icon="rnote";
             terminal=false;
-            categories= [ "Network" "InstantMessaging" "Chat" ];
             startupNotify=true;
         };
     };

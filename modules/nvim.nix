@@ -10,7 +10,7 @@
         chafa
         fzf
         zathura # PDF Viewer for Latex
-        texliveMedium # LaTeX Compiler
+        # texliveMedium # LaTeX Compiler
         tree-sitter
 
         # ============================
@@ -22,7 +22,7 @@
         rust-analyzer
         ccls
         jdt-language-server # Java
-        jdk # JDK 21, required by jdt
+        # jdk # JDK 21, required by jdt
         lua-language-server
         nixd # Nix Language Server
         phpactor

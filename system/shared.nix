@@ -183,14 +183,7 @@
       gnutar
       unzip
       gzip
-      p7zip
-
-      # (pkgs.androidenv.emulateApp {
-      #   name = "emulate-MyAndroidApp";
-      #   platformVersion = "33";
-      #   abiVersion = "x86_64"; # armeabi-v7a, mips, x86_64
-      #   systemImageType = "google_apis_playstore";
-      # })
+      p7zip-rar
     ];
 
   # Some programs need SUID wrappers, can be configured further or are
