@@ -1,4 +1,12 @@
-{ pkgs, lib, config, unstable, ... }: {
+{ pkgs, lib, config, unstable, ... }: 
+
+let
+retroarchWithCores = (unstable.retroarch.withCores (cores: with cores; [
+      desmume
+      melonds
+]));
+in
+{
     home.packages = with pkgs; [
         # [[ GAMING ]]
         lutris
@@ -9,6 +17,7 @@
         gamescope
         mangohud
         prismlauncher  # MultiMC Fork (Minecraft)
+        retroarchWithCores
 
         # Steam Tinker Launch Dependencies
         steamtinkerlaunch
