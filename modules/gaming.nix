@@ -9,6 +9,9 @@ in
 {
     home.packages = with pkgs; [
         # [[ GAMING ]]
+        protontricks
+        winetricks
+
         lutris
         protonup-qt
         corefonts
@@ -23,8 +26,14 @@ in
         steamtinkerlaunch
         xdotool
         yad
+
+        # Skyrim
+        limo
+
+        # Euro Truck Simulator 2
+        # aitrack
+        # opentrack
+        # droidcam
     ] ++ [
-        unstable.protontricks
-        unstable.winetricks
     ];
 }

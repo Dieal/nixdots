@@ -27,6 +27,7 @@
       canTouchEfiVariables = true;
     };
   };
+  boot.supportedFilesystems = [ "ntfs" ];
 
 
   # ===================
@@ -44,6 +45,16 @@
 
   # Enables Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # /etc/hosts
+  networking.extraHosts = ''
+    192.168.1.69 dashy.local
+    192.168.1.69 planka.local
+    192.168.1.69 links.local
+    192.168.1.69 music.local
+    192.168.1.69 streaming.local
+    192.168.1.69 audiobooks.local
+  '';
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -93,19 +104,17 @@
   # services.xserver.displayManager.gdm.wayland = false;
 
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "it";
-    variant = "";
-  };
-
   # Configure console keymap
   console.keyMap = "it2";
 
   # Enable CUPS to print documents.
+  # To fix "No destination found" error or something like that,
+# # I think its necessary to replace nssmdns4 with nssmdns and to enable stateless
   services.printing.enable = true;
+  services.printing.stateless = true;
   services.avahi = { # Automatic printer discovery
     enable = true;
-    nssmdns4 = true;
+    nssmdns = true;
     openFirewall = true;
   };
 
@@ -129,35 +138,22 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  programs.noisetorch.enable = true;
   programs.fish.enable = true;
   users.users.dieal = {
     isNormalUser = true;
     description = "Dieal";
     extraGroups = [ "networkmanager" "wheel" "adbusers" ];
     shell = pkgs.fish;
-  };
-
-  users.users.dieal = {
     packages = with pkgs; [
       flatpak
     ];
   };
 
-  security.sudo = {
-    extraRules = [{
-      commands = [
-        { command = "${pkgs.systemd}/bin/systemctl suspend"; options = [ "NOPASSWD" ]; }
-        { command = "${pkgs.systemd}/bin/reboot"; options = [ "NOPASSWD" ]; }
-        { command = "${pkgs.systemd}/bin/poweroff"; options = [ "NOPASSWD" ];
-        }
-      ];
-    }];
-  };
-
   # Fingerprints Support
-  services.fprintd.enable = true;
-  services.fprintd.tod.enable = true;
-  services.fprintd.tod.driver = pkgs.libfprint-2-tod1-vfs0090;
+  # services.fprintd.enable = true;
+  # services.fprintd.tod.enable = true;
+  # services.fprintd.tod.driver = pkgs.libfprint-2-tod1-vfs0090;
 
   programs.firefox.enable = true;
   programs.steam.enable = true;
@@ -177,6 +173,17 @@
   users.groups.libvirtd.members = ["dieal"];
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  };
+
+  # Kernel Module for virtual camera
+  boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
+  boot.kernelModules = [ "v4l2loopback" ];
 
   environment.systemPackages = with pkgs; [
 

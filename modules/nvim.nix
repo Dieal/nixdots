@@ -12,6 +12,7 @@
         zathura # PDF Viewer for Latex
         # texliveMedium # LaTeX Compiler
         tree-sitter
+        sshfs # Plugin for Remote SSH access to machine 
 
         # ============================
         # == [[ LANGUAGE SERVERS ]] ==

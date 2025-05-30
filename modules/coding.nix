@@ -1,4 +1,4 @@
-{pkgs, config, ...}: 
+{pkgs, config, unstable, ...}: 
 
 let
 jdkWithFX = pkgs.jdk.override {

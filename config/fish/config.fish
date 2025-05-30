@@ -12,46 +12,42 @@ status is-interactive; and begin
     abbr --add -- tk 'tmux kill-session -t'
     abbr --add -- tl 'tmux ls'
     abbr --add -- waypaper 'waypaper --folder ~/dotfiles/config/hypr/wallpapers --backend hyprpaper'
+    abbr --add -- tp 'trash-put'
 
     # Aliases
     alias cat bat
     alias ls 'eza -l -g --icons --sort type'
+    alias poweroff 'systemctl poweroff'
+    alias reboot 'systemctl reboot'
+    alias rm 'echo "This is not the command you are looking for."; false'
 
     # [[ Keybindings ]]
     bind \cx accept-autosuggestion
-    # bind \cf fzf
+    bind \cf fzf
 
     # [[ Environment Variables ]]
     set -gx PAGER less
     set -gx EDITOR nvim
     set -gx SUDO_EDITOR nvim
     set -gx TERMINAL kitty
-    set -gx LUTRIS_SKIP_INIT 1
-    set -gx MOZ_USE_XINPUT2 1 # Touchpad Support
 
     # Paths
     fish_add_path $HOME/.local/bin
     fish_add_path $HOME/.npm-global/bin
-    fish_add_path $HOME/.cargo/bin
     fish_add_path $HOME/.config/composer/vendor/bin
     fish_add_path $HOME/.local/share/flatpak/exports/share
     fish_add_path /usr/share
     fish_add_path /var/lib/flatpak/exports/share
 
-    # fzf-fish
-    set fzf_directory_opts --bind "ctrl-o:execute($EDITOR {} &> /dev/tty)"
-    fzf_configure_bindings --directory=\cf --history=\ch
-
-    # cd wrapper for folder notifications
-    function cd --wraps cd
-        builtin cd $argv[1]
-        
-        if echo $PWD | grep -E 'dotfiles$' >/dev/null  # Folder is dotfiles
-            if git status | grep -e "Changes not staged for commit" -e "Your branch is ahead" >/dev/null
-                echo "There are changes in the config. Build the system again"
-            end
-        end
-    end
-
+    # cd wrapper
+    # function cd --wraps cd
+    #     builtin cd $argv[1]
+    #
+    #     echo $PWD | grep dotfiles
+    #     if $status = 0 # Folder is dotfiles
+    #         git status | grep -e "Changes not staged for commit" -e ""
+    #     end
+    #
+    # end
 
 end

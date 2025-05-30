@@ -25,6 +25,16 @@ return {
     -- See Commands section for default commands if you want to lazy load on them
   },
 
+  {
+    "ahdzib-maya/remote-sshfs.nvim",
+    branch = "fzf.nvim",
+    opts = {
+      -- Refer to the configuration section below
+      -- or leave empty for defaults
+      picker = "fzf",
+    },
+  },
+
   -- -- Saves / Restores Sessions
   -- 'tpope/vim-obsession',
 

@@ -11,6 +11,12 @@
     };
   };
 
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
+
   # Graphical Environment
   programs.hyprland = {
     enable = true;
@@ -22,6 +28,10 @@
 	  size = 32*1024;
   } ];
 
+  # For Hibernation: change offset and root partition if you reinstall nixos
+  powerManagement.enable = true;
+  boot.kernelParams = ["resume_offset=18980864"];
+  boot.resumeDevice = "/dev/disk/by-uuid/0d937ea9-52c4-4799-833b-c5c67bd7b9a0";
 
   users.groups.dotfiles = {};
   users.groups.gamer = {};

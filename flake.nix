@@ -4,16 +4,17 @@
 
     inputs = { 
         # I could name these as I liked.
-        nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+        # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11"; Old Version
+        nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
         unstable.url = "github:nixos/nixpkgs/nixos-unstable";
         minegrub-theme.url = "github:Lxtharia/minegrub-theme";
         zen-browser = {
             url = "github:0xc000022070/zen-browser-flake";
-            inputs.nixpkgs.follows = "nixpkgs";
+            inputs.nixpkgs.follows = "unstable";
         };
 
         home-manager = {
-            url = "github:nix-community/home-manager/release-24.11";
+            url = "github:nix-community/home-manager/release-25.05";
             inputs.nixpkgs.follows = "nixpkgs";
         };
     };
@@ -77,6 +78,7 @@
 
             devShells."x86_64-linux" = {
                 rust = import ./shells/rust.nix { inherit pkgs; };
+                python = import ./shells/python.nix { inherit pkgs; };
             };
         };
 }

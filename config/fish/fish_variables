@@ -11,7 +11,7 @@ SETUVAR Z_CMD:z
 SETUVAR Z_DATA:/home/dieal/\x2elocal/share/z/data
 SETUVAR Z_DATA_DIR:/home/dieal/\x2elocal/share/z
 SETUVAR Z_EXCLUDE:\x5e/home/dieal\x24
-SETUVAR __fish_initialized:3400
+SETUVAR __fish_initialized:3800
 SETUVAR fish_color_autosuggestion:brblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:blue
@@ -29,7 +29,7 @@ SETUVAR fish_color_operator:brcyan
 SETUVAR fish_color_param:cyan
 SETUVAR fish_color_quote:yellow
 SETUVAR fish_color_redirection:cyan\x1e\x2d\x2dbold
-SETUVAR fish_color_search_match:bryellow\x1e\x2d\x2dbackground\x3dbrblack
+SETUVAR fish_color_search_match:white\x1e\x2d\x2dbackground\x3dbrblack
 SETUVAR fish_color_selection:white\x1e\x2d\x2dbold\x1e\x2d\x2dbackground\x3dbrblack
 SETUVAR fish_color_status:red
 SETUVAR fish_color_user:brgreen
@@ -40,7 +40,7 @@ SETUVAR fish_pager_color_description:yellow\x1e\x2di
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR fish_pager_color_selected_background:\x2dr
-SETUVAR fish_user_paths:/home/dieal/\x2ecargo/bin\x1e/home/dieal/\x2econfig/composer/vendor/bin\x1e/home/dieal/\x2enpm\x2dglobal/bin
+SETUVAR fish_user_paths:/home/dieal/\x2elocal/bin\x1e/home/dieal/\x2ecargo/bin\x1e/home/dieal/\x2econfig/composer/vendor/bin\x1e/home/dieal/\x2enpm\x2dglobal/bin
 SETUVAR sponge_allow_previously_successful:true
 SETUVAR sponge_delay:2
 SETUVAR sponge_filters:sponge_filter_failed\x1esponge_filter_matched

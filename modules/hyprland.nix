@@ -15,6 +15,7 @@
         wev # Wayland Event Viewer (for reading keycodes)
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
+        dex # Autostart stuff in .config/autostart
         swaylock-effects # Lock screen
 
         # Update .desktop entries
@@ -43,6 +44,15 @@
         ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/waybar/";
         ".config/swaylock".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/swaylock/";
         ".local/share/icons/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/cursors/";
+        /* ".config/autostart/noisetorch.desktop".text = ''
+            [Desktop Entry]
+            Type=Application
+            Name=Enable Noisetorch
+            Comment=Enables noisetorch's virtual microphone 
+            Exec=noisetorch -i
+            StartupNotify=false
+            Terminal=false
+        ''; */
     };
 
 

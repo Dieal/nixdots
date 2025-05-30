@@ -1,7 +1,9 @@
+{ pkgs, unstable, lib, config, ... } @inputs: 
 let
     username = "dieal";
+    cfg = config.fonts;
 in
-{ pkgs, unstable, ... } @inputs: {
+{
 
     imports = [
         ../modules/common.nix
@@ -14,25 +16,41 @@ in
         enableFishIntegration = true;
     };
 
+    # Update nix cache with:
+    # fc-cache -f 
     fonts.fontconfig.enable = true;
     home = {
+
         packages = with pkgs; [
 
             # ==== [[ DEV ]] ====
             tmux
             kitty
-            busybox # Bundle of Unix Utilities
             less
             dbeaver-bin # SQL Client
-            tealdeer # TLDR Command
+            tealdeer # TLDR Command (soo useful)
             nix-tree
+            filezilla # FTP Client
+            ffmpeg
+            file
+            unrar-free
+            atool # Archive Tool
 
             # ==== [[ FONTS ]] ====
-            (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })
-            fira-code
+            # (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })
+            # fira-code
+            nerd-fonts.fira-code
             
-
             # ==== [[ MISC ]] ====
+            foliate # Epub Reader
+            ungoogled-chromium
+            trash-cli
+            feishin # Navidrone music player
+            vlc
+            mpv
+            scrcpy # Android screen mirroring with touch and sound
+            appimage-run
+            pinta # Paint alternative
             rnote # Notes / Drawing app
             feather
             signal-desktop
@@ -40,7 +58,7 @@ in
             qbittorrent
             speedcrunch # Binary Calculator
             localsend # Local File Sharing app
-            okular
+            kdePackages.okular
             mupdf
             feh
             thunderbird
@@ -73,7 +91,7 @@ in
 
         keyboard.layout = "it";
 
+        # DO NOT TOUCH
         stateVersion = "23.11";
     };
-
 }

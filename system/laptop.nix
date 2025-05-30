@@ -11,6 +11,11 @@
     xwayland.enable = true;
   };
 
+  services.xserver.xkb = {
+    layout = "it";
+    variant = "";
+  };
+
   environment.sessionVariables = {
      GDK_SCALE = "1.75";
   };

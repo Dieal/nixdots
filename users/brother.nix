@@ -15,7 +15,6 @@ in
             # ==== [[ DEV ]] ====
             unrar-free
             kitty
-            busybox # Bundle of Unix Utilities
             tealdeer # TLDR Command
 
             # ==== [[ FONTS ]] ====
