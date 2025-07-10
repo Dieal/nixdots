@@ -1,253 +1,356 @@
 { config, pkgs, ... }: {
-  imports =
-    [
-      /etc/nixos/hardware-configuration.nix
-    ];
+  imports = [
+    /etc/nixos/hardware-configuration.nix
+  ];
 
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                              SYSTEM CORE                                ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
 
-  # Bootloader
-  # If you happen to have systemd-boot installed, remove it (/boot/EFI/BOOT/BOOTX64.EFI)
-  # To Install: sudo nixos-rebuild --install-bootloader boot --flake .#nixos --impure
-  # https://discourse.nixos.org/t/change-bootloader-to-grub/49947
-  boot.loader = {
-    systemd-boot.enable = false;
-    grub = {
-      enable = true;
-      minegrub-theme = {
-        enable = true;
-        splash = "100% Flakes!";
-        background = "background_options/1.8  - [Classic Minecraft].png";
-        boot-options-count = 4;
-      };
-      efiSupport = true;
-      device = "nodev";
-      useOSProber = true;
-    };
-    efi = {
-      canTouchEfiVariables = true;
-    };
-  };
-  boot.supportedFilesystems = [ "ntfs" ];
+  # ┌─ NixOS Configuration ──────────────────────────────────────────────────┐
+  # │ This value determines the NixOS release from which the default         │
+  # │ settings for stateful data were taken. Don't change after install.    │
+  # └────────────────────────────────────────────────────────────────────────┘
+  system.stateVersion = "24.05";
 
-
-  # ===================
-  # [[ Network Setup ]]
-  # ===================
-  networking.networkmanager.enable = true;
-  networking.networkmanager.dns = "none"; # Disable Internal DNS
-
-  # These options are unnecessary when managing DNS ourselves
-  networking.useDHCP = false;
-  networking.dhcpcd.enable = false;
-
-  networking.nameservers = [ "9.9.9.9" "1.1.1.1" ]; # DNS
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Enables Flakes
+  # ┌─ Nix Package Manager Settings ─────────────────────────────────────────┐
+  # │ Enable experimental features like flakes and the new nix command       │
+  # │ Allow proprietary software installation                                │
+  # └────────────────────────────────────────────────────────────────────────┘
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
 
-  # /etc/hosts
-  networking.extraHosts = ''
-    192.168.1.69 dashy.local
-    192.168.1.69 planka.local
-    192.168.1.69 links.local
-    192.168.1.69 music.local
-    192.168.1.69 streaming.local
-    192.168.1.69 audiobooks.local
-  '';
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                               BOOT SYSTEM                               ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  # ┌─ Bootloader Configuration ──────────────────────────────────────────────┐
+  # │ Uses GRUB with Minecraft theme instead of systemd-boot                 │
+  # │ If systemd-boot is installed, remove /boot/EFI/BOOT/BOOTX64.EFI        │
+  # │ Install with: sudo nixos-rebuild --install-bootloader boot --flake .#nixos --impure │
+  # └────────────────────────────────────────────────────────────────────────┘
+  boot = {
+    loader = {
+      systemd-boot.enable = false;
+      grub = {
+        enable = true;
+        minegrub-theme = {
+          enable = true;
+          splash = "100% Flakes!";
+          background = "background_options/1.8  - [Classic Minecraft].png";
+          boot-options-count = 4;
+        };
+        efiSupport = true;
+        device = "nodev";
+        useOSProber = true; # Detect other operating systems
+      };
+      efi.canTouchEfiVariables = true;
+    };
 
-  # Set your time zone.
+    # ┌─ Filesystem & Kernel Support ───────────────────────────────────────┐
+    # │ NTFS: Support for Windows filesystems                               │
+    # │ v4l2loopback: Virtual camera support for OBS, video conferencing   │
+    # └──────────────────────────────────────────────────────────────────────┘
+    supportedFilesystems = [ "ntfs" ];
+    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+    kernelModules = [ "v4l2loopback" ];
+  };
+
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                           SYSTEM LOCALIZATION                           ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
+
+  # ┌─ Time & Region Settings ────────────────────────────────────────────────┐
+  # │ System timezone and locale configuration for Italy/Italian users       │
+  # └────────────────────────────────────────────────────────────────────────┘
   time.timeZone = "Europe/Rome";
+  
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS = "it_IT.UTF-8";
+      LC_IDENTIFICATION = "it_IT.UTF-8";
+      LC_MEASUREMENT = "it_IT.UTF-8";
+      LC_MONETARY = "it_IT.UTF-8";
+      LC_NAME = "it_IT.UTF-8";
+      LC_NUMERIC = "it_IT.UTF-8";
+      LC_PAPER = "it_IT.UTF-8";
+      LC_TELEPHONE = "it_IT.UTF-8";
+      LC_TIME = "it_IT.UTF-8";
+    };
+  };
+  
+  console.keyMap = "it2"; # Italian keyboard layout for console
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                              NETWORKING                                  ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "it_IT.UTF-8";
-    LC_IDENTIFICATION = "it_IT.UTF-8";
-    LC_MEASUREMENT = "it_IT.UTF-8";
-    LC_MONETARY = "it_IT.UTF-8";
-    LC_NAME = "it_IT.UTF-8";
-    LC_NUMERIC = "it_IT.UTF-8";
-    LC_PAPER = "it_IT.UTF-8";
-    LC_TELEPHONE = "it_IT.UTF-8";
-    LC_TIME = "it_IT.UTF-8";
+  networking = {
+    # ┌─ Network Management ─────────────────────────────────────────────────┐
+    # │ NetworkManager handles Wi-Fi, Ethernet, VPN connections             │
+    # │ DNS is managed manually instead of using internal resolver          │
+    # └──────────────────────────────────────────────────────────────────────┘
+    networkmanager = {
+      enable = true;
+      dns = "none"; # Disable internal DNS management
+    };
+    
+    # Disable conflicting DHCP services when using NetworkManager
+    useDHCP = false;
+    dhcpcd.enable = false;
+    
+    # ┌─ DNS Configuration ──────────────────────────────────────────────────┐
+    # │ 9.9.9.9: Quad9 - Security-focused DNS with malware blocking        │
+    # │ 1.1.1.1: Cloudflare - Fast, privacy-focused DNS                    │
+    # └──────────────────────────────────────────────────────────────────────┘
+    nameservers = [ "9.9.9.9" "1.1.1.1" ];
+    
+    # ┌─ Local Network Services ─────────────────────────────────────────────┐
+    # │ Custom hostnames for local server services (192.168.1.69)           │
+    # │ Allows accessing services via user-friendly names                   │
+    # └──────────────────────────────────────────────────────────────────────┘
+    extraHosts = ''
+      192.168.1.69 dashy.local       # Dashboard service
+      192.168.1.69 planka.local      # Project management
+      192.168.1.69 links.local       # Bookmark manager
+      192.168.1.69 music.local       # Music streaming
+      192.168.1.69 streaming.local   # Video streaming
+      192.168.1.69 lidarr.local      # Music collection manager
+      192.168.1.69 sonarr.local      # TV show manager
+      192.168.1.69 radarr.local      # Movie manager
+      192.168.1.69 memos.local       # Note-taking app
+      192.168.1.69 qbittorrent.local # Torrent client
+      192.168.1.69 npm.local         # Nginx Proxy Manager
+      192.168.1.69 audiobooks.local  # Audiobook server
+      192.168.1.69 seafile.local     # File synchronization
+      192.168.1.69 overseerr.local   # Request media
+    '';
+    
+    # ┌─ Firewall Rules ─────────────────────────────────────────────────────┐
+    # │ Port 53317: LocalSend file sharing application                      │
+    # └──────────────────────────────────────────────────────────────────────┘
+    firewall = {
+      allowedTCPPorts = [ 53317 ];
+      allowedUDPPorts = [ 53317 ];
+    };
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                           DESKTOP ENVIRONMENT                           ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
-
-  services.mullvad-vpn = {
+  # ┌─ Display Server & Desktop ──────────────────────────────────────────────┐
+  # │ GNOME desktop environment with GDM login manager                       │
+  # │ Wayland is enabled by default (comment out wayland = false)            │
+  # └────────────────────────────────────────────────────────────────────────┘
+  services.xserver = {
     enable = true;
-    package = pkgs.mullvad-vpn;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+    # displayManager.gdm.wayland = false; # Uncomment to force X11
   };
-
-  # Enable Hyprland
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
+  
+  services.libinput.enable = true; # Touchpad support for laptops
+  
+  # ┌─ Environment Variables ──────────────────────────────────────────────────┐
+  # │ Configure application backends and enable Wayland support              │
+  # │ Commented variables are for forcing X11 if Wayland causes issues       │
+  # └────────────────────────────────────────────────────────────────────────┘
   environment.sessionVariables = {
-    # GDK_BACKEND="x11";
-    SDL_VIDEODRIVER="x11";
-    CLUTTER_BACKEND="x11";
-    MOZ_ENABLE_WAYLAND = "1";
+    # GDK_BACKEND = "x11";           # Force GTK apps to use X11
+    SDL_VIDEODRIVER = "x11";         # Force SDL games to use X11
+    CLUTTER_BACKEND = "x11";         # Force Clutter apps to use X11
+    MOZ_ENABLE_WAYLAND = "1";        # Enable Wayland for Firefox
   };
 
-  # Uncomment to disable Wayland
-  # services.xserver.displayManager.gdm.wayland = false;
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                              HARDWARE                                   ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
 
-  # Configure keymap in X11
-  # Configure console keymap
-  console.keyMap = "it2";
-
-  # Enable CUPS to print documents.
-  # To fix "No destination found" error or something like that,
-# # I think its necessary to replace nssmdns4 with nssmdns and to enable stateless
-  services.printing.enable = true;
-  services.printing.stateless = true;
-  services.avahi = { # Automatic printer discovery
-    enable = true;
-    nssmdns = true;
-    openFirewall = true;
-  };
-
-
-  hardware = {
-    pulseaudio.enable = false;
-  };
-
+  # ┌─ Audio System ───────────────────────────────────────────────────────────┐
+  # │ PipeWire: Modern audio server replacing PulseAudio                     │
+  # │ Provides better latency and compatibility with professional audio      │
+  # │ rtkit: Real-time scheduling for audio processes                        │
+  # └────────────────────────────────────────────────────────────────────────┘
+  hardware.pulseaudio.enable = false; # Disabled in favor of PipeWire
   security.rtkit.enable = true;
+  
   services.pipewire = {
     enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    alsa = {
+      enable = true;
+      support32Bit = true; # Support for 32-bit applications
+    };
+    pulse.enable = true;   # PulseAudio compatibility layer
+    jack.enable = true;    # JACK compatibility for pro audio
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  programs.noisetorch.enable = true;
-  programs.fish.enable = true;
+  # ┌─ Printing System ────────────────────────────────────────────────────────┐
+  # │ CUPS printing with automatic printer discovery via Avahi/mDNS          │
+  # │ Stateless printing: doesn't save printer state between reboots         │
+  # └────────────────────────────────────────────────────────────────────────┘
+  services.printing = {
+    enable = true;
+    stateless = true; # Don't persist printer configuration
+  };
+  
+  services.avahi = {
+    enable = true;
+    nssmdns = true;    # Enable .local domain resolution
+    openFirewall = true; # Allow mDNS traffic through firewall
+  };
+
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                           USER MANAGEMENT                               ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
+
+  # ┌─ User Account Configuration ─────────────────────────────────────────────┐
+  # │ Main user 'dieal' with administrative privileges and development tools  │
+  # │ Groups: wheel (sudo), networkmanager, adbusers, libvirtd (VMs)         │
+  # └────────────────────────────────────────────────────────────────────────┘
   users.users.dieal = {
     isNormalUser = true;
     description = "Dieal";
-    extraGroups = [ "networkmanager" "wheel" "adbusers" ];
-    shell = pkgs.fish;
+    extraGroups = [ "networkmanager" "wheel" "adbusers" "libvirtd" ];
+    shell = pkgs.fish; # Fish shell as default
     packages = with pkgs; [
-      flatpak
+      flatpak # Universal package manager
     ];
   };
 
-  # Fingerprints Support
-  # services.fprintd.enable = true;
-  # services.fprintd.tod.enable = true;
-  # services.fprintd.tod.driver = pkgs.libfprint-2-tod1-vfs0090;
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                            VIRTUALIZATION                               ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
 
-  programs.firefox.enable = true;
-  programs.steam.enable = true;
-  programs.steam.gamescopeSession.enable = true;
-  programs.gamemode.enable = true;
-  programs.adb.enable = true;
-
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-
-  # Virtualizazion
+  # ┌─ Virtual Machine Management ─────────────────────────────────────────────┐
+  # │ libvirt/QEMU: Full system virtualization                               │
+  # │ virt-manager: GUI for managing VMs                                     │
+  # │ SPICE: Enhanced remote access to VMs                                   │
+  # └────────────────────────────────────────────────────────────────────────┘
   programs.virt-manager.enable = true;
-  users.groups.libvirtd.members = ["dieal"];
-  virtualisation.libvirtd.enable = true;
-  virtualisation.spiceUSBRedirection.enable = true;
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
+  users.groups.libvirtd.members = [ "dieal" ];
+  
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true; # USB passthrough to VMs
+    
+    # ┌─ Container Platform ─────────────────────────────────────────────────┐
+    # │ Docker with rootless mode for improved security                     │
+    # │ setSocketVariable: Automatically set DOCKER_HOST                    │
+    # └──────────────────────────────────────────────────────────────────────┘
+    docker = {
       enable = true;
-      setSocketVariable = true;
+      rootless = {
+        enable = true;
+        setSocketVariable = true;
+      };
     };
   };
 
-  # Kernel Module for virtual camera
-  boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
-  boot.kernelModules = [ "v4l2loopback" ];
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                               PROGRAMS                                  ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
+
+  programs = {
+    # ┌─ Essential Applications ─────────────────────────────────────────────┐
+    firefox.enable = true;     # Web browser
+    fish.enable = true;        # Modern shell with autocompletion
+    noisetorch.enable = true;  # Real-time noise suppression
+    adb.enable = true;         # Android Debug Bridge
+    wireshark.enable = true;
+    
+    # ┌─ Gaming Platform ────────────────────────────────────────────────────┐
+    # │ Steam: Game platform with Proton for Windows game compatibility     │
+    # │ GameScope: Wayland compositor optimized for gaming                  │
+    # │ GameMode: Optimizes system performance during gaming                │
+    # └──────────────────────────────────────────────────────────────────────┘
+    steam = {
+      enable = true;
+      gamescopeSession.enable = true; # Dedicated gaming session
+    };
+    gamemode.enable = true;
+  };
+
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                               SERVICES                                  ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
+
+  services = {
+    # ┌─ VPN Service ────────────────────────────────────────────────────────┐
+    # │ Mullvad: Privacy-focused VPN provider                               │
+    # └──────────────────────────────────────────────────────────────────────┘
+    mullvad-vpn = {
+      enable = true;
+      package = pkgs.mullvad-vpn;
+    };
+    
+    # ┌─ File Synchronization ───────────────────────────────────────────────┐
+    # │ Syncthing: Decentralized file sync between devices                  │
+    # │ Runs as user 'dieal' with data in ~/Documents                       │
+    # └──────────────────────────────────────────────────────────────────────┘
+    syncthing = {
+      enable = true;
+      group = "users";
+      user = "dieal";
+      dataDir = "/home/dieal/Documents";
+      configDir = "/home/dieal/.config/syncthing";
+    };
+  };
+  
+  # Prevent Syncthing from creating default ~/Sync folder
+  systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
+
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                            SYSTEM PACKAGES                              ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
 
   environment.systemPackages = with pkgs; [
+    # ┌─ Development Environment ────────────────────────────────────────────┐
+    fish           # Modern shell
+    git            # Version control
+    gcc            # C/C++ compiler
+    go             # Go programming language
+    nodejs_22      # JavaScript runtime
+    python3        # Python interpreter
+    gnumake        # Build automation tool
+    openssl
+    lm_sensors     # Temperature
+    
+    # ┌─ System Utilities ───────────────────────────────────────────────────┐
+    wget           # File downloader
+    curlMinimal    # HTTP client (minimal version)
+    v4l-utils      # Video4Linux utilities for camera management
+    
+    # ┌─ Audio Control Tools ────────────────────────────────────────────────┐
+    pulsemixer     # Terminal-based audio mixer
+    pavucontrol    # GUI audio control panel
+    
+    # ┌─ Nix Ecosystem Tools ────────────────────────────────────────────────┐
+    any-nix-shell  # Fish shell integration for nix-shell
+    nix-search-cli # Command-line package search
+    home-manager   # User environment management
+    
+    # ┌─ Archive & Compression ──────────────────────────────────────────────┐
+    gnutar         # TAR archiver
+    unzip          # ZIP extractor
+    gzip           # GZIP compression
+    p7zip-rar      # 
+  ];
 
-      # DEV
-      fish
-      wget
-      curlMinimal
-      git
-      gcc
-      go
-      nodejs_22
-      python3
-      gnumake
-      pulsemixer
-      pavucontrol
+  # ╔══════════════════════════════════════════════════════════════════════════╗
+  # ║                               SECURITY                                  ║
+  # ╚══════════════════════════════════════════════════════════════════════════╝
 
-      nix-search-cli
-      home-manager
-      v4l-utils
-
-      # Compression
-      gnutar
-      unzip
-      gzip
-      p7zip-rar
-    ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
+  # ┌─ Biometric Authentication (Disabled) ───────────────────────────────────┐
+  # │ Fingerprint support for compatible hardware                            │
+  # │ Uncomment and configure for your specific fingerprint reader           │
+  # └────────────────────────────────────────────────────────────────────────┘
+  # services.fprintd = {
   #   enable = true;
-  #   enableSSHSupport = true;
+  #   tod = {
+  #     enable = true;
+  #     driver = pkgs.libfprint-2-tod1-vfs0090; # Replace with your driver
+  #   };
   # };
-
-  # List services that you want to enable:
-
-  # ================
-  #  [[ SERVICES ]]
-  # ================
-  # services.openssh.enable = true;
-
-  services.syncthing = {
-    enable = true;
-    group = "users";
-    user = "dieal";
-    dataDir = "/home/dieal/Documents";
-    configDir = "/home/dieal/.config/syncthing";
-  };
-  systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true"; # Don't create default ~/Sync folder
-
-  # Open ports in the firewall.
-  # 53317: LocalSend
-  networking.firewall.allowedTCPPorts = [ 53317 ];
-  networking.firewall.allowedUDPPorts = [ 53317 ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
-
 }

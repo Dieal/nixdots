@@ -4,6 +4,8 @@ end
 
 status is-interactive; and begin
 
+    any-nix-shell fish --info-right | source # Start fish in nix-shell
+
     # Abbreviations
     abbr --add -- oo 'nvim $OBSIDIAN/obsidian.md'
     abbr --add -- t tmux

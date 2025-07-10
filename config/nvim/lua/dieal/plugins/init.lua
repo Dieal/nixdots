@@ -8,7 +8,17 @@ return {
   -- 'tpope/vim-sleuth',
 
   -- Notifications
-  'rcarriga/nvim-notify',
+  {
+    'rcarriga/nvim-notify',
+    opts = {
+      fps = 60,
+      render = "compact",
+      max_width = 20,
+    },
+    config = function ()
+      vim.notify = require("notify")
+    end
+  },
 
   {
     "CopilotC-Nvim/CopilotChat.nvim",
@@ -16,13 +26,32 @@ return {
       { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
       { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
     },
-    opts = {
-      -- See Configuration section for options
-    },
     config = function()
       vim.cmd("Copilot disable") -- Disables copilot by default
+      vim.keymap.set('i', '<C-a>', 'copilot#Accept("\\<CR>")', {
+        expr = true,
+        replace_keycodes = false
+      })
+      vim.g.copilot_no_tab_map = true
+
+      require('CopilotChat').setup({})
     end,
     -- See Commands section for default commands if you want to lazy load on them
+  },
+
+  {
+    "andweeb/presence.nvim",
+    config = function()
+      require("presence"):setup({
+        -- General options
+        auto_update = true, -- Will automatically update the rich presence status.
+        neovim_image_text = "The One True Text Editor",
+        main_image = "neovim",
+        log_level = "debug", -- Set to "debug" to see debug messages
+        debounce_timeout = 10, -- The amount of time in seconds to wait before updating the status.
+        show_time = false,
+      })
+    end,
   },
 
   {
@@ -87,7 +116,19 @@ return {
   { 'nvim-tree/nvim-web-devicons' },
 
   -- Terminal
-  { 'numToStr/FTerm.nvim', },
+  -- { 'numToStr/FTerm.nvim', },
+  -- -- Floating terminal
+  -- vim.keymap.set('n', '<A-t>', '<CMD>lua require("FTerm").toggle()<CR>', { desc = '[T]oggle Terminal' })
+  -- vim.keymap.set('t', '<A-t>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', { desc = '[T]oggle Terminal' })
+
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    opts = {
+      open_mapping = [[<a-t>]],
+      direction = 'float',
+    },
+  },
 
   -- Abolish.vim, to keep case when substituting words
   { 'tpope/vim-abolish' },

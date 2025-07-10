@@ -13,6 +13,7 @@ in
         winetricks
 
         lutris
+        heroic
         protonup-qt
         corefonts
         dxvk

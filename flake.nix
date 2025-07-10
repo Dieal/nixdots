@@ -10,7 +10,7 @@
         minegrub-theme.url = "github:Lxtharia/minegrub-theme";
         zen-browser = {
             url = "github:0xc000022070/zen-browser-flake";
-            inputs.nixpkgs.follows = "unstable";
+            inputs.nixpkgs.follows = "nixpkgs";
         };
 
         home-manager = {
@@ -28,7 +28,13 @@
             system = "x86_64-linux"; # System Architecture that needs to be specified when calling nixpkgs
 
             # We import the expression stored in "github.../nixpkgs/default.nix" and pass an attribute set with the "system" option
-            pkgs = import nixpkgs { inherit system; config.allowUnfree = true; }; # Equivalent to "{ system = system }"
+            pkgs = import nixpkgs {
+                inherit system;
+                config = {
+                    allowUnfree = true;
+                    android_sdk.accept_license = true;
+                };
+            }; # Equivalent to "{ system = system }"
             unstablePkgs = import unstable { inherit system; };
         in {
 

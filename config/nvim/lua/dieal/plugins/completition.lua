@@ -15,11 +15,22 @@ return {
       -- C-k: Toggle signature help
       --
       -- See the full "keymap" documentation for information on defining your own keymap.
+      completion = {
+        list = {
+          selection = { preselect = false, auto_insert = true }
+        },
+      },
       keymap = {
-        preset = 'enter',
-
+        preset = 'default',
+        ['<CR>'] = { 'accept', 'fallback' },
+        ['<C-a>'] = { 'show' },
         ['<Tab>'] = { 'select_next', 'fallback' },
         ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        ['<C-j>'] = { 'select_prev', 'fallback_to_mappings' },
+        ['<C-k>'] = { 'select_next', 'fallback_to_mappings' },
+
+        ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+        ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
       },
 
       appearance = {
@@ -49,7 +60,7 @@ return {
 },
 
   -- Inline Parameters
-  {
+  --[[ {
     "ray-x/lsp_signature.nvim",
     lazy = true,
     event = "LspAttach",
@@ -59,7 +70,7 @@ return {
         toggle_key = '<C-s>',
       })
     end
-  }
+  } ]]
 
   -- {
   --   -- Autocompletion

@@ -33,8 +33,9 @@ in
             filezilla # FTP Client
             ffmpeg
             file
-            unrar-free
-            atool # Archive Tool
+            android-studio-full # Android development IDE
+            unrar
+            atool
 
             # ==== [[ FONTS ]] ====
             # (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })
@@ -43,6 +44,7 @@ in
             
             # ==== [[ MISC ]] ====
             foliate # Epub Reader
+            jellyfin-media-player
             ungoogled-chromium
             trash-cli
             feishin # Navidrone music player
@@ -65,7 +67,7 @@ in
             keepassxc
             syncthing
             yazi # Terminal File Manager with Vim Keybindings :)
-            discord-canary
+            discord
             telegram-desktop
             libreoffice-qt6-fresh
             sutils # Battery and CPU Monitor

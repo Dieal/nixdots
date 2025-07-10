@@ -28,7 +28,7 @@ in
             mupdf
             feh
             keepassxc
-            discord-canary
+            discord
             telegram-desktop
             sutils # Battery and CPU Monitor
             htop

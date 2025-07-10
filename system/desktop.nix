@@ -11,6 +11,11 @@
     };
   };
 
+  # To check if SSD supports TRIM, run:
+  # lsblk --discard
+  # and check the "DISC-GRAN" and "DISC-MAX" columns. They should not be "0".
+  # If they are "0", your SSD does not support TRIM. https://wiki.archlinux.org/title/Solid_state_drive
+  services.fstrim.enable = true; # Enable periodic TRIM for SSD
   services.xserver.xkb = {
     layout = "us";
     variant = "";
