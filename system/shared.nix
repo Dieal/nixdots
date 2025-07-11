@@ -342,11 +342,31 @@
   # ║                               SECURITY                                  ║
   # ╚══════════════════════════════════════════════════════════════════════════╝
 
+<<<<<<< Updated upstream
   # ┌─ Biometric Authentication (Disabled) ───────────────────────────────────┐
   # │ Fingerprint support for compatible hardware                            │
   # │ Uncomment and configure for your specific fingerprint reader           │
   # └────────────────────────────────────────────────────────────────────────┘
   # services.fprintd = {
+=======
+      nix-search-cli
+      home-manager
+      v4l-utils
+
+      # Compression
+      gnutar
+      unzip
+      gzip
+      p7zip-rar
+
+      android-studio-full
+    ];
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+>>>>>>> Stashed changes
   #   enable = true;
   #   tod = {
   #     enable = true;

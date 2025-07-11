@@ -1,4 +1,4 @@
-{pkgs, config, unstable, ...}: 
+{pkgs, config, unstable, lib, ...}: 
 
 let
 jdkWithFX = pkgs.jdk.override {
@@ -7,29 +7,33 @@ jdkWithFX = pkgs.jdk.override {
 };
 in
 {
+    nixpkgs.config.android_sdk.accept_license = true;
+    home = {
+        packages = with pkgs; [
+            gnumake
 
-    home.packages = with pkgs; [
-        gnumake
+            live-server
 
-        live-server
+            # PHP
+            php84
+            php84Packages.composer
 
-        # PHP
-        php84
-        php84Packages.composer
+            # Python
+            uv # Python Package Manager
+            
+            # Java
+            maven
+            jdkWithFX
 
-        # Python
-        uv # Python Package Manager
-        
-        # Java
-        maven
-        jdkWithFX
+            # Rust
+            rustc
+            clippy
+            cargo
 
-        # Rust
-        rustc
-        clippy
-        cargo
+            # RISC-V
+            rars
 
-        # RISC-V
-        rars
-    ];
+            android-studio
+        ];
+    };
 }

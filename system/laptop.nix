@@ -5,6 +5,11 @@
   # Machine name
   networking.hostName = "laptop"; # Define your hostname.
 
+  # Wireguard
+  # networking.wireguard.enable = true;
+  environment.systemPackages = [ pkgs.wireguard-tools ];
+
+
   # Graphical Environment
   programs.hyprland = {
     enable = true;

@@ -1,6 +1,6 @@
 .PHONY: home
 home:
-	home-manager switch --flake .#dieal
+	home-manager -v switch --flake .#dieal
 
 .PHONY: brother
 brother:

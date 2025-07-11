@@ -18,6 +18,7 @@ in
 
     # Update nix cache with:
     # fc-cache -f 
+    nixpkgs.config.allowUnfree = true;
     fonts.fontconfig.enable = true;
     home = {
 

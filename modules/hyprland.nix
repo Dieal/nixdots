@@ -4,7 +4,9 @@
         # == [ UTILS ] ==
         dunst # Notification daemon
         cliphist # Clipboard Manager
-        overskride # Bluetooth Manager
+        # overskride # Bluetooth Manager
+        kdePackages.bluedevil
+        blueman
         networkmanagerapplet # Network Manager Applet
         bemoji # Emoji Picker, support for Rofi
         wtype # Typing Indicator, required for bemoji
