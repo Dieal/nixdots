@@ -36,6 +36,7 @@ in
             android-studio-full # Android development IDE
             unrar
             atool
+            gh                  # Github CLI (for authentication)
 
             # ==== [[ FONTS ]] ====
             # (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })
