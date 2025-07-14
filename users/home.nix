@@ -34,7 +34,7 @@ in
             filezilla # FTP Client
             ffmpeg
             file
-            android-studio-full # Android development IDE
+            # android-studio-full # Android development IDE
             unrar
             atool
             gh                  # Github CLI (for authentication)

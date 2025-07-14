@@ -93,7 +93,7 @@
     # └──────────────────────────────────────────────────────────────────────┘
     networkmanager = {
       enable = true;
-      dns = "none"; # Disable internal DNS management
+      # dns = "none"; # Disable internal DNS management
     };
     
     # Disable conflicting DHCP services when using NetworkManager
@@ -105,7 +105,7 @@
     # │ 1.1.1.1: Cloudflare - Fast, privacy-focused DNS                    │
     # └──────────────────────────────────────────────────────────────────────┘
     nameservers = [ "9.9.9.9" "1.1.1.1" ];
-    
+
     # ┌─ Local Network Services ─────────────────────────────────────────────┐
     # │ Custom hostnames for local server services (192.168.1.69)           │
     # │ Allows accessing services via user-friendly names                   │
@@ -135,6 +135,14 @@
       allowedUDPPorts = [ 53317 ];
     };
   };
+  services.resolved = {
+    enable = true;
+    dnssec = "true";
+    domains = [ "~." ];
+    fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+    dnsovertls = "true";
+  };
+
 
   # ╔══════════════════════════════════════════════════════════════════════════╗
   # ║                           DESKTOP ENVIRONMENT                           ║
@@ -342,31 +350,15 @@
   # ║                               SECURITY                                  ║
   # ╚══════════════════════════════════════════════════════════════════════════╝
 
-<<<<<<< Updated upstream
   # ┌─ Biometric Authentication (Disabled) ───────────────────────────────────┐
   # │ Fingerprint support for compatible hardware                            │
   # │ Uncomment and configure for your specific fingerprint reader           │
   # └────────────────────────────────────────────────────────────────────────┘
-  # services.fprintd = {
-=======
-      nix-search-cli
-      home-manager
-      v4l-utils
-
-      # Compression
-      gnutar
-      unzip
-      gzip
-      p7zip-rar
-
-      android-studio-full
-    ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
->>>>>>> Stashed changes
   #   enable = true;
   #   tod = {
   #     enable = true;

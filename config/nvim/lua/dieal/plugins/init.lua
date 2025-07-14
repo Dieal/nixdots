@@ -15,7 +15,7 @@ return {
       render = "compact",
       max_width = 20,
     },
-    config = function ()
+    config = function()
       vim.notify = require("notify")
     end
   },
@@ -23,12 +23,12 @@ return {
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
-      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+      { "github/copilot.vim" },                       -- or zbirenbaum/copilot.lua
       { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
     },
     config = function()
       vim.cmd("Copilot disable") -- Disables copilot by default
-      vim.keymap.set('i', '<C-a>', 'copilot#Accept("\\<CR>")', {
+      vim.keymap.set('i', '<C-x>', 'copilot#Accept("\\<CR>")', {
         expr = true,
         replace_keycodes = false
       })
@@ -41,13 +41,14 @@ return {
 
   {
     "andweeb/presence.nvim",
+    enabled = false,
     config = function()
       require("presence"):setup({
         -- General options
         auto_update = true, -- Will automatically update the rich presence status.
         neovim_image_text = "The One True Text Editor",
         main_image = "neovim",
-        log_level = "debug", -- Set to "debug" to see debug messages
+        log_level = "debug",   -- Set to "debug" to see debug messages
         debounce_timeout = 10, -- The amount of time in seconds to wait before updating the status.
         show_time = false,
       })
@@ -78,26 +79,26 @@ return {
   {
     "malbertzard/inline-fold.nvim",
     lazy = true,
-    ft = {'php', 'html', 'blade'},
-    config = function ()
+    ft = { 'php', 'html', 'blade' },
+    config = function()
       require('inline-fold').setup({
         defaultPlaceholder = "…",
         queries = {
           -- Some examples you can use
           html = {
             { pattern = 'class="([^"]*)"' }, -- classes in html
-            { pattern = 'href="(.-)"' }, -- hrefs in html
-            { pattern = 'src="(.-)"' }, -- HTML img src attribute
+            { pattern = 'href="(.-)"' },     -- hrefs in html
+            { pattern = 'src="(.-)"' },      -- HTML img src attribute
           },
           php = {
             { pattern = 'class="([^"]*)"' }, -- classes in html
-            { pattern = 'href="(.-)"' }, -- hrefs in html
-            { pattern = 'src="(.-)"' }, -- HTML img src attribute
+            { pattern = 'href="(.-)"' },     -- hrefs in html
+            { pattern = 'src="(.-)"' },      -- HTML img src attribute
           },
           blade = {
             { pattern = 'class="([^"]*)"' }, -- classes in html
-            { pattern = 'href="(.-)"' }, -- hrefs in html
-            { pattern = 'src="(.-)"' }, -- HTML img src attribute
+            { pattern = 'href="(.-)"' },     -- hrefs in html
+            { pattern = 'src="(.-)"' },      -- HTML img src attribute
           },
         },
       })
@@ -152,7 +153,6 @@ return {
 
   { 'mg979/vim-visual-multi', },
 
-
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
@@ -164,7 +164,7 @@ return {
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',  opts = {} },
 
   -- Folding
   {
@@ -175,7 +175,7 @@ return {
     },
     config = function()
       vim.o.foldcolumn = '1' -- '0' is not bad
-      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
 

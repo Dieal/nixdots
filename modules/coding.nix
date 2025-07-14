@@ -1,39 +1,43 @@
-{pkgs, config, unstable, lib, ...}: 
-
-let
-jdkWithFX = pkgs.jdk.override {
-    enableJavaFX = true; # for JavaFX
-    openjfx_jdk = pkgs.openjfx.override { withWebKit = true; };
-};
-in
 {
-    nixpkgs.config.android_sdk.accept_license = true;
-    home = {
-        packages = with pkgs; [
-            gnumake
+  pkgs,
+  config,
+  unstable,
+  lib,
+  ...
+}: let
+  jdkWithFX = pkgs.jdk.override {
+    enableJavaFX = true; # for JavaFX
+    openjfx_jdk = pkgs.openjfx.override {withWebKit = true;};
+  };
+in {
+  nixpkgs.config.android_sdk.accept_license = true;
+  home = {
+    packages = with pkgs; [
+      gnumake
 
-            live-server
+      live-server
 
-            # PHP
-            php84
-            php84Packages.composer
+      # PHP
+      php84
+      php84Packages.composer
 
-            # Python
-            uv # Python Package Manager
-            
-            # Java
-            maven
-            jdkWithFX
+      # Python
+      uv # Python Package Manager
 
-            # Rust
-            rustc
-            clippy
-            cargo
+      # Java
+      maven
+      jdkWithFX
+      jetbrains.idea-ultimate
 
-            # RISC-V
-            rars
+      # Rust
+      rustc
+      clippy
+      cargo
 
-            android-studio
-        ];
-    };
+      # RISC-V
+      rars
+
+      # android-studio
+    ];
+  };
 }

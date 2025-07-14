@@ -6,9 +6,12 @@
   networking.hostName = "laptop"; # Define your hostname.
 
   # Wireguard
+  networking.wireguard.enable = true;
+  networking.firewall.allowedUDPPorts = [ 51820 ];
+
+  # Wireguard
   # networking.wireguard.enable = true;
   environment.systemPackages = [ pkgs.wireguard-tools ];
-
 
   # Graphical Environment
   programs.hyprland = {
