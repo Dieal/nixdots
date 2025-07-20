@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     /etc/nixos/hardware-configuration.nix
   ];
@@ -17,7 +21,7 @@
   # │ Enable experimental features like flakes and the new nix command       │
   # │ Allow proprietary software installation                                │
   # └────────────────────────────────────────────────────────────────────────┘
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   nixpkgs.config.allowUnfree = true;
 
   # ╔══════════════════════════════════════════════════════════════════════════╗
@@ -51,9 +55,9 @@
     # │ NTFS: Support for Windows filesystems                               │
     # │ v4l2loopback: Virtual camera support for OBS, video conferencing   │
     # └──────────────────────────────────────────────────────────────────────┘
-    supportedFilesystems = [ "ntfs" ];
-    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
-    kernelModules = [ "v4l2loopback" ];
+    supportedFilesystems = ["ntfs"];
+    extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
+    kernelModules = ["v4l2loopback"];
   };
 
   # ╔══════════════════════════════════════════════════════════════════════════╗
@@ -64,7 +68,7 @@
   # │ System timezone and locale configuration for Italy/Italian users       │
   # └────────────────────────────────────────────────────────────────────────┘
   time.timeZone = "Europe/Rome";
-  
+
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
@@ -79,7 +83,7 @@
       LC_TIME = "it_IT.UTF-8";
     };
   };
-  
+
   console.keyMap = "it2"; # Italian keyboard layout for console
 
   # ╔══════════════════════════════════════════════════════════════════════════╗
@@ -95,16 +99,16 @@
       enable = true;
       # dns = "none"; # Disable internal DNS management
     };
-    
+
     # Disable conflicting DHCP services when using NetworkManager
     useDHCP = false;
     dhcpcd.enable = false;
-    
+
     # ┌─ DNS Configuration ──────────────────────────────────────────────────┐
     # │ 9.9.9.9: Quad9 - Security-focused DNS with malware blocking        │
     # │ 1.1.1.1: Cloudflare - Fast, privacy-focused DNS                    │
     # └──────────────────────────────────────────────────────────────────────┘
-    nameservers = [ "9.9.9.9" "1.1.1.1" ];
+    nameservers = ["9.9.9.9" "1.1.1.1"];
 
     # ┌─ Local Network Services ─────────────────────────────────────────────┐
     # │ Custom hostnames for local server services (192.168.1.69)           │
@@ -126,23 +130,22 @@
       192.168.1.69 seafile.local     # File synchronization
       192.168.1.69 overseerr.local   # Request media
     '';
-    
+
     # ┌─ Firewall Rules ─────────────────────────────────────────────────────┐
     # │ Port 53317: LocalSend file sharing application                      │
     # └──────────────────────────────────────────────────────────────────────┘
     firewall = {
-      allowedTCPPorts = [ 53317 ];
-      allowedUDPPorts = [ 53317 ];
+      allowedTCPPorts = [53317];
+      allowedUDPPorts = [53317];
     };
   };
   services.resolved = {
     enable = true;
     dnssec = "true";
-    domains = [ "~." ];
-    fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+    domains = ["~."];
+    fallbackDns = ["1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one"];
     dnsovertls = "true";
   };
-
 
   # ╔══════════════════════════════════════════════════════════════════════════╗
   # ║                           DESKTOP ENVIRONMENT                           ║
@@ -158,18 +161,18 @@
     desktopManager.gnome.enable = true;
     # displayManager.gdm.wayland = false; # Uncomment to force X11
   };
-  
+
   services.libinput.enable = true; # Touchpad support for laptops
-  
+
   # ┌─ Environment Variables ──────────────────────────────────────────────────┐
   # │ Configure application backends and enable Wayland support              │
   # │ Commented variables are for forcing X11 if Wayland causes issues       │
   # └────────────────────────────────────────────────────────────────────────┘
   environment.sessionVariables = {
     # GDK_BACKEND = "x11";           # Force GTK apps to use X11
-    SDL_VIDEODRIVER = "x11";         # Force SDL games to use X11
-    CLUTTER_BACKEND = "x11";         # Force Clutter apps to use X11
-    MOZ_ENABLE_WAYLAND = "1";        # Enable Wayland for Firefox
+    SDL_VIDEODRIVER = "x11"; # Force SDL games to use X11
+    CLUTTER_BACKEND = "x11"; # Force Clutter apps to use X11
+    MOZ_ENABLE_WAYLAND = "1"; # Enable Wayland for Firefox
   };
 
   # ╔══════════════════════════════════════════════════════════════════════════╗
@@ -183,15 +186,15 @@
   # └────────────────────────────────────────────────────────────────────────┘
   hardware.pulseaudio.enable = false; # Disabled in favor of PipeWire
   security.rtkit.enable = true;
-  
+
   services.pipewire = {
     enable = true;
     alsa = {
       enable = true;
       support32Bit = true; # Support for 32-bit applications
     };
-    pulse.enable = true;   # PulseAudio compatibility layer
-    jack.enable = true;    # JACK compatibility for pro audio
+    pulse.enable = true; # PulseAudio compatibility layer
+    jack.enable = true; # JACK compatibility for pro audio
   };
 
   # ┌─ Printing System ────────────────────────────────────────────────────────┐
@@ -202,10 +205,10 @@
     enable = true;
     stateless = true; # Don't persist printer configuration
   };
-  
+
   services.avahi = {
     enable = true;
-    nssmdns = true;    # Enable .local domain resolution
+    nssmdns = true; # Enable .local domain resolution
     openFirewall = true; # Allow mDNS traffic through firewall
   };
 
@@ -220,7 +223,7 @@
   users.users.dieal = {
     isNormalUser = true;
     description = "Dieal";
-    extraGroups = [ "networkmanager" "wheel" "adbusers" "libvirtd" ];
+    extraGroups = ["networkmanager" "wheel" "adbusers" "libvirtd"];
     shell = pkgs.fish; # Fish shell as default
     packages = with pkgs; [
       flatpak # Universal package manager
@@ -237,12 +240,12 @@
   # │ SPICE: Enhanced remote access to VMs                                   │
   # └────────────────────────────────────────────────────────────────────────┘
   programs.virt-manager.enable = true;
-  users.groups.libvirtd.members = [ "dieal" ];
-  
+  users.groups.libvirtd.members = ["dieal"];
+
   virtualisation = {
     libvirtd.enable = true;
     spiceUSBRedirection.enable = true; # USB passthrough to VMs
-    
+
     # ┌─ Container Platform ─────────────────────────────────────────────────┐
     # │ Docker with rootless mode for improved security                     │
     # │ setSocketVariable: Automatically set DOCKER_HOST                    │
@@ -262,12 +265,12 @@
 
   programs = {
     # ┌─ Essential Applications ─────────────────────────────────────────────┐
-    firefox.enable = true;     # Web browser
-    fish.enable = true;        # Modern shell with autocompletion
-    noisetorch.enable = true;  # Real-time noise suppression
-    adb.enable = true;         # Android Debug Bridge
+    firefox.enable = true; # Web browser
+    fish.enable = true; # Modern shell with autocompletion
+    noisetorch.enable = true; # Real-time noise suppression
+    adb.enable = true; # Android Debug Bridge
     wireshark.enable = true;
-    
+
     # ┌─ Gaming Platform ────────────────────────────────────────────────────┐
     # │ Steam: Game platform with Proton for Windows game compatibility     │
     # │ GameScope: Wayland compositor optimized for gaming                  │
@@ -292,7 +295,9 @@
       enable = true;
       package = pkgs.mullvad-vpn;
     };
-    
+
+    input-remapper.enable = true;
+
     # ┌─ File Synchronization ───────────────────────────────────────────────┐
     # │ Syncthing: Decentralized file sync between devices                  │
     # │ Runs as user 'dieal' with data in ~/Documents                       │
@@ -305,7 +310,7 @@
       configDir = "/home/dieal/.config/syncthing";
     };
   };
-  
+
   # Prevent Syncthing from creating default ~/Sync folder
   systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
 
@@ -315,35 +320,35 @@
 
   environment.systemPackages = with pkgs; [
     # ┌─ Development Environment ────────────────────────────────────────────┐
-    fish           # Modern shell
-    git            # Version control
-    gcc            # C/C++ compiler
-    go             # Go programming language
-    nodejs_22      # JavaScript runtime
-    python3        # Python interpreter
-    gnumake        # Build automation tool
+    fish # Modern shell
+    git # Version control
+    gcc # C/C++ compiler
+    go # Go programming language
+    nodejs_22 # JavaScript runtime
+    python3 # Python interpreter
+    gnumake # Build automation tool
     openssl
-    lm_sensors     # Temperature
-    
+    lm_sensors # Temperature
+
     # ┌─ System Utilities ───────────────────────────────────────────────────┐
-    wget           # File downloader
-    curlMinimal    # HTTP client (minimal version)
-    v4l-utils      # Video4Linux utilities for camera management
-    
+    wget # File downloader
+    curlMinimal # HTTP client (minimal version)
+    v4l-utils # Video4Linux utilities for camera management
+
     # ┌─ Audio Control Tools ────────────────────────────────────────────────┐
-    pulsemixer     # Terminal-based audio mixer
-    pavucontrol    # GUI audio control panel
-    
+    pulsemixer # Terminal-based audio mixer
+    pavucontrol # GUI audio control panel
+
     # ┌─ Nix Ecosystem Tools ────────────────────────────────────────────────┐
-    any-nix-shell  # Fish shell integration for nix-shell
+    any-nix-shell # Fish shell integration for nix-shell
     nix-search-cli # Command-line package search
-    home-manager   # User environment management
-    
+    home-manager # User environment management
+
     # ┌─ Archive & Compression ──────────────────────────────────────────────┐
-    gnutar         # TAR archiver
-    unzip          # ZIP extractor
-    gzip           # GZIP compression
-    p7zip-rar      # 
+    gnutar # TAR archiver
+    unzip # ZIP extractor
+    gzip # GZIP compression
+    p7zip-rar #
   ];
 
   # ╔══════════════════════════════════════════════════════════════════════════╗
