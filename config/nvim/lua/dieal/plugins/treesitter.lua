@@ -30,12 +30,12 @@ return {
 
       auto_install = false,
 
-      ignore_install = {'dart'},
+      ignore_install = { 'dart' },
 
       highlight = { enable = true },
       indent = {
         enable = false,
-        disable = {'dart, php, yaml, yml'},
+        disable = { 'dart, php, yaml, yml' },
       },
       incremental_selection = {
         enable = true,
@@ -93,8 +93,7 @@ return {
 
     },
     config = function(_, opts)
-
-      --[[ 
+      --[[
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 
       -- Laravel Blade Parser
@@ -118,7 +117,6 @@ return {
       -- [[ Configure Treesitter ]]
       -- See `:help nvim-treesitter`
       require('nvim-treesitter.configs').setup(opts)
-
     end
   },
 
@@ -131,10 +129,10 @@ return {
   -- Neovim plugin for splitting/joining blocks of code
   {
     'Wansmer/treesj',
-    keys = { '<space>m', '<space>j', '<space>s' },
+    keys = { '<space>tm', '<space>tj', '<space>ts' },     -- [T]ree [M]..., [T]ree [j]..., [T]ree [S]plit
     dependencies = { 'nvim-treesitter/nvim-treesitter' }, -- if you install parsers with `nvim-treesitter`
     config = function()
-      require('treesj').setup({--[[ your config ]]})
+      require('treesj').setup({ --[[ your config ]] })
     end,
   }
 }

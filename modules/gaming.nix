@@ -1,40 +1,46 @@
-{ pkgs, lib, config, unstable, ... }: 
-
-let
-retroarchWithCores = (unstable.retroarch.withCores (cores: with cores; [
+{
+  pkgs,
+  lib,
+  config,
+  unstable,
+  ...
+}: let
+  retroarchWithCores = unstable.retroarch.withCores (cores:
+    with cores; [
       desmume
       melonds
-]));
-in
-{
-    home.packages = with pkgs; [
-        # [[ GAMING ]]
-        protontricks
-        winetricks
+    ]);
+in {
+  home.packages = with pkgs;
+    [
+      # [[ GAMING ]]
+      protontricks
+      winetricks
 
-        lutris
-        heroic
-        protonup-qt
-        corefonts
-        dxvk
-        wineWowPackages.staging
-        gamescope
-        mangohud
-        prismlauncher  # MultiMC Fork (Minecraft)
-        retroarchWithCores
+      lutris
+      heroic
+      protonup-qt
+      corefonts
+      dxvk
+      wineWowPackages.staging
+      mangohud
+      prismlauncher # MultiMC Fork (Minecraft)
+      # retroarchWithCores
 
-        # Steam Tinker Launch Dependencies
-        steamtinkerlaunch
-        xdotool
-        yad
+      # Steam Tinker Launch Dependencies
+      steamtinkerlaunch
+      xdotool
+      yad
 
-        # Skyrim
-        limo
+      # Skyrim
+      limo
 
-        # Euro Truck Simulator 2
-        # aitrack
-        # opentrack
-        # droidcam
-    ] ++ [
+      # Euro Truck Simulator 2
+      # aitrack
+      # opentrack
+      # droidcam
+    ]
+    ++ [
+      unstable. osu-lazer-bin
     ];
 }

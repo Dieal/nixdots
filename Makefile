@@ -26,3 +26,7 @@ desktop:
 .PHONY: clean
 clean:
 	nix-collect-garbage -d
+
+.PHONY: update
+clean:
+	nix flake lock --update-input unstable

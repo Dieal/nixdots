@@ -116,6 +116,9 @@
     # └──────────────────────────────────────────────────────────────────────┘
     extraHosts = ''
       192.168.1.69 dashy.local       # Dashboard service
+      192.168.1.69 immich.local      # Image Gallery
+      192.168.1.69 pihole.local      # Pihole DNS
+      192.168.1.69 radiscale.local   # Radiscale
       192.168.1.69 planka.local      # Project management
       192.168.1.69 links.local       # Bookmark manager
       192.168.1.69 music.local       # Music streaming
@@ -128,15 +131,20 @@
       192.168.1.69 npm.local         # Nginx Proxy Manager
       192.168.1.69 audiobooks.local  # Audiobook server
       192.168.1.69 seafile.local     # File synchronization
-      192.168.1.69 overseerr.local   # Request media
+      192.168.1.69 jellyseer.local   # Request media
+      192.168.1.69 vault.dieal.me
     '';
 
     # ┌─ Firewall Rules ─────────────────────────────────────────────────────┐
     # │ Port 53317: LocalSend file sharing application                      │
+    # │ Port 22000 / 21027: Syncthing
     # └──────────────────────────────────────────────────────────────────────┘
     firewall = {
-      allowedTCPPorts = [53317];
-      allowedUDPPorts = [53317];
+      allowedTCPPorts = [
+        53317
+        22000
+      ];
+      allowedUDPPorts = [53317 21027];
     };
   };
   services.resolved = {
@@ -170,9 +178,11 @@
   # └────────────────────────────────────────────────────────────────────────┘
   environment.sessionVariables = {
     # GDK_BACKEND = "x11";           # Force GTK apps to use X11
-    SDL_VIDEODRIVER = "x11"; # Force SDL games to use X11
+    SDL_VIDEODRIVER = "wayland"; # Force SDL games to use X11
     CLUTTER_BACKEND = "x11"; # Force Clutter apps to use X11
     MOZ_ENABLE_WAYLAND = "1"; # Enable Wayland for Firefox
+    JAVA_AWT_WM_NONREPARENTING = "1";
+    QT_QPA_PLATFORM = "wayland";
   };
 
   # ╔══════════════════════════════════════════════════════════════════════════╗
@@ -184,7 +194,8 @@
   # │ Provides better latency and compatibility with professional audio      │
   # │ rtkit: Real-time scheduling for audio processes                        │
   # └────────────────────────────────────────────────────────────────────────┘
-  hardware.pulseaudio.enable = false; # Disabled in favor of PipeWire
+  hardware.opentabletdriver.enable = true;
+  services.pulseaudio.enable = false; # Disabled in favor of PipeWire
   security.rtkit.enable = true;
 
   services.pipewire = {
@@ -195,6 +206,17 @@
     };
     pulse.enable = true; # PulseAudio compatibility layer
     jack.enable = true; # JACK compatibility for pro audio
+  };
+
+  services.blueman.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true; # Show battery charge of Bluetooth devices
+      };
+    };
   };
 
   # ┌─ Printing System ────────────────────────────────────────────────────────┐
@@ -281,6 +303,7 @@
       gamescopeSession.enable = true; # Dedicated gaming session
     };
     gamemode.enable = true;
+    gamescope.enable = true;
   };
 
   # ╔══════════════════════════════════════════════════════════════════════════╗

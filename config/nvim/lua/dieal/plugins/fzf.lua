@@ -4,12 +4,14 @@ return {
     -- optional for icon support
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      local builtin = require("fzf-lua")
+      local builtin = require("fzf-lua");
+
       vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
       vim.keymap.set('n', '<leader>sf', builtin.files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader><space>', builtin.buffers, { desc = '[ ] Find existing buffers' })
       vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch  [B]uffers' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch  [K]eybindings' })
+      vim.keymap.set('n', '<leader>sa', builtin.autocmds, { desc = '[S]earch  [A]utocmds' })
 
       -- GREP
       vim.keymap.set('n', '<leader>st', builtin.live_grep, { desc = '[S]earch [T]ext by Grep' })
@@ -20,22 +22,19 @@ return {
       vim.keymap.set('n', '<leader>sgf', builtin.git_files, { desc = 'Search [G]it [F]iles' })
       vim.keymap.set('n', '<leader>sgs', builtin.git_status, { desc = 'Search [G]it [S]tatus' })
       vim.keymap.set('n', '<leader>sgc', builtin.git_commits, { desc = 'Search [G]it [C]ommits' })
-      vim.keymap.set('n', '<leader>sgb', builtin.git_branches, { desc = 'Search [G]it [B]ranches' })
+      vim.keymap.set('n', '<leader>sgbc', builtin.git_bcommits, { desc = 'Search [G]it [B]uffer [C]ommits' })
+      vim.keymap.set('n', '<leader>sgbl', builtin.git_blame, { desc = 'Search [G]it [B][l]ame' })
+      vim.keymap.set('n', '<leader>sgbr', builtin.git_branches, { desc = 'Search [G]it [B][r]anches' })
 
       -- MISC
       vim.keymap.set('n', '<leader>sh', builtin.helptags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sm', builtin.manpages, { desc = '[S]earch [M]anpages' })
 
-      -- LSP
-      vim.keymap.set('n', '<leader>sd', builtin.lsp_declarations, { desc = '[S]earch [D]eclarations' })
-      vim.keymap.set('n', '<leader>sls', builtin.lsp_document_symbols, { desc = '[S]earch [L]sp [S]ymbols' })
-
-      builtin.setup({})
       builtin.register_ui_select()
-
+      builtin.setup({})
     end
   },
---[[
+  --[[
   {
     "nvim-telescope/telescope.nvim",
     enable = false,
@@ -87,7 +86,7 @@ return {
       --   })
       -- end, { desc = '[/] Fuzzily search in current buffer' })
       --
-      -- -- To hide specific folders (e.g node_modules), add it to .gitignore (there needs to be a git repo), 
+      -- -- To hide specific folders (e.g node_modules), add it to .gitignore (there needs to be a git repo),
       -- -- so that ripgrep will ignore it
       -- vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = 'Search [G]it [F]iles' })
       -- vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })

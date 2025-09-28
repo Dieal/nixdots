@@ -13,7 +13,6 @@ return {
       "kevinhwang91/promise-async",
     },
     config = true,
-    lazy = true,
     ft = { "php" },
     cmd = { "Laravel" },
     opts = {

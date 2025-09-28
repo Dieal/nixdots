@@ -39,6 +39,13 @@ Then identify, just as above, the Zen Browser profile folder and copy
 those sqlite files inside it. Now restart the browser, follow the setup
 and you're done
 
+## Rescue Mode
+- su <your_user>
+- cd dotfiles
+- make the changes to fix the booting process
+- make desktop-boot
+
+
 
 # Useful resources
 - https://github.com/Evertras/simple-homemanager Flakes and Home Manager setup for beginners

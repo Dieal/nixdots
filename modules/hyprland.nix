@@ -1,10 +1,15 @@
 {
   pkgs,
-  lib,
   config,
-  unstable,
+  hyprland-plugins,
   ...
 }: {
+  wayland.windowManager.hyprland = {
+    plugins = [
+      hyprland-plugins.packages.${pkgs.system}.csgo-vulkan-fix
+    ];
+  };
+
   home.packages = with pkgs; [
     # == [ UTILS ] ==
     dunst # Notification daemon
@@ -17,7 +22,6 @@
     wtype # Typing Indicator, required for bemoji
     playerctl # Media Player Controller
     brightnessctl # Brightness Controller
-    flameshot # Screenshot Tool
     wl-clipboard
     wev # Wayland Event Viewer (for reading keycodes)
     xdg-desktop-portal-hyprland
@@ -37,6 +41,13 @@
     gtk3
     kdePackages.qt6ct
 
+    (pkgs.writeShellScriptBin "telegram-gtk" ''
+      export XDG_CURRENT_DESKTOP=Hyprland
+      export XDG_SESSION_DESKTOP=Hyprland
+      export GTK_USE_PORTAL=1
+      exec telegram-desktop "$@"
+    '')
+
     # == [ HYPRLAND UTILITIES ] ==
     hyprpolkitagent # Authentication Daemon
     hyprpaper # Wallpaper Setter
@@ -44,6 +55,10 @@
     hyprshade # Shader manager
     hyprshot # Screenshot Tool
     waypaper # Wallpaper Setter
+
+    grim
+    xdg-desktop-portal-wlr
+    slurp
   ];
 
   home.file = {

@@ -14,6 +14,7 @@ return {
       fps = 60,
       render = "compact",
       max_width = 20,
+      timeout = 2000, -- In milliseconds
     },
     config = function()
       vim.notify = require("notify")
@@ -41,7 +42,7 @@ return {
 
   {
     "andweeb/presence.nvim",
-    enabled = false,
+    enabled = true,
     config = function()
       require("presence"):setup({
         -- General options

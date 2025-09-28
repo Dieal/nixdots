@@ -1,7 +1,9 @@
-{ config, pkgs, ... } @inputs :
 {
-
-  imports = [ ./shared.nix ];
+  config,
+  pkgs,
+  ...
+} @ inputs: {
+  imports = [./shared.nix];
 
   networking.hostName = "desktop"; # Define your hostname.
 
@@ -21,17 +23,18 @@
     variant = "";
   };
 
-
   # Graphical Environment
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
   };
 
-  swapDevices = [ {
-	  device = "/var/lib/swapfile";
-	  size = 32*1024;
-  } ];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 32 * 1024;
+    }
+  ];
 
   # For Hibernation: change offset and root partition if you reinstall nixos
   powerManagement.enable = true;
@@ -44,7 +47,7 @@
     group = "users";
     isNormalUser = true;
     description = "Dieal's brother";
-    extraGroups = [ "networkmanager" "dotfiles" "gamer" ];
+    extraGroups = ["networkmanager" "dotfiles" "gamer"];
     shell = pkgs.fish;
   };
 
@@ -58,22 +61,24 @@
 
       # Use the NVidia open source kernel module (not to be confused with the
       # independent third-party "nouveau" open source driver).
-      # Support is limited to the Turing and later architectures. Full list of 
-      # supported GPUs is at: 
-      # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+      # Support is limited to the Turing and later architectures. Full list of
+      # supported GPUs is at:
+      # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
       # Only available from driver 515.43.04+
       open = true;
     };
   };
 
   environment.sessionVariables = {
-     LIBVA_DRIVER_NAME = "nvidia";
-     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-     NVD_BACKEND = "direct";
-     GDK_SCALE = "1";
+    LIBVA_DRIVER_NAME = "nvidia";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    NVD_BACKEND = "direct";
+    GDK_SCALE = "1";
   };
 
   environment.systemPackages = with pkgs; [
     nvidia-vaapi-driver
+    vulkan-loader
+    vulkan-validation-layers
   ];
 }

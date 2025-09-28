@@ -1,6 +1,7 @@
 return {
   {
     "stevearc/conform.nvim",
+    enabled = false,
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
     keys = {
@@ -14,19 +15,19 @@ return {
       },
     },
     opts = {
-      formatters_by_ft = {
-        java = { "google-java-format" },
-      },
+      -- formatters_by_ft = {
+      -- java = { "google-java-format" },
+      -- },
       format_on_save = {
         timeout_ms = 500,
         lsp_fallback = true,
       },
       formatters = {
-        ["google-java-format"] = {
-          command = "google-java-format",
-          args = { "-" },
-          stdin = true,
-        },
+        -- ["google-java-format"] = {
+        --   command = "google-java-format",
+        --   args = { "-" },
+        --   stdin = true,
+        -- },
       },
     },
   },

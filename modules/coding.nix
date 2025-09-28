@@ -26,7 +26,8 @@ in {
 
       # Java
       maven
-      jdkWithFX
+      jdk
+      # jdkWithFX
       jetbrains.idea-ultimate
 
       # Rust
@@ -34,8 +35,11 @@ in {
       clippy
       cargo
 
+      vscodium-fhs
+      apktool
+
       # RISC-V
-      rars
+      # rars
 
       # android-studio
     ];
