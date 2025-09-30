@@ -80,6 +80,7 @@ in {
         htop
         dust # du Alternative (it's fast)
         gdu # Faster alternative to ncdu
+        resources # Resources manager
 
         # Music
         cmus # Terminal Player

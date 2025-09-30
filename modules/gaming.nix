@@ -32,15 +32,12 @@ in {
       xdotool
       yad
 
-      # Skyrim
-      limo
-
       # Euro Truck Simulator 2
       # aitrack
       # opentrack
       # droidcam
     ]
     ++ [
-      unstable. osu-lazer-bin
+      unstable.osu-lazer-bin
     ];
 }

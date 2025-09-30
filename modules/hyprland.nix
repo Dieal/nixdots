@@ -6,7 +6,6 @@
 }: {
   wayland.windowManager.hyprland = {
     plugins = [
-      hyprland-plugins.packages.${pkgs.system}.csgo-vulkan-fix
     ];
   };
 
@@ -14,9 +13,9 @@
     # == [ UTILS ] ==
     dunst # Notification daemon
     cliphist # Clipboard Manager
-    # overskride # Bluetooth Manager
-    kdePackages.bluedevil
-    blueman
+    overskride # Bluetooth Manager
+    # kdePackages.bluedevil
+    # blueman
     networkmanagerapplet # Network Manager Applet
     bemoji # Emoji Picker, support for Rofi
     wtype # Typing Indicator, required for bemoji
@@ -61,13 +60,6 @@
     slurp
   ];
 
-  home.file = {
-    ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/";
-    ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/waybar/";
-    ".config/swaylock".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/swaylock/";
-    ".local/share/icons/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/cursors/";
-  };
-
   # Fixes QT File Manager opening instead of GTK Nautilus
   xdg.portal = {
     enable = true;
@@ -75,12 +67,30 @@
     config.common.default = "hyprland";
   };
 
+  home.file = {
+    ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/";
+    ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/waybar/";
+    ".config/swaylock".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/swaylock/";
+    ".local/share/icons/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/cursors/";
+    /*
+       ".config/autostart/noisetorch.desktop".text = ''
+        [Desktop Entry]
+        Type=Application
+        Name=Enable Noisetorch
+        Comment=Enables noisetorch's virtual microphone
+        Exec=noisetorch -i
+        StartupNotify=false
+        Terminal=false
+    '';
+    */
+  };
+
   xdg.desktopEntries = {
     okular = {
       name = "Okular (X11)";
       genericName = "Document Viewer";
       comment = "View and annotate documents";
-      exec = "env okular %U";
+      exec = "env QT_QPA_PLATFORM=xcb okular %U";
       icon = "okular";
       terminal = false;
       categories = ["Qt" "KDE" "Viewer" "Office"];

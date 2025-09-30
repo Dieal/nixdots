@@ -97,12 +97,12 @@
     # └──────────────────────────────────────────────────────────────────────┘
     networkmanager = {
       enable = true;
-      # dns = "none"; # Disable internal DNS management
+      dns = "default"; # Disable internal DNS management
     };
 
     # Disable conflicting DHCP services when using NetworkManager
-    useDHCP = false;
-    dhcpcd.enable = false;
+    useDHCP = true;
+    dhcpcd.enable = true;
 
     # ┌─ DNS Configuration ──────────────────────────────────────────────────┐
     # │ 9.9.9.9: Quad9 - Security-focused DNS with malware blocking        │
@@ -148,11 +148,11 @@
     };
   };
   services.resolved = {
-    enable = true;
-    dnssec = "true";
+    enable = false;
+    dnssec = "false";
     domains = ["~."];
     fallbackDns = ["1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one"];
-    dnsovertls = "true";
+    dnsovertls = "opportunistic";
   };
 
   # ╔══════════════════════════════════════════════════════════════════════════╗
