@@ -1,6 +1,7 @@
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
+vim.opt.swapfile = false
 
 -- Set highlight on search
 vim.o.hlsearch = false

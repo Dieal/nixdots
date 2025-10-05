@@ -101,8 +101,8 @@
     };
 
     # Disable conflicting DHCP services when using NetworkManager
-    useDHCP = true;
-    dhcpcd.enable = true;
+    # useDHCP = true;
+    # dhcpcd.enable = true;
 
     # ┌─ DNS Configuration ──────────────────────────────────────────────────┐
     # │ 9.9.9.9: Quad9 - Security-focused DNS with malware blocking        │
@@ -284,6 +284,16 @@
   # ╔══════════════════════════════════════════════════════════════════════════╗
   # ║                               PROGRAMS                                  ║
   # ╚══════════════════════════════════════════════════════════════════════════╝
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib
+        gcc.libc
+        glibc
+        libgcc
+    ];
+  };
 
   programs = {
     # ┌─ Essential Applications ─────────────────────────────────────────────┐

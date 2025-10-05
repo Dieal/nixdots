@@ -105,6 +105,15 @@
       terminal = false;
       startupNotify = true;
     };
+
+    glide-browser = {
+      name = "glide";
+      genericName = "Browser App";
+      exec = "steam-run glide";
+      icon = "glide";
+      terminal = false;
+      startupNotify = true;
+    };
   };
 
   systemd.user.services.random_wallpaper = {

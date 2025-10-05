@@ -13,6 +13,7 @@
             symlink = config.lib.file.mkOutOfStoreSymlink;
         in
         {
+        ".config/glide".source = symlink "${home}/dotfiles/config/glide/";
         ".config/kitty".source = symlink "${home}/dotfiles/config/kitty/";
         ".config/tmux".source = symlink "${home}/dotfiles/config/tmux/";
         ".config/rofi".source = symlink "${home}/dotfiles/config/rofi/";

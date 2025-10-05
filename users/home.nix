@@ -3,10 +3,12 @@
   unstable,
   lib,
   config,
+  glide,
   ...
 } @ inputs: let
   username = "dieal";
   cfg = config.fonts;
+  glide = pkgs.callPackage ../packages/glide/default.nix {};
 in {
   imports = [
     ../modules/common.nix
@@ -41,6 +43,8 @@ in {
         gh # Github CLI (for authentication)
         atuin # Shell History
         pet
+        tree
+        glide
 
         # ==== [[ FONTS ]] ====
         # (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })
