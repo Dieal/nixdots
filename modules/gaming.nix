@@ -18,7 +18,6 @@ in {
       winetricks
 
       lutris
-      heroic
       protonup-qt
       corefonts
       dxvk
@@ -39,5 +38,6 @@ in {
     ]
     ++ [
       unstable.osu-lazer-bin
+      unstable.heroic
     ];
 }

@@ -117,6 +117,7 @@
     extraHosts = ''
       192.168.1.69 dashy.local       # Dashboard service
       192.168.1.69 immich.local      # Image Gallery
+      192.168.1.69 calibre.local      
       192.168.1.69 pihole.local      # Pihole DNS
       192.168.1.69 radiscale.local   # Radiscale
       192.168.1.69 planka.local      # Project management
@@ -139,12 +140,16 @@
     # │ Port 53317: LocalSend file sharing application                      │
     # │ Port 22000 / 21027: Syncthing
     # └──────────────────────────────────────────────────────────────────────┘
-    firewall = {
+    firewall = rec {
       allowedTCPPorts = [
         53317
         22000
       ];
       allowedUDPPorts = [53317 21027];
+      allowedTCPPortRanges = [
+        { from = 1714; to = 1764; } # KDE Connect
+      ];
+      allowedUDPPortRanges = allowedTCPPortRanges;
     };
   };
   services.resolved = {
@@ -226,11 +231,15 @@
   services.printing = {
     enable = true;
     stateless = true; # Don't persist printer configuration
+    drivers = with pkgs; [
+      gutenprint
+      brlaser
+    ];
   };
 
   services.avahi = {
     enable = true;
-    nssmdns = true; # Enable .local domain resolution
+    nssmdns4 = true; # Enable .local domain resolution
     openFirewall = true; # Allow mDNS traffic through firewall
   };
 
@@ -302,6 +311,7 @@
     noisetorch.enable = true; # Real-time noise suppression
     adb.enable = true; # Android Debug Bridge
     wireshark.enable = true;
+    # kdeconnect.enable = true;
 
     # ┌─ Gaming Platform ────────────────────────────────────────────────────┐
     # │ Steam: Game platform with Proton for Windows game compatibility     │

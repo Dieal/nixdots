@@ -7,8 +7,10 @@
   ...
 } @ inputs: let
   username = "dieal";
+  home = "${config.home.homeDirectory}";
   cfg = config.fonts;
-  glide = pkgs.callPackage ../packages/glide/default.nix {};
+  glide = pkgs.callPackage ../packages/glide/package.nix {};
+  symlink = config.lib.file.mkOutOfStoreSymlink;
 in {
   imports = [
     ../modules/common.nix
@@ -45,6 +47,7 @@ in {
         pet
         tree
         glide
+        valent # Implementation of the KDE Connect protocol using GNOME libraries
 
         # ==== [[ FONTS ]] ====
         # (nerdfonts.override { fonts = [ "FiraCode" "NerdFontsSymbolsOnly" ]; })
@@ -101,6 +104,10 @@ in {
         inputs.zen-browser.packages."x86_64-linux".default
         unstable.signal-desktop
       ];
+
+    file = {
+      ".local/bin/server".source = symlink "${home}/dotfiles/scripts/server";
+    };
 
     inherit username;
     homeDirectory = "/home/${username}";

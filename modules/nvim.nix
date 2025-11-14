@@ -40,6 +40,7 @@
     typescript-language-server
     marksman # Markdown
     rustfmt
+    zk
 
     # ===============================
     # == [[ DEBUGGING PROTOCOLS ]] ==

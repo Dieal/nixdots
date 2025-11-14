@@ -8,12 +8,12 @@ glide.keymaps.set("normal", "<C-Backspace>", "forward")
 glide.keymaps.set(["normal", "insert"], "<C-j>", "tab_prev")
 glide.keymaps.set(["normal", "insert"], "<C-k>", "tab_next")
 
-glide.keymaps.set(["normal", "insert"], "<C-h>", () => {
+glide.keymaps.set(["normal", "insert"], "<C-S-h>", () => {
     glide.excmds.execute("tab_prev");
     glide.excmds.execute("tab_prev");
 })
 
-glide.keymaps.set(["normal", "insert"], "<C-l>", () => {
+glide.keymaps.set(["normal", "insert"], "<C-S-l>", () => {
     glide.excmds.execute("tab_next");
     glide.excmds.execute("tab_next");
 })

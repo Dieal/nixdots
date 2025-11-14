@@ -1,3 +1,6 @@
+glide.prefs.set("browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.searchEngines", "")
+glide.prefs.set("browser.newtabpage.activity-stream.trendingSearch.defaultSearchEngine", "DuckDuckGo")
+glide.prefs.set("browser.startup.page", 3) // Open previous tabs and windows
 glide.prefs.set("privacy.resistFingerprinting", true)
 glide.prefs.set("app.normandy.api_url", "");
 glide.prefs.set("app.normandy.enabled", false);

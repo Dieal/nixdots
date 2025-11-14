@@ -109,7 +109,7 @@
     glide-browser = {
       name = "glide";
       genericName = "Browser App";
-      exec = "steam-run glide";
+      exec = "glide";
       icon = "glide";
       terminal = false;
       startupNotify = true;
