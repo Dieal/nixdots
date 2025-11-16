@@ -34,10 +34,9 @@ return {
       builtin.setup({})
     end
   },
-  --[[
+
   {
     "nvim-telescope/telescope.nvim",
-    enable = false,
     branch = "0.1.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -102,5 +101,4 @@ return {
       -- vim.keymap.set('n', '<leader>srp', telescope.extensions.projects.projects)
     end,
   }
-]]
 }

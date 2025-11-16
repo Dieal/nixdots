@@ -5,8 +5,7 @@
   ...
 }: {
   wayland.windowManager.hyprland = {
-    plugins = [
-    ];
+    plugins = [];
   };
 
   home.packages = with pkgs; [
@@ -23,8 +22,6 @@
     brightnessctl # Brightness Controller
     wl-clipboard
     wev # Wayland Event Viewer (for reading keycodes)
-    xdg-desktop-portal-hyprland
-    xdg-desktop-portal-gtk
     dex # Autostart stuff in .config/autostart
     swaylock-effects # Lock screen
 
@@ -56,15 +53,24 @@
     waypaper # Wallpaper Setter
 
     grim
-    xdg-desktop-portal-wlr
     slurp
   ];
 
   # Fixes QT File Manager opening instead of GTK Nautilus
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [xdg-desktop-portal-gtk];
-    config.common.default = "hyprland";
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-hyprland
+      kdePackages.xdg-desktop-portal-kde
+    ];
+    config.common = {
+      "org.freedesktop.impl.portal.FileChooser" = "gtk";
+
+      # Use the Hyprland backend for screen sharing
+      "org.freedesktop.impl.portal.ScreenCast" = "hyprland";
+      "org.freedesktop.impl.portal.Screenshot" = "hyprland";
+    };
   };
 
   home.file = {

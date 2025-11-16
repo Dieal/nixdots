@@ -26,6 +26,8 @@ return {
         'yaml',
 
         'markdown',
+        'markdown_inline',
+        'latex',
       },
 
       auto_install = false,

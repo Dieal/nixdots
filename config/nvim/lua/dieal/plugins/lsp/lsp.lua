@@ -83,7 +83,7 @@ return {
             require('neodev').setup()
 
             local servers = {
-                volar = {
+                vue_ls = {
                     filetypes = { "vue", "javascript" },
                 },
                 ccls = {}, -- C / C++ LSP
@@ -153,6 +153,8 @@ return {
                 }
             }
 
+            local lspconfig = vim.lsp.config
+
             -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
@@ -161,33 +163,53 @@ return {
                 lineFoldingOnly = true
             }
 
+            vim.lsp.config('*', {
+                capabilities = capabilities,
+                root_markers = { '.git' },
+            })
+
             -- local on_attach = require('dieal.util.lsp').on_attach
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
                 callback = on_attach,
             })
 
-            local lspconfig = require('lspconfig')
-            local checkInstalled = function(server_name)
-                local default_config = lspconfig[server_name]
+
+            local checkInstalled = function(server_name) -- Checks if LSP is installed on computer
+                local default_config = vim.lsp.config.server_name
                 if default_config and default_config.document_config and default_config.document_config.default_config then
                     local cmd = default_config.document_config.default_config.cmd
                     if cmd and vim.fn.executable(cmd[1]) == 1 then
                         return true
                     end
                 end
+                return false
             end
 
-            for server_name, config in pairs(servers) do
-                if checkInstalled(server_name) == true then
-                    lspconfig[server_name].setup {
-                        capabilities = capabilities,
+            vim.lsp.enable("lua_ls")
+            vim.lsp.config("lua_ls", {
+                settings = {
+                    Lua = {
+                        workspace = { checkThirdParty = false },
+                        telemetry = { enable = false },
+                        diagnostics = {
+                            globals = {
+                                "vim",
+                            }
+                        },
+                    },
+                },
+            })
+            --[[ for server_name, config in pairs(servers) do
+                -- if checkInstalled(server_name) == true then
+                    vim.lsp.enable(server_name)
+                    vim.lsp.config(server_name, {
                         settings = config.settings,
                         filetypes = (servers[server_name] or {}).filetypes,
                         init_options = config.init_options,
-                    }
-                end
-            end
+                    })
+                -- end
+            end ]]
         end
     },
 

@@ -3,73 +3,47 @@ local nmap = util.nmap
 local imap = util.imap
 local vmap = util.vmap
 
-local personalVaultPath = os.getenv("HOME") .. "/shared/vaults/personal/" -- Remember to add trailing slash at the end of the path
+local personalVaultPath = vim.fn.expand("~/shared/vaults/wiki") .. "/" -- Remember to add trailing slash at the end 
 if vim.fn.isdirectory(personalVaultPath) == 0 then
   print("Vault " .. personalVaultPath .. " doesn't exist. Creating it...")
   os.execute('mkdir ' .. personalVaultPath)
   print("Created " .. personalVaultPath)
 end
-nmap("<leader>oo", "<cmd>e " .. personalVaultPath .. "obsidian.md<CR>", "[O]bsidian [O]pen Index")
+nmap("<leader>oo", "<cmd>e " .. personalVaultPath .. "index.md<CR>", "[O]bsidian [O]pen Index")
 
 return {
   {
-    "lervag/vimtex",
-    lazy = true,     -- we don't want to lazy load VimTeX
-    ft = "tex",      -- only load VimTeX for TeX files
-    -- tag = "v2.15", -- uncomment to pin to a specific release
+    "folke/snacks.nvim",
+    ---@type snacks.Config
+    opts = {
+      image = {}
+    }
+  },
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+    opts = {
+    },
     init = function()
-      -- VimTeX configuration goes here, e.g.
-      vim.g.vimtex_view_method = "zathura"
-      vim.g.vimtex_compiler_method = "latexmk"
-      vim.g.vimtex_quickfix_mode = 0 -- Disable Errors Window
-
-      vim.keymap.set('n', '<leader>lq', function()
-        vim.cmd('tabnew')  -- Open a new tab
-        vim.cmd('copen')   -- Open the quickfix list
-      end, {})
+      vim.keymap.set({"n"}, "<leader>snt", "<CMD>TodoTelescope cwd=" .. personalVaultPath .. "<CR>")
+      vim.keymap.set({"n"}, "<leader>spt", "<CMD>TodoTelescope<CR>")
     end
   },
-
-  -- [[[[ Markdown Previews ]]]]
-  -- Terminal Rendering
   {
-    "ellisonleao/glow.nvim",
-
-    enabled = false,
-    config = function ()
-
-      require('glow').setup({
-      });
-
-      -- Keybindings
-      nmap('<leader>mpt', '<CMD>Glow<CR>', '[M]arkdown [P]review [T]oggle')
-
-    end,
-
-    ft = { "markdown" },
-    cmd = "Glow",
-    lazy = true,
-  },
-
-  -- Browser Rendering
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    build = function() vim.fn["mkdp#util#install"]() end,
-    config = function ()
-
-      -- Keybindings
-      nmap('<leader>mpr', '<CMD>MarkdownPreview<CR>', '[M]arkdown [P]review [R]un')
-      nmap('<leader>mps', '<CMD>MarkdownPreviewStop<CR>', '[M]arkdown [P]review [S]top')
-
-    end,
-    lazy = true,
+    "backdround/global-note.nvim",
+    config = function() 
+      require("global-note").setup({
+        filename = "scratch.md",
+        directory = personalVaultPath,
+      })
+      vim.keymap.set({ "i", "n" }, "<M-s>", require("global-note").toggle_note)
+    end
   },
 
   -- Markdown Utils
   {
     "tadmccorkle/markdown.nvim",
+    enabled = false,
     lazy = true,
     ft = "markdown",
     opts = {
@@ -83,21 +57,63 @@ return {
   -- Awesome Markdown Preview Plugin
   {
     "OXY2DEV/markview.nvim",
-    lazy = true,
-    ft = "markdown", -- or 'event = "VeryLazy"'
+    lazy = false,
     dependencies = {
-      -- You may not need this if you don't lazy load
-      -- Or if the parsers are in your $RUNTIMEPATH
       "nvim-treesitter/nvim-treesitter",
-
       "nvim-tree/nvim-web-devicons"
     },
+    opts = {
+      preview = {
+        enable = true,
+        -- enable_hybrid_mode = true,
+        -- hybrid_modes = { "n" }, -- Vim-modes where `hybrid mode` is enabled
+        -- linewise_hybrid_mode = true,
+      },
+    },
+    init = function()
+      vim.api.nvim_set_keymap("n", "<leader>ms", "<CMD>Markview splitToggle<CR>", { desc = "Toggles split" });
+    end
+  },
+
+  -- Smart and customizable markdown toggling for Neovim. Provides intuitive
+  -- commands for quotes, headings, lists, and checkboxes.
+  {
+    "roodolv/markdown-toggle.nvim",
+    dir = "~/coding/forks/markdown-toggle.nvim", -- Point to your local fork
+    dev = true,                       -- Enable development mode
+    ft = "markdown",
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "markdown", "markdown.mdx" },
+        callback = function()
+          vim.opt_local.autoindent = true
+        end,
+      })
+    end,
+    opts = {
+      box_table = { "x", "!", ">" },
+      list_table = { "-", "*", "+" },
+      enable_autolist = true,
+      keymaps = {
+        toggle = {
+          ["<C-q>"] = "quote",
+          ["<M-l>"] = "list_cycle",
+          ["<C-M-l>"] = "list",
+          ["<M-o>"] = "olist",
+          ["<M-x>"] = "checkbox",
+          ["<C-M-x>"] = "checkbox_cycle",
+          ["<C-h>"] = "heading",
+          ["<Leader><C-h>"] = "heading_toggle",
+        },
+      },
+    }
   },
 
   -- Obsidian Integration
   {
-    'epwalsh/obsidian.nvim',
+    "obsidian-nvim/obsidian.nvim",
     version = "*",  -- recommended, use latest release instead of latest commit
+    enabled = true,
     lazy = true,
     ft = "markdown",
     dependencies = {
@@ -106,15 +122,18 @@ return {
       "hrsh7th/nvim-cmp",
       "ibhagwan/fzf-lua",
     },
+    init = function()
+      vim.opt.conceallevel = 1 -- concealment features
+    end,
     config = function ()
-
       require('obsidian').setup({
-        workspaces = {
-          {
-            name = "personal",
-            path = personalVaultPath,
-          },
+        checkbox = {
+          order = { " ", "x" },
         },
+        ui = {
+          enable = false,
+        },
+        workspaces = { { name = "wiki", path = personalVaultPath, }, },
         daily_notes = {
           folder = "fleeting/dailies",
           -- Optional, if you want to change the date format for the ID of daily notes.
@@ -128,6 +147,13 @@ return {
           time_format = "%H:%M",
         },
 
+        completition = {
+          blink = true,
+          nvim_cmp = false,
+        },
+
+        legacy_commands = false,
+
         ---@param url string
         follow_url_func = function(url)
           -- Open the URL in the default web browser.
@@ -137,39 +163,20 @@ return {
         picker = {
           name = "fzf-lua",
         },
-
-        mappings = {
-
-          -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-          ["gf"] = {
-            action = function()
-              return require("obsidian").util.gf_passthrough()
-            end,
-            opts = { noremap = false, expr = true, buffer = true },
-          },
-
-          -- Smart action depending on context, either follow link or toggle checkbox.
-          ["<cr>"] = {
-            action = function()
-              return require("obsidian").util.smart_action()
-            end,
-            opts = { buffer = true, expr = true },
-          }
-        },
       })
 
-      vim.opt.conceallevel = 1 -- concealment features
-
-      nmap("<leader>ob", "<cmd>ObsidianBacklinks<CR>", "[O]bsidian [B]acklinks")
-      nmap("<leader>ol", "<cmd>ObsidianLinks<CR>", "[O]bsidian [L]nks")
-      nmap("<leader>otp", "<cmd>ObsidianTemplate<CR>", "[O]bsidian [T]em[p]late")
-      nmap("<leader>otg", "<cmd>ObsidianTags<CR>", "[O]bsidian [T]a[g]s")
-      nmap("<leader>os", "<cmd>ObsidianSearch<CR>", "[O]bsidian [S]earch")
-      nmap("<leader>odn", "<cmd>ObsidianToday<CR>", "[O]bsidian [D]aily [N]ote")
-      nmap("<leader>odl", "<cmd>ObsidianDailies<CR>", "[O]bsidian [D]ailies [L]ist")
-
-      nmap("<leader>ch", function() return require("obsidian").util.toggle_checkbox() end, "Toggle [C][H]eckbox")
-      vmap("<leader>ch", function() return require("obsidian").util.toggle_checkbox() end, "Toggle [C][H]eckbox")
+      nmap("<CR>", function()
+          return require("obsidian").util.smart_action()
+      end)
+      nmap("<leader>oq", "<cmd>Obsidian quick_switch<CR>", "[O]bsidian [Q]uickswitch")
+      nmap("<leader>ob", "<cmd>Obsidian backlinks<CR>", "[O]bsidian [B]acklinks")
+      nmap("<leader>ol", "<cmd>Obsidian links<CR>", "[O]bsidian [L]nks")
+      nmap("<leader>otc", "<cmd>Obsidian toc<CR>", "[O]bsidian [T]able of [C]ontents")
+      nmap("<leader>otp", "<cmd>Obsidian template<CR>", "[O]bsidian [T]em[p]late")
+      nmap("<leader>otg", "<cmd>Obsidian tags<CR>", "[O]bsidian [T]a[g]s")
+      nmap("<leader>os", "<cmd>Obsidian search<CR>", "[O]bsidian [S]earch")
+      nmap("<leader>odn", "<cmd>Obsidian today<CR>", "[O]bsidian [D]aily [N]ote")
+      nmap("<leader>odl", "<cmd>Obsidian dailies<CR>", "[O]bsidian [D]ailies [L]ist")
 
       --[[ nmap("<leader>ot", function ()
         vim.ui.input({ prompt = "Inserisci il nome del tag" }, function (input)
@@ -179,19 +186,9 @@ return {
  ]]
       nmap("<leader>on", function ()
         vim.ui.input({ prompt = "Inserisci il nome/path della nuova nota" }, function (input)
-          vim.cmd("ObsidianNew " .. vim.fn.getcwd() .. '/' .. input .. ".md")
+          vim.cmd("Obsidian new " .. input .. ".md")
         end)
       end, "[O]bsidian [N]ew Note")
-
-      vmap("<C-l>", function ()
-        vim.ui.input({ prompt = "Inserisci il nome/path della nuova nota" }, function (input)
-          vim.cmd("ObsidianLinkNew " .. input .. ".md")
-        end)
-      end, "Obsidian Create New [L]ink")
-
-      -- Adds a checkbox by writing ckb shortcut https://stackoverflow.com/questions/10982314/vim-how-to-create-a-key-binding-that-insert-a-piece-of-text
-      vim.cmd("iab ckb - [ ]")
-
     end
   },
 }

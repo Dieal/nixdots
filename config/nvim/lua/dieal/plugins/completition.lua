@@ -2,19 +2,26 @@ return {
 
   {
     'saghen/blink.cmp',
-    dependencies = 'rafamadriz/friendly-snippets',
+    dependencies = { 
+      'rafamadriz/friendly-snippets',
+      'L3MON4D3/LuaSnip',
+    },
 
     version = '*',
 
     ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
+    ---@type blink.cmp.config
     opts = {
-      -- All presets have the following mappings:
-      -- C-space: Open menu or open docs if already open
-      -- C-e: Hide menu
-      -- C-k: Toggle signature help
+      -- all presets have the following mappings:
+      -- c-space: open menu or open docs if already open
+      -- c-e: hide menu
+      -- c-k: toggle signature help
+      snippets = {
+        preset = 'luasnip',
+      },
+
       --
-      -- See the full "keymap" documentation for information on defining your own keymap.
+      -- see the full "keymap" documentation for information on defining your own keymap.
       completion = {
         list = {
           selection = { preselect = false, auto_insert = true }
@@ -22,42 +29,61 @@ return {
       },
       keymap = {
         preset = 'default',
-        ['<CR>'] = { 'accept', 'fallback' },
-        ['<C-a>'] = { 'show' },
-        ['<Tab>'] = { 'select_next', 'fallback' },
-        ['<S-Tab>'] = { 'select_prev', 'fallback' },
-        ['<C-j>'] = { 'select_prev', 'fallback_to_mappings' },
-        ['<C-k>'] = { 'select_next', 'fallback_to_mappings' },
+        ['<cr>'] = { 'accept', 'fallback' },
+        ['<c-a>'] = { 'show' },
+        ['<tab>'] = { 'select_next', 'fallback' },
+        ['<s-tab>'] = { 'select_prev', 'fallback' },
+        ['<c-j>'] = { 'select_prev', 'fallback_to_mappings' },
+        ['<c-k>'] = { 'select_next', 'fallback_to_mappings' },
 
-        ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
-        ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
+        ['<c-u>'] = { 'scroll_documentation_up', 'fallback' },
+        ['<c-d>'] = { 'scroll_documentation_down', 'fallback' },
       },
 
       appearance = {
-        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-        -- Useful for when your theme doesn't support blink.cmp
-        -- Will be removed in a future release
+        -- sets the fallback highlight groups to nvim-cmp's highlight groups
+        -- useful for when your theme doesn't support blink.cmp
+        -- will be removed in a future release
         use_nvim_cmp_as_default = true,
-        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- Adjusts spacing to ensure icons are aligned
+        -- set to 'mono' for 'nerd font mono' or 'normal' for 'nerd font'
+        -- adjusts spacing to ensure icons are aligned
         nerd_font_variant = 'normal'
       },
 
-      -- Default list of enabled providers defined so that you can extend it
+      -- default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
       },
 
-      -- Blink.cmp uses a Rust fuzzy matcher by default for typo resistance and significantly better performance
-      -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
-      -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
+      -- blink.cmp uses a rust fuzzy matcher by default for typo resistance and significantly better performance
+      -- you may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+      -- when the rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
       --
-      -- See the fuzzy documentation for more information
+      -- see the fuzzy documentation for more information
       fuzzy = { implementation = "prefer_rust_with_warning" }
     },
+    init = function()
+      local luasnip = require('luasnip')
+      require('luasnip.loaders.from_vscode').lazy_load() -- Friendly Snippets
+
+      -- https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md#lua
+      require("luasnip.loaders.from_lua").load({paths = "~/dotfiles/config/nvim/snippets"})
+    end,
     opts_extend = { "sources.default" }
   },
+
+        --[[ markdown = {
+          s(
+            'sch', -- trigger
+            {
+              t('[scheduled]: <'),
+              d(1, get_date_time, {}), -- Calls the function to insert the time
+              t('> '),
+              i(0), -- Puts your cursor here
+            }
+          ),
+        }, ]]
 
   -- Inline Parameters
   --[[ {

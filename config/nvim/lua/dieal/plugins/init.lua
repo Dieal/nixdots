@@ -42,7 +42,7 @@ return {
 
   {
     "andweeb/presence.nvim",
-    enabled = true,
+    enabled = false,
     config = function()
       require("presence"):setup({
         -- General options

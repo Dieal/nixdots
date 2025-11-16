@@ -42,11 +42,13 @@
             "1": "",
             "2": "󰈹",
             "3": "",
-            "4": "",
-            "default": ""
+            "4": "󰠮",
+            "5": "",
+            "6": "",
+            "default": ""
         },
         "persistent-workspaces": {
-            "*": 5, // 5 workspaces by default on every monitor
+            "*": 6, // 5 workspaces by default on every monitor
         }
     },
     "keyboard-state": {

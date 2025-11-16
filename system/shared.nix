@@ -90,6 +90,11 @@
   # ║                              NETWORKING                                  ║
   # ╚══════════════════════════════════════════════════════════════════════════╝
 
+  services.resolved = {
+    enable = true;
+    fallbackDns = ["9.9.9.9" "1.1.1.1" "1.0.0.1"];
+  };
+
   networking = {
     # ┌─ Network Management ─────────────────────────────────────────────────┐
     # │ NetworkManager handles Wi-Fi, Ethernet, VPN connections             │
@@ -97,7 +102,7 @@
     # └──────────────────────────────────────────────────────────────────────┘
     networkmanager = {
       enable = true;
-      dns = "default"; # Disable internal DNS management
+      dns = "systemd-resolved"; # Disable internal DNS management
     };
 
     # Disable conflicting DHCP services when using NetworkManager
@@ -151,13 +156,6 @@
       ];
       allowedUDPPortRanges = allowedTCPPortRanges;
     };
-  };
-  services.resolved = {
-    enable = false;
-    dnssec = "false";
-    domains = ["~."];
-    fallbackDns = ["1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one"];
-    dnsovertls = "opportunistic";
   };
 
   # ╔══════════════════════════════════════════════════════════════════════════╗
