@@ -11,6 +11,14 @@ if vim.fn.isdirectory(personalVaultPath) == 0 then
 end
 nmap("<leader>oo", "<cmd>e " .. personalVaultPath .. "index.md<CR>", "[O]bsidian [O]pen Index")
 
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    vim.cmd("setlocal wrap")
+  end,
+  pattern = "*.md",
+  desc = "Enables wrap on Markdown Files",
+})
+
 return {
   {
     "folke/snacks.nvim",
@@ -63,6 +71,11 @@ return {
       "nvim-tree/nvim-web-devicons"
     },
     opts = {
+      markdown_inline = {
+        checkboxes = {
+          unchecked = { text = "▢", hl = "MarkviewCheckboxUnchecked", scope_hl = "MarkviewCheckboxUnchecked" },
+        }
+      },
       preview = {
         enable = true,
         -- enable_hybrid_mode = true,
@@ -79,8 +92,8 @@ return {
   -- commands for quotes, headings, lists, and checkboxes.
   {
     "roodolv/markdown-toggle.nvim",
-    dir = "~/coding/forks/markdown-toggle.nvim", -- Point to your local fork
-    dev = true,                       -- Enable development mode
+    -- dir = "~/coding/forks/markdown-toggle.nvim", -- Point to your local fork
+    -- dev = true,                       -- Enable development mode
     ft = "markdown",
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
