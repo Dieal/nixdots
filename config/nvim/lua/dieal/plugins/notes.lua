@@ -35,16 +35,25 @@ return {
     init = function()
       vim.keymap.set({"n"}, "<leader>snt", "<CMD>TodoTelescope cwd=" .. personalVaultPath .. "<CR>")
       vim.keymap.set({"n"}, "<leader>spt", "<CMD>TodoTelescope<CR>")
+      vim.keymap.set({"n"}, "<leader>at", ":startinsert<CR>TODO:", { desc = "Add todo" })
     end
   },
   {
     "backdround/global-note.nvim",
-    config = function() 
+    config = function()
       require("global-note").setup({
         filename = "scratch.md",
         directory = personalVaultPath,
+        additional_presets = {
+          todos = {
+            filename = "todos.md",
+            title = "List of todos",
+            command_name = "TodosNote",
+          },
+        },
       })
       vim.keymap.set({ "i", "n" }, "<M-s>", require("global-note").toggle_note)
+      vim.keymap.set({ "i", "n" }, "<M-S-t>", function() require("global-note").toggle_note("todos") end)
     end
   },
 
@@ -92,8 +101,8 @@ return {
   -- commands for quotes, headings, lists, and checkboxes.
   {
     "roodolv/markdown-toggle.nvim",
-    -- dir = "~/coding/forks/markdown-toggle.nvim", -- Point to your local fork
-    -- dev = true,                       -- Enable development mode
+    dir = "~/coding/contributions/markdown-toggle.nvim", -- Point to your local fork
+    dev = true,                       -- Enable development mode
     ft = "markdown",
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
@@ -160,6 +169,10 @@ return {
           time_format = "%H:%M",
         },
 
+        attachments = {
+          img_folder = "./",
+        },
+
         completition = {
           blink = true,
           nvim_cmp = false,
@@ -178,6 +191,57 @@ return {
         },
       })
 
+      local fzf = require('fzf-lua')
+
+      -- 1. STATIC Header Search (The "Smart" Note Picker)
+      -- This runs RG once to find all headers, then feeds them to FZF for fuzzy finding.
+      local function search_note_headers()
+        -- The command to generate the list:
+        -- Look for lines starting with # (H1-H6) inside the vault
+        local cmd = "rg --no-heading --with-filename --line-number --color=always '^#+ '"
+
+        fzf.fzf_exec(cmd, {
+          cwd       = personalVaultPath, -- Run in your vault
+          prompt    = 'Headers> ',
+          previewer = "builtin",     -- standard file preview
+          actions   = {
+            ["default"] = function(selected)
+              local entry = selected[1]
+              -- Parse: filename:line:header
+              local filename, linenum = entry:match("^(.-):(%d+):")
+              if filename and linenum then
+                vim.cmd(string.format("edit %s", filename))
+                vim.cmd(string.format("%d", tonumber(linenum)))
+              end
+            end,
+          },
+          -- Optional: Custom display to make it look cleaner
+          -- This strips the filename color codes for the fzf list, but keeps data for preview
+          fzf_opts = {
+            ['--delimiter'] = ':',
+            ['--with-nth']  = '1,3..', -- Show Filename and Text, hide line number
+            ['--tiebreak']  = 'index',
+          }
+        })
+      end
+
+      -- 2. Search Content (Deduplicated)
+      -- This uses live_grep but stops ripgrep after the FIRST match in any file.
+      -- Result: You see the file only once, even if the word appears 50 times.
+      local function search_content_unique()
+        fzf.live_grep({
+          prompt      = 'Content (Unique)> ',
+          -- We add --max-count=1 to the standard ripgrep options
+          rg_opts     = "--column --line-number --no-heading --color=always --smart-case --max-count=1",
+        })
+      end
+
+      -- Keymaps
+      vim.keymap.set('n', '<leader>osh', search_note_headers, { desc = '[O]bsidian [S]earch Headers' })
+      vim.keymap.set('n', '<leader>ost', search_content_unique, { desc = '[O]bsidian [S]earch Content' })
+      vim.keymap.set('n', '<leader>osg', "<cmd>Obsidian search<CR>", { desc = '[O]bsidian [S]earch Generic' })
+      vim.keymap.set('v', "<leader>oe", ":Obsidian extract_note<CR>", { desc = "[O]bsidian [E]xtract Note"})
+
       nmap("<CR>", function()
           return require("obsidian").util.smart_action()
       end)
@@ -188,6 +252,7 @@ return {
       nmap("<leader>otp", "<cmd>Obsidian template<CR>", "[O]bsidian [T]em[p]late")
       nmap("<leader>otg", "<cmd>Obsidian tags<CR>", "[O]bsidian [T]a[g]s")
       nmap("<leader>os", "<cmd>Obsidian search<CR>", "[O]bsidian [S]earch")
+      nmap("<leader>op", "<cmd>Obsidian paste_img<CR>", "[O]bsidian [P]aste Image")
       nmap("<leader>odn", "<cmd>Obsidian today<CR>", "[O]bsidian [D]aily [N]ote")
       nmap("<leader>odl", "<cmd>Obsidian dailies<CR>", "[O]bsidian [D]ailies [L]ist")
 

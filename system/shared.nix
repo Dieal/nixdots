@@ -309,6 +309,7 @@
     noisetorch.enable = true; # Real-time noise suppression
     adb.enable = true; # Android Debug Bridge
     wireshark.enable = true;
+    obs-studio.enableVirtualCamera = true;
     # kdeconnect.enable = true;
 
     # ┌─ Gaming Platform ────────────────────────────────────────────────────┐

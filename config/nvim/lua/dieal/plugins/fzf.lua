@@ -12,6 +12,7 @@ return {
       vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch  [B]uffers' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch  [K]eybindings' })
       vim.keymap.set('n', '<leader>sa', builtin.autocmds, { desc = '[S]earch  [A]utocmds' })
+      vim.keymap.set('n', '<leader>sc', "<CMD>FzfLua commands<CR>", { desc = '[S]earch  [C]ommands' })
 
       -- GREP
       vim.keymap.set('n', '<leader>st', builtin.live_grep, { desc = '[S]earch [T]ext by Grep' })

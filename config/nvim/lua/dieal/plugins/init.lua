@@ -20,7 +20,6 @@ return {
       vim.notify = require("notify")
     end
   },
-
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
@@ -35,7 +34,17 @@ return {
       })
       vim.g.copilot_no_tab_map = true
 
-      require('CopilotChat').setup({})
+      vim.keymap.set('n', "<leader>cc", "<CMD>CopilotChat<CR>", { desc = "[C]opilot [C]hat"})
+      vim.keymap.set('n', "<leader>cm", "<CMD>CopilotChatModels<CR>", { desc = "[C]opilot [M]odels"})
+      require('CopilotChat').setup({
+        model = "claude-sonnet-4.5",
+        mappings = {
+          reset = {
+            normal = '<C-r>',
+            insert = '<C-r>',
+          },
+        }
+      })
     end,
     -- See Commands section for default commands if you want to lazy load on them
   },
