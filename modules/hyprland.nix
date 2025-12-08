@@ -31,11 +31,11 @@
 
     # == [ STYLING ] ==
     waybar # Status Bar
-    rofi-wayland # App Menu
+    rofi # App Menu
     nwg-look
     nwg-drawer
     gtk3
-    kdePackages.qt6ct
+    # kdePackages.qt6ct
 
     (pkgs.writeShellScriptBin "telegram-gtk" ''
       export XDG_CURRENT_DESKTOP=Hyprland

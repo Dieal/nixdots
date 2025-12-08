@@ -22,6 +22,22 @@ in {
     enableFishIntegration = true;
   };
 
+  programs.mpv = {
+    enable = true;
+    package = (
+      pkgs.mpv-unwrapped.wrapper {
+        scripts = with pkgs.mpvScripts; [
+          uosc
+          sponsorblock
+        ];
+
+        mpv = pkgs.mpv-unwrapped.override {
+          waylandSupport = true;
+        };
+      }
+    );
+  };
+
   # Update nix cache with:
   # fc-cache -f
   nixpkgs.config.allowUnfree = true;
@@ -59,17 +75,16 @@ in {
         motrix # Download Manager
         tor-browser
         obs-studio
-        jellyfin-media-player
+        # jellyfin-media-player
         ungoogled-chromium
         trash-cli
         vlc
-        mpv
         scrcpy # Android screen mirroring with touch and sound
         appimage-run
         pinta # Paint alternative
         rnote # Notes / Drawing app
         feather
-        stremio
+        # stremio
         qbittorrent
         speedcrunch # Binary Calculator
         localsend # Local File Sharing app
@@ -101,7 +116,7 @@ in {
       ]
       ++ [
         # Unstable PKGS and other inputs go here
-        inputs.zen-browser.packages."x86_64-linux".default
+        # inputs.zen-browser.packages."x86_64-linux".default
         unstable.signal-desktop
       ];
 

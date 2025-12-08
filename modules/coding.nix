@@ -30,11 +30,6 @@ in {
       # jdkWithFX
       jetbrains.idea-ultimate
 
-      # Rust
-      rustc
-      clippy
-      cargo
-
       vscodium-fhs
       apktool
 
@@ -42,6 +37,11 @@ in {
       # rars
 
       # android-studio
+    ] ++ [
+      # Rust
+      unstable.rustc
+      unstable.clippy
+      unstable.cargo
     ];
   };
 }

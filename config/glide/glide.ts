@@ -18,3 +18,4 @@
 glide.unstable.include("preferences.ts")
 glide.unstable.include("options.ts")
 glide.unstable.include("keymaps.ts")
+glide.unstable.include("addons.ts")

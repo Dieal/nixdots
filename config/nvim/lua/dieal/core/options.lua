@@ -48,6 +48,14 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+vim.opt.autoread = true
+
+-- Trigger autoread when files change on disk
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  command = "checktime",
+})
+
 -- Search highlighting
 vim.opt.hlsearch = false;
 vim.opt.incsearch = true;
