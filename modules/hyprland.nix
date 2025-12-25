@@ -36,6 +36,7 @@
     nwg-drawer
     gtk3
     swaynotificationcenter
+    fastfetch
     # kdePackages.qt6ct
 
     (pkgs.writeShellScriptBin "telegram-gtk" ''
@@ -78,6 +79,7 @@
     ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/";
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/waybar/";
     ".config/swaylock".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/swaylock/";
+    ".config/fastfetch".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/fastfetch/";
     ".local/share/icons/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/cursors/";
     /*
        ".config/autostart/noisetorch.desktop".text = ''

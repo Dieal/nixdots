@@ -4,6 +4,8 @@ end
 
 status is-interactive; and begin
 
+    set fish_greeting ""
+    fastfetch
     any-nix-shell fish --info-right | source # Start fish in nix-shell
 
     # Abbreviations
@@ -52,5 +54,4 @@ status is-interactive; and begin
     #     end
     #
     # end
-
 end
