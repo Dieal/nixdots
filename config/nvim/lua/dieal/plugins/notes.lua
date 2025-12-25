@@ -101,8 +101,8 @@ return {
   -- commands for quotes, headings, lists, and checkboxes.
   {
     "roodolv/markdown-toggle.nvim",
-    dir = "/home/dieal/coding/contributions/markdown-toggle.nvim", -- Point to your local fork
-    dev = true,                       -- Enable development mode
+    -- dir = "/home/dieal/coding/contributions/markdown-toggle.nvim", -- Point to your local fork
+    -- dev = true,                       -- Enable development mode
     ft = "markdown",
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
@@ -116,7 +116,7 @@ return {
       box_table = { "x", "!", ">" },
       list_table = { "-", "*", "+" },
       enable_autolist = true,
-      autolist_clear_and_newline = false,
+      clear_and_newline = false,
       keymaps = {
         toggle = {
           ["<C-q>"] = "quote",

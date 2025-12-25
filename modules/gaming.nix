@@ -18,7 +18,7 @@ in {
       winetricks
 
       lutris
-      # protonup-qt
+      protonup-qt
       corefonts
       dxvk
       wineWowPackages.staging

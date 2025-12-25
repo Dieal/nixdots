@@ -35,6 +35,7 @@
     nwg-look
     nwg-drawer
     gtk3
+    swaynotificationcenter
     # kdePackages.qt6ct
 
     (pkgs.writeShellScriptBin "telegram-gtk" ''
@@ -48,7 +49,7 @@
     hyprpolkitagent # Authentication Daemon
     hyprpaper # Wallpaper Setter
     hyprpicker # Color picker
-    hyprshade # Shader manager
+    hyprsunset # Shader manager
     hyprshot # Screenshot Tool
     waypaper # Wallpaper Setter
 
