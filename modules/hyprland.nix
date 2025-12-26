@@ -2,6 +2,7 @@
   pkgs,
   config,
   hyprland-plugins,
+  unstable,
   ...
 }: {
   wayland.windowManager.hyprland = {
@@ -24,6 +25,8 @@
     wev # Wayland Event Viewer (for reading keycodes)
     dex # Autostart stuff in .config/autostart
     swaylock-effects # Lock screen
+    swaynotificationcenter
+    libnotify # Notify Send
 
     # Update .desktop entries
     # update-desktop-database ~/.local/share/applications/
@@ -35,9 +38,8 @@
     nwg-look
     nwg-drawer
     gtk3
-    swaynotificationcenter
     fastfetch
-    # kdePackages.qt6ct
+    matugen # Generate colorscheme  from  image
 
     (pkgs.writeShellScriptBin "telegram-gtk" ''
       export XDG_CURRENT_DESKTOP=Hyprland
@@ -48,7 +50,8 @@
 
     # == [ HYPRLAND UTILITIES ] ==
     hyprpolkitagent # Authentication Daemon
-    hyprpaper # Wallpaper Setter
+    # hyprpaper # Wallpaper Setter
+    swww # Wallpaper Backend
     hyprpicker # Color picker
     hyprsunset # Shader manager
     hyprshot # Screenshot Tool
@@ -56,6 +59,8 @@
 
     grim
     slurp
+  ] ++ [
+    unstable.vicinae # Launcher
   ];
 
   # Fixes QT File Manager opening instead of GTK Nautilus
@@ -80,6 +85,7 @@
     ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/waybar/";
     ".config/swaylock".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/swaylock/";
     ".config/fastfetch".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/fastfetch/";
+    ".config/matugen".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/matugen/";
     ".local/share/icons/custom".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/hypr/cursors/";
     /*
        ".config/autostart/noisetorch.desktop".text = ''
@@ -125,7 +131,7 @@
     };
   };
 
-  systemd.user.services.random_wallpaper = {
+  /* systemd.user.services.random_wallpaper = {
     Unit = {
       Description = "Sets a random wallpaper with waypaper (hyprpaper backend)";
     };
@@ -134,7 +140,7 @@
       ExecStart = "/home/dieal/.nix-profile/bin/waypaper --folder ~/dotfiles/config/hypr/wallpapers --backend hyprpaper --random";
       Type = "oneshot";
     };
-  };
+  }; */
   systemd.user.timers.random_wallpaper = {
     Timer = {
       OnBootSec = "30m";

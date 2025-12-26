@@ -103,6 +103,7 @@ in {
         dust # du Alternative (it's fast)
         gdu # Faster alternative to ncdu
         resources # Resources manager
+        speedtest-cli
 
         # Music
         cmus # Terminal Player
