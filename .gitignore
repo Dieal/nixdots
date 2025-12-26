@@ -4,3 +4,4 @@ config/glide/glide.d.ts
 config/glide/tsconfig.json
 config/glide/package.json
 config/kitty/current-theme.conf
+config/hypr/colors.conf

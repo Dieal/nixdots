@@ -27,6 +27,7 @@
     swaylock-effects # Lock screen
     swaynotificationcenter
     libnotify # Notify Send
+    jq # Used for zoom in hyprland
 
     # Update .desktop entries
     # update-desktop-database ~/.local/share/applications/
