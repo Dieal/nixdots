@@ -56,12 +56,14 @@
     hyprpicker # Color picker
     hyprsunset # Shader manager
     hyprshot # Screenshot Tool
+    hypridle # Suspend and Hibernate
     waypaper # Wallpaper Setter
 
     grim
     slurp
   ] ++ [
     unstable.vicinae # Launcher
+    unstable.ashell
   ];
 
   # Fixes QT File Manager opening instead of GTK Nautilus

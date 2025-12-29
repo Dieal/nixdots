@@ -38,8 +38,12 @@
 
   # For Hibernation: change offset and root partition if you reinstall nixos
   powerManagement.enable = true;
-  boot.kernelParams = ["resume_offset=18980864"];
+  boot.kernelParams = ["nvidia_drm.modeset=1" "nvidia_drm.fbdev=1" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" "resume_offset=18980864"];
   boot.resumeDevice = "/dev/disk/by-uuid/0d937ea9-52c4-4799-833b-c5c67bd7b9a0";
+
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="pci", DRIVER=="pcieport", ATTR{power/wakeup}="disabled"
+    '';
 
   users.groups.dotfiles = {};
   users.groups.gamer = {};

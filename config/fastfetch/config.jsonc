@@ -8,7 +8,16 @@
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "logo": {
-        "type": "small"
+        // "type": "small"
+        "source": "~/.config/fastfetch/pngs/pochita.png",
+        // "type": "kitty-icat", // Use when using gif
+        "type": "kitty", // Use when using image
+        "width": 20,
+        "height": 10,
+        "padding": {
+            "top": 1,
+            "left": 1
+        },
     },
     "display": {
         "separator": "  "
