@@ -80,7 +80,7 @@
         inherit pkgs;
         extraSpecialArgs = {
           unstable = unstablePkgs;
-          zen-browser = inputs.zen-browser;
+          # zen-browser = inputs.zen-browser;
           inherit hyprland;
           inherit hyprland-plugins;
         };

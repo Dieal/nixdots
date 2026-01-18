@@ -1,5 +1,5 @@
 hardware-configuration.nix
-fish_variables
+config/fish/fish_variables
 config/glide/glide.d.ts
 config/glide/tsconfig.json
 config/glide/package.json

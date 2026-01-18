@@ -146,6 +146,7 @@
     # │ Port 22000 / 21027: Syncthing
     # └──────────────────────────────────────────────────────────────────────┘
     firewall = rec {
+      enable = true;
       allowedTCPPorts = [
         53317
         22000
@@ -255,7 +256,6 @@
     extraGroups = ["networkmanager" "wheel" "adbusers" "libvirtd"];
     shell = pkgs.fish; # Fish shell as default
     packages = with pkgs; [
-      flatpak # Universal package manager
     ];
   };
 
@@ -291,7 +291,7 @@
   # ╔══════════════════════════════════════════════════════════════════════════╗
   # ║                               PROGRAMS                                  ║
   # ╚══════════════════════════════════════════════════════════════════════════╝
-
+  services.flatpak.enable = true;
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
