@@ -135,7 +135,8 @@ return {
   -- Obsidian Integration
   {
     "obsidian-nvim/obsidian.nvim",
-    version = "*",  -- recommended, use latest release instead of latest commit
+    -- version = "*",  -- recommended, use latest release instead of latest commit
+    version = "v3.15.4",
     enabled = true,
     lazy = true,
     ft = "markdown",
@@ -171,7 +172,7 @@ return {
         },
 
         attachments = {
-          img_folder = "./",
+          folder = "./assets",
         },
 
         completition = {
@@ -181,48 +182,133 @@ return {
 
         legacy_commands = false,
 
-        ---@param url string
-        follow_url_func = function(url)
-          -- Open the URL in the default web browser.
-          vim.fn.jobstart({"xdg-open", url})  -- linux
-        end,
-
         picker = {
           name = "fzf-lua",
         },
       })
 
+      vim.ui.open = (function(overridden)
+        return function(uri, opt)
+          if vim.endswith(uri, ".png") then
+            vim.cmd("edit " .. uri) -- early return to just open in neovim
+            return
+          elseif vim.endswith(uri, ".pdf") then
+            opt = { cmd = { "zathura" } } -- override open app
+          end
+          return overridden(uri, opt)
+        end
+      end)(vim.ui.open)
+
       local fzf = require('fzf-lua')
 
       -- 1. STATIC Header Search (The "Smart" Note Picker)
-      -- This runs RG once to find all headers, then feeds them to FZF for fuzzy finding.
+      -- This searches by id, aliases (from YAML frontmatter) and first header
       local function search_note_headers()
-        -- The command to generate the list:
-        -- Look for lines starting with # (H1-H6) inside the vault
-        local cmd = "rg --no-heading --with-filename --line-number --color=always '^#+ '"
+        -- Build a list of notes with their id, aliases, and first header
+        local entries = {}
+        local files = vim.fn.globpath(personalVaultPath, "**/*.md", false, true)
 
-        fzf.fzf_exec(cmd, {
-          cwd       = personalVaultPath, -- Run in your vault
-          prompt    = 'Headers> ',
-          previewer = "builtin",     -- standard file preview
+        for _, filepath in ipairs(files) do
+          local lines = vim.fn.readfile(filepath, "", 50) -- Read first 50 lines
+          local id, aliases, first_header = nil, {}, nil
+          local in_frontmatter = false
+          local in_aliases = false
+
+          for i, line in ipairs(lines) do
+            if i == 1 and line == "---" then
+              in_frontmatter = true
+            elseif in_frontmatter then
+              if line == "---" then
+                in_frontmatter = false
+                in_aliases = false
+              elseif line:match("^id:%s*(.+)") then
+                id = line:match("^id:%s*(.+)")
+                in_aliases = false
+              elseif line:match("^aliases:%s*%[(.*)%]") then
+                -- Inline format: aliases: [foo, bar]
+                local alias_str = line:match("^aliases:%s*%[(.*)%]")
+                for alias in alias_str:gmatch("[^,]+") do
+                  table.insert(aliases, vim.trim(alias))
+                end
+                in_aliases = false
+              elseif line:match("^aliases:%s*$") then
+                -- Multi-line format starts
+                in_aliases = true
+              elseif in_aliases and line:match("^%s+-%s*(.+)") then
+                -- Multi-line alias entry
+                local alias = line:match("^%s+-%s*(.+)")
+                if alias then table.insert(aliases, vim.trim(alias)) end
+              elseif in_aliases and not line:match("^%s+-") then
+                -- End of multi-line aliases
+                in_aliases = false
+              end
+            elseif not in_frontmatter and line:match("^#+ ") and not first_header then
+              first_header = line:match("^#+ (.+)")
+            end
+          end
+
+          -- Skip first_header if it matches id or any alias
+          if first_header then
+            local header_lower = first_header:lower()
+            if id and header_lower == id:lower() then
+              first_header = nil
+            else
+              for _, alias in ipairs(aliases) do
+                if header_lower == alias:lower() then
+                  first_header = nil
+                  break
+                end
+              end
+            end
+          end
+
+          -- Build display string: Header | ID | Aliases
+          -- We IGNORE the filename unless absolutely no info was found
+          local display_parts = {}
+          if first_header then table.insert(display_parts, first_header) end
+          if id then table.insert(display_parts, id) end
+          if #aliases > 0 then table.insert(display_parts, "[" .. table.concat(aliases, ", ") .. "]") end
+
+          local filename = vim.fn.fnamemodify(filepath, ":t:r")
+          local display = #display_parts > 0 and table.concat(display_parts, " | ") or filename
+          table.insert(entries, { display = display, path = filepath })
+        end
+
+        local path_lookup = {}
+        for _, e in ipairs(entries) do
+          path_lookup[e.display] = e.path
+        end
+
+        fzf.fzf_exec(vim.tbl_map(function(e) return e.display end, entries), {
+          prompt    = 'Notes> ',
+          fzf_opts  = { ["-i"] = "", ["--scheme"] = "history" },
+          previewer = function()
+            local builtin = require("fzf-lua.previewer.builtin")
+            local MyPreviewer = builtin.buffer_or_file:extend()
+
+            function MyPreviewer:new(o, opts, fzf_win)
+              MyPreviewer.super.new(self, o, opts, fzf_win)
+              setmetatable(self, MyPreviewer)
+              return self
+            end
+
+            function MyPreviewer:parse_entry(entry_str)
+              local path = path_lookup[entry_str]
+              return { path = path }
+            end
+
+            return MyPreviewer
+          end,
           actions   = {
             ["default"] = function(selected)
-              local entry = selected[1]
-              -- Parse: filename:line:header
-              local filename, linenum = entry:match("^(.-):(%d+):")
-              if filename and linenum then
-                vim.cmd(string.format("edit %s", filename))
-                vim.cmd(string.format("%d", tonumber(linenum)))
+              if selected and selected[1] then
+                local path = path_lookup[selected[1]]
+                if path then
+                  vim.cmd("edit " .. vim.fn.fnameescape(path))
+                end
               end
             end,
           },
-          -- Optional: Custom display to make it look cleaner
-          -- This strips the filename color codes for the fzf list, but keeps data for preview
-          fzf_opts = {
-            ['--delimiter'] = ':',
-            ['--with-nth']  = '1,3..', -- Show Filename and Text, hide line number
-            ['--tiebreak']  = 'index',
-          }
         })
       end
 
@@ -271,4 +357,3 @@ return {
     end
   },
 }
-

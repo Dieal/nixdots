@@ -32,7 +32,11 @@ return {
       vim.keymap.set('n', '<leader>sm', builtin.manpages, { desc = '[S]earch [M]anpages' })
 
       builtin.register_ui_select()
-      builtin.setup({})
+      builtin.setup({
+        fzf_opts  = {
+          ["--bind"] = "change:first",
+        },
+      })
     end
   },
 
